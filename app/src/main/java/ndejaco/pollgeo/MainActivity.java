@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.Parse;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
 
+        Parse.initialize(this, "r0aejUgsP2gVLxGdtY7yzi7OznlVNU4xs4SXaokg", "4rs1F38IadTEHeCZcOF23GGM1y227I57Gq1eU6wg");
     }
 
     @Override
