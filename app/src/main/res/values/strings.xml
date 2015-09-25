@@ -4,4 +4,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="singUp">Sign Up</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="emailAddress">Email Address</string>
+    <string name="yourPassword">Your Password</string>
+    <string name="signUpPassword">Your Password</string>
+    <string name="signUpButton">New Button</string>
+    <string name="signUpText">Sign Up!</string>
 </resources>
