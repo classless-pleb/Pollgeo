@@ -21,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
 
-        Parse.initialize(this, "r0aejUgsP2gVLxGdtY7yzi7OznlVNU4xs4SXaokg", "4rs1F38IadTEHeCZcOF23GGM1y227I57Gq1eU6wg");
     }
 
     @Override
