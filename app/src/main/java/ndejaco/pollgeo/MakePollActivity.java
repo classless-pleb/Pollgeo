@@ -16,6 +16,11 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+
+import ndejaco.pollgeo.Model.Activity;
+import ndejaco.pollgeo.Model.Poll;
+
 public class MakePollActivity extends AppCompatActivity {
 
     private EditText title;
@@ -24,6 +29,7 @@ public class MakePollActivity extends AppCompatActivity {
     private EditText option3;
     private EditText option4;
     private Button submit;
+    private Poll currentPoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,6 @@ public class MakePollActivity extends AppCompatActivity {
         option4 = (EditText) findViewById(R.id.option4);
 
 
-
         submit = (Button) findViewById(R.id.submit);
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +71,14 @@ public class MakePollActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {
-                    ParseObject poll = createPoll(titleString,o1,o2,o3,o4);
-                    poll.saveInBackground(new SaveCallback() {
+                    ArrayList<String> options = new ArrayList<String>();
+                    options.add(o1);
+                    options.add(o2);
+                    options.add(o3);
+                    options.add(o4);
+
+                    currentPoll = createPoll(titleString, options);
+                    currentPoll.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
@@ -90,20 +101,14 @@ public class MakePollActivity extends AppCompatActivity {
 
     }
 
-    private ParseObject createPoll(String title, String o1,String o2,String o3,String o4){
-        ParseObject poll = new ParseObject("Poll");
-        poll.put("title",title);
-        poll.put("option1",o1);
-        poll.put("option2",o2);
-        if(!o3.isEmpty()){
-            poll.put("option3",o3);
-        }
+    private Poll createPoll(String title, ArrayList<String> options) {
+        Poll currentPoll = new Poll();
+        currentPoll.setOptions(options);
+        currentPoll.setUser(ParseUser.getCurrentUser());
+        currentPoll.setTitle(title);
 
-        if(!o4.isEmpty()){
-            poll.put("option4",o4);
-        }
 
-        return poll;
+        return currentPoll;
     }
 
     private void navigateToLogin() {
