@@ -45,7 +45,7 @@ public class MakePollActivity extends AppCompatActivity {
         Log.i(MakePollActivity.class.getSimpleName(), currentUser.getUsername());
 
 
-        title = (EditText) findViewById(R.id.poll_title);
+        title = (EditText) findViewById(R.id.userTitleText);
         option1 = (EditText) findViewById(R.id.option1);
         option2 = (EditText) findViewById(R.id.option2);
         option3 = (EditText) findViewById(R.id.option3);
