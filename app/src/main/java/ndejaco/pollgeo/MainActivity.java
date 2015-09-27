@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -13,6 +15,8 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private Button create_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +31,25 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.i(TAG, currentUser.getUsername());
         }
+
+        create_button = (Button) findViewById(R.id.create_poll);
+        create_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToMakePoll();
+            }
+        });
     }
 
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void navigateToMakePoll(){
+        Intent intent = new Intent(this,MakePollActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

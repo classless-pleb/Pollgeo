@@ -15,4 +15,14 @@
     <string name="login_error_message">Please make sure you enter a username and password</string>
     <string name="login_error_title">Oops</string>
     <string name="menu_logout_label">Logout</string>
+    <string name="title_activity_make_poll">Make your poll</string>
+    <string name="Submit_Button_Text">Submit Poll</string>
+    <string name="Poll_Title_Hint">Include your poll name here.</string>
+    <string name="option2">Option 2</string>
+    <string name="option3">Option 3</string>
+    <string name="option4">Option 4</string>
+    <string name="option1">Option 1</string>
+    <string name="make_poll_error_msg">Please include a title and at least two options.</string>
+    <string name="make_poll_error_title">Something went wrong..</string>
+    <string name="create_poll_string">Make a new poll</string>
 </resources>

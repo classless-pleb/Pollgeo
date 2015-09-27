@@ -27,7 +27,15 @@
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="LoginActivity">
+            android:parentActivityName=".LoginActivity" >
+        </activity>
+        <activity
+            android:name=".MakePollActivity"
+            android:label="@string/title_activity_make_poll"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ndejaco.pollgeo.MainActivity" />
         </activity>
     </application>
 
