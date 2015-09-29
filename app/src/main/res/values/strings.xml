@@ -25,4 +25,5 @@
     <string name="make_poll_error_msg">Please include a title and at least two options.</string>
     <string name="make_poll_error_title">Something went wrong..</string>
     <string name="create_poll_string">Make a new poll</string>
+    <string name="no_data">\"No Data\"</string>
 </resources>

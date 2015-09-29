@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +32,10 @@
         <activity
             android:name=".MakePollActivity"
             android:label="@string/title_activity_make_poll"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".HomeListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ndejaco.pollgeo.MainActivity" />
+                android:value=".HomeListActivity" />
         </activity>
     </application>
 

@@ -37,7 +37,5 @@ public class Activity extends ParseObject {
     public void setContent(String c){
         put("content", c);
     }
-    
-
 
 }

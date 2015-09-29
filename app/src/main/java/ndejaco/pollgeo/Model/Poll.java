@@ -36,6 +36,10 @@ public class Poll extends ParseObject {
         put("title", title);
     }
 
+    public String getTitle() {
+        return getString("title");
+    }
+
     public String getOption(int opt){
         return getString("option"+opt);
     }

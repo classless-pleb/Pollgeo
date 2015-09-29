@@ -20,9 +20,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile project(':ParseLoginUI')
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile 'com.android.support:support-v4:23.0.1'
+
 }
