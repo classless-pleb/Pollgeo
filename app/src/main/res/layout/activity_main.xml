@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:text="@string/create_poll_string"
         android:id="@+id/create_poll"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:enabled="true"
-        android:hint="@string/create_poll_string" />
+        android:background="@drawable/buttonshape"
+        android:hint="@string/create_poll_string"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
