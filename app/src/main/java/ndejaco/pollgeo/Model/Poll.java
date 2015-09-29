@@ -44,6 +44,8 @@ public class Poll extends ParseObject {
         return getString("option"+opt);
     }
 
+    public int getOptionVotes(int opt) { return getInt("option" + opt + "count");}
+
     public ParseFile getImage() {
         return getParseFile("image");
     }
