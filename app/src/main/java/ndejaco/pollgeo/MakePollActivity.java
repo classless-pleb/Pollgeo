@@ -77,9 +77,9 @@ public class MakePollActivity extends AppCompatActivity {
 
                     currentPoll = createPoll(titleString, options);
                     currentPoll.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
                                 Intent intent = new Intent(MakePollActivity.this, HomeListActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

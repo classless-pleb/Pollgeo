@@ -31,6 +31,11 @@ public class Poll extends ParseObject {
        }
     }
 
+    public void setOptionCount(int opt) {
+        increment("option" + opt+ "count");
+
+    }
+
 
     public void setTitle(String title) {
         put("title", title);

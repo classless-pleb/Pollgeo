@@ -13,7 +13,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ndejaco.pollgeo.Model.Poll;
 
 public class HomeListActivity extends ListActivity {
 
@@ -29,13 +37,10 @@ public class HomeListActivity extends ListActivity {
         ListView lv = getListView();
 
 
-
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
             navigateToLogin();
-        }
-
-        else {
+        } else {
             Log.i(TAG, currentUser.getUsername());
         }
 
@@ -48,19 +53,11 @@ public class HomeListActivity extends ListActivity {
             }
         });
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
 
-                // Photo clicked == parent.getItemAtPosition(position)
-                Toast.makeText(getApplicationContext(),
-                        "Item clicked: " + parent.getItemAtPosition(position).getClass().getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        mHomeViewAdapter = new HomeViewAdapter(this);
+        mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);
+
+        updateData();
 
     }
 
@@ -71,8 +68,24 @@ public class HomeListActivity extends ListActivity {
         startActivity(intent);
     }
 
-    private void navigateToMakePoll(){
-        Intent intent = new Intent(this,MakePollActivity.class);
+    public void updateData() {
+        ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Poll>() {
+
+            @Override
+            public void done(List<Poll> polls, com.parse.ParseException e) {
+                if (polls != null) {
+                    mHomeViewAdapter.clear();
+                    mHomeViewAdapter.addAll(polls);
+                }
+            }
+        });
+    }
+
+
+    private void navigateToMakePoll() {
+        Intent intent = new Intent(this, MakePollActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -102,11 +115,9 @@ public class HomeListActivity extends ListActivity {
     }
 
     private void updateHomeList() {
-        mHomeViewAdapter.loadObjects();
-        setListAdapter(mHomeViewAdapter);
+        mHomeViewAdapter.notifyDataSetChanged();
+
     }
-
-
 
 
 }
