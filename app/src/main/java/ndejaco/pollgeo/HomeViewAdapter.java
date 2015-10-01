@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -129,6 +130,22 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    updateData();
+                }
+            }
+        });
+    }
+
+
+    public void updateData() {
+        ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Poll>() {
+
+            @Override
+            public void done(List<Poll> polls, com.parse.ParseException e) {
+                if (polls != null) {
+                    mPolls = polls;
                     notifyDataSetChanged();
                 }
             }
