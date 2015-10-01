@@ -48,8 +48,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         }
 
         poll = mPolls.get(position);
-        thePosition = position;
-
 
         TextView title = (TextView) v.findViewById(R.id.title);
         TextView option1 = (TextView)v.findViewById(R.id.option1);
