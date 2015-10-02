@@ -1,7 +1,10 @@
 package ndejaco.pollgeo;
 
 import android.app.ListActivity;
+import android.graphics.SweepGradient;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +30,7 @@ public class HomeListActivity extends ListActivity {
 
     private static final String TAG = HomeListActivity.class.getSimpleName();
     private Button create_button;
+    private SwipeRefreshLayout swipeLayout;
     private HomeViewAdapter mHomeViewAdapter;
 
 
@@ -55,6 +59,16 @@ public class HomeListActivity extends ListActivity {
 
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);
+
+        // Set the SwipeRefreshLayout and add a listener. (Roy, Oct.2)
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateData();
+                swipeLayout.setRefreshing(false);
+            }
+        });
 
         updateData();
 
