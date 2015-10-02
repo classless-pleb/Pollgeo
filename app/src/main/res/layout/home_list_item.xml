@@ -24,7 +24,8 @@
         android:id="@+id/option1button"
         android:layout_below="@+id/title"
         android:layout_alignLeft="@+id/option2button"
-        android:layout_alignStart="@+id/option2button"/>
+        android:layout_alignStart="@+id/option2button"
+        android:background="@drawable/optionclick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:text="Vote Option 2"
         android:id="@+id/option2button"
         android:layout_alignBottom="@+id/option2"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/optionclick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,7 +81,8 @@
         android:id="@+id/option3button"
         android:layout_alignBottom="@+id/option3"
         android:layout_alignLeft="@+id/option2button"
-        android:layout_alignStart="@+id/option2button"/>
+        android:layout_alignStart="@+id/option2button"
+        android:background="@drawable/optionclick" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,7 +104,8 @@
         android:id="@+id/option4button"
         android:layout_below="@+id/option3button"
         android:layout_alignLeft="@+id/option3button"
-        android:layout_alignStart="@+id/option3button"/>
+        android:layout_alignStart="@+id/option3button"
+        android:background="@drawable/optionclick" />
 
     <TextView
         android:layout_width="wrap_content"
