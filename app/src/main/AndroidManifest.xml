@@ -37,6 +37,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeListActivity" />
         </activity>
+        <activity
+            android:name=".VoterViewActivity"
+            android:label="@string/title_activity_voter_view" >
+        </activity>
     </application>
 
 </manifest>

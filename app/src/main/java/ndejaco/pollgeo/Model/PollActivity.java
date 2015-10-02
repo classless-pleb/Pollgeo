@@ -7,10 +7,10 @@ import com.parse.ParseUser;
 /**
  * Created by Nicholas on 9/27/2015.
  */
-@ParseClassName("Activity")
-public class Activity extends ParseObject {
+@ParseClassName("PollActivity")
+public class PollActivity extends ParseObject {
 
-    public Activity() {
+    public PollActivity() {
         // A default constructor is required.
     }
 
@@ -26,9 +26,24 @@ public class Activity extends ParseObject {
         return getString("type");
     }
 
-    public void setType(String t){
+    public void setType(String t)
+    {
         put("type", t);
     }
+
+    public String getPollId() {
+       return getString("PollId");
+    }
+
+    public void setPollId(String pollId) {
+        put("PollId", pollId);
+    }
+
+    public void setOption(int i) {
+        put("option", "option" + i);
+    }
+
+
 
     public String getContent(){
         return getString("content");

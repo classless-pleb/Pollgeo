@@ -21,7 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ndejaco.pollgeo.Model.Poll;
+import ndejaco.pollgeo.Model.*;
 
 public class HomeListActivity extends ListActivity {
 
@@ -34,7 +34,6 @@ public class HomeListActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_list);
-        ListView lv = getListView();
 
 
         ParseUser currentUser = ParseUser.getCurrentUser();

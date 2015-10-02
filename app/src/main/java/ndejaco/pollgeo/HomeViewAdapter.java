@@ -1,25 +1,23 @@
 package ndejaco.pollgeo;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
+import ndejaco.pollgeo.Model.PollActivity;
 
 
 /**
@@ -32,7 +30,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private Context mContext;
     private List<Poll> mPolls;
     private Poll poll;
-    private int thePosition;
 
 
     public HomeViewAdapter(Context context, List<Poll> objects) {
@@ -84,6 +81,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 0);
+                addVoteActivity(mPolls.get(position), 0);
             }
         });
 
@@ -93,6 +91,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 1);
+                addVoteActivity(mPolls.get(position), 1);
             }
         });
 
@@ -102,6 +101,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 2);
+                addVoteActivity(mPolls.get(position), 2);
             }
         });
 
@@ -112,6 +112,15 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 3);
+                addVoteActivity(mPolls.get(position), 3);
+            }
+        });
+
+        votes1.setTag(position);
+        votes1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToVoterView();
             }
         });
 
@@ -121,11 +130,14 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
     }
 
-
+    private void navigateToVoterView() {
+        Intent intent = new Intent(mContext, VoterViewActivity.class);
+        mContext.startActivity(intent);
+    }
 
 
     private void addVote(Poll thePoll, int i) {
-       thePoll.setOptionCount(i);
+        thePoll.setOptionCount(i);
         thePoll.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -136,8 +148,24 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         });
     }
 
+    private void addVoteActivity(Poll thePoll, int i) {
+        PollActivity aVote = new PollActivity();
+        aVote.setFromUser(ParseUser.getCurrentUser());
+        aVote.setOption(i);
+        aVote.setPollId(thePoll.getObjectId());
+        aVote.setType("Vote");
+        aVote.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    //updateData();
+                }
+            }
+        });
+    }
 
-    public void updateData() {
+
+    private void updateData() {
         ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Poll>() {
