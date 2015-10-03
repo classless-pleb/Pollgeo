@@ -23,5 +23,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile project(':ParseLoginUI')
     compile 'com.android.support:appcompat-v7:23.0.1'
-
+    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
 }

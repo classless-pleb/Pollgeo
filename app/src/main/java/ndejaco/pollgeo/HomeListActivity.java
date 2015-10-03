@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -30,7 +31,7 @@ public class HomeListActivity extends ListActivity {
 
     private static final String TAG = HomeListActivity.class.getSimpleName();
     private Button create_button;
-    private SwipeRefreshLayout swipeLayout;
+    private PullRefreshLayout swipeLayout;
     private HomeViewAdapter mHomeViewAdapter;
 
 
@@ -60,9 +61,9 @@ public class HomeListActivity extends ListActivity {
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);
 
-        // Set the SwipeRefreshLayout and add a listener. (Roy, Oct.2)
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        // Set up the PullRefreshLayout and add the listener.
+        swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 updateData();

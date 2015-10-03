@@ -9,14 +9,15 @@
                 tools:context=".MainActivity"
     android:background="#FFFCD059">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/makePoll"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
+
+
         <ListView android:id="@android:id/list"
                  android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:fastScrollEnabled="true"
             android:fastScrollAlwaysVisible="true" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.baoyz.widget.PullRefreshLayout>
 
     <Button
         android:layout_width="match_parent"
