@@ -120,7 +120,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         votes1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateToVoterView();
+                int position = (Integer) v.getTag();
+                navigateToVoterView(mPolls.get(position), "0");
             }
         });
 
@@ -130,9 +131,12 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
     }
 
-    private void navigateToVoterView() {
+    private void navigateToVoterView(Poll aPoll, String optionNumber) {
         Intent intent = new Intent(mContext, VoterViewActivity.class);
+        intent.putExtra("Poll", aPoll);
+        intent.putExtra("option number", optionNumber);
         mContext.startActivity(intent);
+
     }
 
 
@@ -152,7 +156,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         PollActivity aVote = new PollActivity();
         aVote.setFromUser(ParseUser.getCurrentUser());
         aVote.setOption(i);
-        aVote.setPollId(thePoll.getObjectId());
+        aVote.setPoll(thePoll);
         aVote.setType("Vote");
         aVote.saveInBackground(new SaveCallback() {
             @Override

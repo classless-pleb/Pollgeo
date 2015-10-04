@@ -5,6 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 
 @ParseClassName("Poll")
-public class Poll extends ParseObject {
+public class Poll extends ParseObject implements Serializable {
 
     public Poll() {
 

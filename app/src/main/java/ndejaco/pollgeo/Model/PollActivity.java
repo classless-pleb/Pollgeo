@@ -4,11 +4,13 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
+
 /**
  * Created by Nicholas on 9/27/2015.
  */
 @ParseClassName("PollActivity")
-public class PollActivity extends ParseObject {
+public class PollActivity extends ParseObject implements Serializable {
 
     public PollActivity() {
         // A default constructor is required.
@@ -35,8 +37,8 @@ public class PollActivity extends ParseObject {
        return getString("PollId");
     }
 
-    public void setPollId(String pollId) {
-        put("PollId", pollId);
+    public void setPoll(Poll aPoll) {
+        put("Poll", aPoll);
     }
 
     public void setOption(int i) {

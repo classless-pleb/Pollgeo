@@ -2,6 +2,7 @@ package ndejaco.pollgeo;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,10 +28,14 @@ public class VoterViewActivity extends ListActivity {
         setContentView(R.layout.activity_voter_view);
         ListView lv = getListView();
 
-         mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<PollActivity>());
-         setListAdapter(mVoterViewAdapter);
+        Intent passed = getIntent();
+        Poll thePoll = (Poll) passed.getSerializableExtra("Poll");
+        String optionNumber = passed.getStringExtra("option number");
 
-         updateData();
+        mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<PollActivity>());
+        setListAdapter(mVoterViewAdapter);
+
+        updateData(thePoll, optionNumber);
     }
 
 
@@ -42,8 +47,10 @@ public class VoterViewActivity extends ListActivity {
         return true;
     }
 
-    private void updateData() {
+    private void updateData(Poll thePoll, String optionNumber) {
         ParseQuery<PollActivity> query = new ParseQuery<PollActivity>("PollActivity");
+        query.whereEqualTo("Poll", thePoll);
+        query.whereMatches("option", "option" + optionNumber);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<PollActivity>() {
 
