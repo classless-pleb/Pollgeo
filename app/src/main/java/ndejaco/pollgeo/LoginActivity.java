@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
+import com.facebook.FacebookSdk;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         // If signUpText is hit, then we start
         mSignUpTextView = (TextView)findViewById(R.id.signUpText);
