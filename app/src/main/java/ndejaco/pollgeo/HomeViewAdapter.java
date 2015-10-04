@@ -125,6 +125,32 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
+        votes2.setTag(position);
+        votes2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+                navigateToVoterView(mPolls.get(position), "1");
+            }
+        });
+
+        votes3.setTag(position);
+        votes3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+                navigateToVoterView(mPolls.get(position), "2");
+            }
+        });
+
+        votes4.setTag(position);
+        votes4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+                navigateToVoterView(mPolls.get(position), "3");
+            }
+        });
 
 
         return v;
@@ -133,10 +159,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
     private void navigateToVoterView(Poll aPoll, String optionNumber) {
         Intent intent = new Intent(mContext, VoterViewActivity.class);
-        intent.putExtra("Poll", aPoll);
+        intent.putExtra("Poll", aPoll.getObjectId());
         intent.putExtra("option number", optionNumber);
         mContext.startActivity(intent);
-
     }
 
 
@@ -156,7 +181,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         PollActivity aVote = new PollActivity();
         aVote.setFromUser(ParseUser.getCurrentUser());
         aVote.setOption(i);
-        aVote.setPoll(thePoll);
+        aVote.setPollId(thePoll.getObjectId());
         aVote.setType("Vote");
         aVote.saveInBackground(new SaveCallback() {
             @Override

@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -21,6 +22,8 @@ import ndejaco.pollgeo.Model.PollActivity;
 
 public class VoterViewActivity extends ListActivity {
 
+    private static final String TAG = VoterViewActivity.class.getSimpleName();
+
     private VoterViewAdapter mVoterViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +31,15 @@ public class VoterViewActivity extends ListActivity {
         setContentView(R.layout.activity_voter_view);
         ListView lv = getListView();
 
-        Intent passed = getIntent();
-        Poll thePoll = (Poll) passed.getSerializableExtra("Poll");
-        String optionNumber = passed.getStringExtra("option number");
+         Intent passed = getIntent();
+         String thePoll = (String) passed.getStringExtra("Poll");
+         String optionNumber = passed.getStringExtra("option number");
+
+         //Log.i(TAG, thePoll.getTitle());
+         Log.i(TAG, optionNumber);
 
         mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<PollActivity>());
         setListAdapter(mVoterViewAdapter);
-
         updateData(thePoll, optionNumber);
     }
 
@@ -47,9 +52,9 @@ public class VoterViewActivity extends ListActivity {
         return true;
     }
 
-    private void updateData(Poll thePoll, String optionNumber) {
+    private void updateData(String thePoll, String optionNumber) {
         ParseQuery<PollActivity> query = new ParseQuery<PollActivity>("PollActivity");
-        query.whereEqualTo("Poll", thePoll);
+        query.whereMatches("Poll", thePoll);
         query.whereMatches("option", "option" + optionNumber);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<PollActivity>() {

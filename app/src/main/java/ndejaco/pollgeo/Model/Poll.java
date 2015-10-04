@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 @ParseClassName("Poll")
-public class Poll extends ParseObject implements Serializable {
+public class Poll extends ParseObject  {
 
     public Poll() {
 
@@ -36,7 +36,6 @@ public class Poll extends ParseObject implements Serializable {
         increment("option" + opt+ "count");
 
     }
-
 
     public void setTitle(String title) {
         put("title", title);

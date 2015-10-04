@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Nicholas on 9/27/2015.
  */
 @ParseClassName("PollActivity")
-public class PollActivity extends ParseObject implements Serializable {
+public class PollActivity extends ParseObject {
 
     public PollActivity() {
         // A default constructor is required.
@@ -34,11 +34,11 @@ public class PollActivity extends ParseObject implements Serializable {
     }
 
     public String getPollId() {
-       return getString("PollId");
+       return getString("Poll");
     }
 
-    public void setPoll(Poll aPoll) {
-        put("Poll", aPoll);
+    public void setPollId(String aPollId) {
+        put("Poll", aPollId);
     }
 
     public void setOption(int i) {
