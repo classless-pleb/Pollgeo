@@ -11,6 +11,8 @@ import ndejaco.pollgeo.Model.PollActivity;
 /**
  * Created by Nicholas on 9/25/2015.
  */
+// Application initializes parse sdk usage and registers subclasses.Need to register subclass here everytime create a new
+// Parse Object type that we want to store on Parse
 public class PollgeoApplication extends Application {
 
     public void onCreate() {

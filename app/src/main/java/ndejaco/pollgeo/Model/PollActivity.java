@@ -45,8 +45,6 @@ public class PollActivity extends ParseObject {
         put("option", "option" + i);
     }
 
-
-
     public String getContent(){
         return getString("content");
     }

@@ -31,23 +31,28 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        // If signUpText is hit, then we start
+        // If signUpText is hit, then we start signup activity
         mSignUpTextView = (TextView)findViewById(R.id.signUpText);
         mSignUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
 
+
+        // Saves username and password texts. Also, mLoginButton
         mUsername = (EditText) findViewById(R.id.usernameField);
         mPassword = (EditText) findViewById(R.id.passwordField);
         mLoginButton = (Button) findViewById(R.id.loginButton);
+
+        //Set onclick listener to login button
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Gets username and password. If either is empty sends alert dialog message
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
@@ -60,10 +65,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 else {
+
+                    // Logs in the user in background. If username/password is not correct,
+                    // it will send alert dialog message
                     ParseUser.logInInBackground(username, password, new LogInCallback() {
                         @Override
                         public void done(ParseUser user, ParseException e) {
                             if (e == null) {
+
+                                // If login succeeded goes to HomeListActivity and you can't go back.
                                 Intent intent = new Intent(LoginActivity.this, HomeListActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

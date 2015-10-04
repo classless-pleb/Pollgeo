@@ -28,9 +28,13 @@ import ndejaco.pollgeo.Model.*;
 
 public class HomeListActivity extends ListActivity {
 
+    // TAG used for debugging
     private static final String TAG = HomeListActivity.class.getSimpleName();
+    // Button used to create new poll
     private Button create_button;
+    //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
+    //HomeViewAdapter responsible for setting contents of listView
     private HomeViewAdapter mHomeViewAdapter;
 
 
@@ -39,7 +43,7 @@ public class HomeListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_list);
 
-
+        // Gets current user, if null goes to login screen, if not logs current user
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
             navigateToLogin();
@@ -48,6 +52,7 @@ public class HomeListActivity extends ListActivity {
         }
 
 
+        // Button listener will navigate to screen where user can make poll
         create_button = (Button) findViewById(R.id.makePoll);
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +61,7 @@ public class HomeListActivity extends ListActivity {
             }
         });
 
-
+        // Sets a blank homeView Adapter with no data
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);
 
@@ -70,10 +75,12 @@ public class HomeListActivity extends ListActivity {
             }
         });
 
+        // Updates the data of homeViewAdapter by querying database.
         updateData();
 
     }
 
+    // Private method will navigate to login screen if current user is null
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -81,7 +88,10 @@ public class HomeListActivity extends ListActivity {
         startActivity(intent);
     }
 
+    // Updates the data and sets HomeViewAdapter as data
     public void updateData() {
+
+        // Queries poll data and orders by most recent polls. Finds in background.
         ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Poll>() {
@@ -97,6 +107,7 @@ public class HomeListActivity extends ListActivity {
     }
 
 
+    // Private method moves to MakePollActivity when make poll button was clicked.
     private void navigateToMakePoll() {
         Intent intent = new Intent(this, MakePollActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -126,11 +137,5 @@ public class HomeListActivity extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void updateHomeList() {
-        mHomeViewAdapter.notifyDataSetChanged();
-
-    }
-
 
 }

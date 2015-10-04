@@ -39,19 +39,19 @@ public class MakePollActivity extends AppCompatActivity {
             navigateToLogin();
         }
 
-        //Log this
+        //Logs current user
         Log.i(MakePollActivity.class.getSimpleName(), currentUser.getUsername());
 
-
+        // Instance variables for title, options, and submit button
         title = (EditText) findViewById(R.id.userTitleText);
         option1 = (EditText) findViewById(R.id.option1);
         option2 = (EditText) findViewById(R.id.option2);
         option3 = (EditText) findViewById(R.id.option3);
         option4 = (EditText) findViewById(R.id.option4);
-
-
         submit = (Button) findViewById(R.id.submit);
 
+
+        // On click of submit gets title and option strings.
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +62,7 @@ public class MakePollActivity extends AppCompatActivity {
                 String o4 = option4.getText().toString().trim();
 
 
+                // If either is title, option1, or option2 is empty. Uses alert dialog
                 if (titleString.isEmpty() || o1.isEmpty() || o2.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MakePollActivity.this);
                     builder.setMessage(R.string.make_poll_error_msg).setTitle(R.string.make_poll_error_title).
@@ -69,13 +70,19 @@ public class MakePollActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {
+
+                    // Adds options to an array list.
                     ArrayList<String> options = new ArrayList<String>();
                     options.add(o1);
                     options.add(o2);
                     options.add(o3);
                     options.add(o4);
 
+                    // Creates the poll by calling create poll, passing title, and options arrayList
                     currentPoll = createPoll(titleString, options);
+
+                    // Saves the current poll, and then if successful moves back to HomeListActivity
+                    // If not successful sends alert dialog error message.
                     currentPoll.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -99,16 +106,16 @@ public class MakePollActivity extends AppCompatActivity {
 
     }
 
+    // Private method to create a poll object.
     private Poll createPoll(String title, ArrayList<String> options) {
         Poll currentPoll = new Poll();
         currentPoll.setOptions(options);
         currentPoll.setUser(ParseUser.getCurrentUser());
         currentPoll.setTitle(title);
-
-
         return currentPoll;
     }
 
+    // Private method to navigate to loginActivity if current user is null.
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

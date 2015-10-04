@@ -17,6 +17,7 @@ import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    // Instance variables for username, password, email, and signup button
     protected EditText mUsername;
     protected EditText mPassword;
     protected EditText mEmail;
@@ -25,20 +26,26 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        // requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_sign_up);
 
+        // Sets username, password, email, and signup button
         mUsername = (EditText) findViewById(R.id.usernameField);
         mPassword = (EditText) findViewById(R.id.passwordField);
         mEmail =  (EditText) findViewById(R.id.emailField);
         mSignUpButton = (Button) findViewById(R.id.SignUpButton);
+
+        // Sets on click listener to signup a user
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Gets username, password, and email
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String email = mEmail.getText().toString().trim();
 
+                // If either of these fields is empty sends alert dialog message
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                     builder.setMessage(R.string.signup_error_message).setTitle(R.string.signup_error_title).
@@ -46,28 +53,34 @@ public class SignUpActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {
+
+                    // Otherwise creates new ParseUser
                     ParseUser newUser = new ParseUser();
                     newUser.setUsername(username);
                     newUser.setPassword(password);
                     newUser.setEmail(email);
-                    setProgressBarIndeterminateVisibility(true);
+                    //setProgressBarIndeterminateVisibility(true);
+
+                    // Signups user in parse backend
                     newUser.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                setProgressBarIndeterminateVisibility(false);
+                                // If successful parse signup, moves to HomeListActivity
+                               // setProgressBarIndeterminateVisibility(false);
                                 Intent intent = new Intent(SignUpActivity.this, HomeListActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             } else {
+
+                                // If unsucessful signup, displays alertDialog message
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                                 builder.setMessage(e.getMessage()).setTitle(R.string.signup_error_title).
                                         setPositiveButton(android.R.string.ok, null);
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
                             }
-
 
                         }
                     });
