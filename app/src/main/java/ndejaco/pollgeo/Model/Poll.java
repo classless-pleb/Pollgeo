@@ -5,15 +5,17 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Nicholas on 9/20/2015.
  */
 
 @ParseClassName("Poll")
-public class Poll extends ParseObject  {
+public class Poll extends ParseObject {
+
+
 
     public Poll() {
 
@@ -32,11 +34,13 @@ public class Poll extends ParseObject  {
        }
     }
 
-    public void setOptionCount(int opt) {
-        increment("option" + opt+ "count");
+    /* setOptionCount, takes in an int representing which option is being voted on and a value by how much to increment the vote count
+      value will always be 1 or -1 for we only want to increment or decrement by one
+    */
+    public void setOptionCount(int opt, int value) {
+        increment("option" + opt+ "count", value);
 
     }
-
     public void setTitle(String title) {
         put("title", title);
     }
@@ -58,6 +62,8 @@ public class Poll extends ParseObject  {
     public void setImage(ParseFile file) {
         put("image", file);
     }
+
+
 
 
 

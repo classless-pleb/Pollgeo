@@ -2,6 +2,7 @@ package ndejaco.pollgeo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -9,11 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
@@ -33,6 +37,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private List<Poll> mPolls;
     // Private Poll for current poll
     private Poll poll;
+
+    private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
 
     // Sets instance variables and calls super class constructor
@@ -202,8 +208,40 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     }
 
 
+    /*
+    addVote takes in the poll which is being voted and i, which rperesnts the option which was chosen.
+    The option that was voted on gets incremented and if the user has already voted on the poll, any of their previous votes
+    are deleted and decremented from their respective option count
+     */
     private void addVote(Poll thePoll, int i) {
-        thePoll.setOptionCount(i);
+        //Check to see if the current user has already voted on this poll
+        final Poll poll = thePoll;
+        final int option = i;
+        ParseUser user = ParseUser.getCurrentUser();
+        String pollId = thePoll.getObjectId(); //grab the poll id
+        ParseQuery<PollActivity> query = new ParseQuery<PollActivity>("PollActivity"); //Create a query to find if user has already voted on this poll
+        query.whereEqualTo("Poll", pollId); // query must match poll
+        Log.i(TAG, "poll:" + poll + " - user:" + user);
+        query.whereEqualTo("fromUser", user); // query must match current user voting
+        query.findInBackground(new FindCallback<PollActivity>() {
+            @Override
+            public void done(List<PollActivity> list, ParseException e) {
+                if(list != null) { // query has found matching search, go through and delete previous votes
+                    for (PollActivity activities : list) {
+                        int pastOption = Integer.parseInt(activities.getOption().charAt(6) + ""); //pastOption tell us the previous vote they made
+                        activities.deleteInBackground(); // delete the poll activity, for the vote registered is now removed
+                        poll.setOptionCount(pastOption, -1); //decrement the option count for past vote
+                        Log.i(TAG, "Found a vote, deleted the vote");
+                    }
+
+                }
+            }
+        });
+        // increment the new vote
+        poll.setOptionCount(i, 1);
+
+
+
         thePoll.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
