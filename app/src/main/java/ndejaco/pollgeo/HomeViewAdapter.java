@@ -2,6 +2,7 @@ package ndejaco.pollgeo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -17,7 +22,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
@@ -37,6 +42,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private List<Poll> mPolls;
     // Private Poll for current poll
     private Poll poll;
+    private static String CHART_ID = "chart";
 
     private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
@@ -59,7 +65,28 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         // Saves current poll at the index in the List of Polls
         poll = mPolls.get(position);
+        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<String> descriptions = new ArrayList<>();
+        
+        boolean chartIsEmpty = true;
+        for(int i = 0; i < 4; i ++) {
+            int votes = poll.getOptionVotes(i);
+            if (votes != 0) {
+                chartIsEmpty = false;
+                entries.add(new Entry((float) votes, i));
+                descriptions.add(poll.getOption(i));
+            }
+        }
 
+        if(!chartIsEmpty){
+        PieChart chart = (PieChart) v.findViewById(R.id.chart);
+        PieDataSet ds = new PieDataSet(entries,"");
+        int colors[] = {Color.BLUE,Color.RED,Color.GREEN,Color.YELLOW};
+        ds.setColors(colors);
+        PieData pd = new PieData(descriptions,ds);
+        chart.setData(pd);
+            chart.invalidate();
+        }
 
         // Creates buttons and textviews
         TextView title = (TextView) v.findViewById(R.id.title);
