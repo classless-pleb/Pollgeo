@@ -70,26 +70,23 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         poll = mPolls.get(position);
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> descriptions = new ArrayList<>();
-
-        boolean chartIsEmpty = true;
+        
         for(int i = 0; i < 4; i ++) {
             int votes = poll.getOptionVotes(i);
             if (votes != 0) {
-                chartIsEmpty = false;
                 entries.add(new Entry((float) votes, i));
                 descriptions.add(poll.getOption(i));
             }
         }
 
-        if(!chartIsEmpty){
         PieChart chart = (PieChart) v.findViewById(R.id.chart);
+        chart.setNoDataText("");
         PieDataSet ds = new PieDataSet(entries,"");
         int colors[] = {Color.BLUE,Color.RED,Color.GREEN,Color.YELLOW};
         ds.setColors(colors);
         PieData pd = new PieData(descriptions,ds);
         chart.setData(pd);
-            chart.invalidate();
-        }
+        chart.invalidate();
 
         // Creates buttons and textviews
         TextView title = (TextView) v.findViewById(R.id.title);
