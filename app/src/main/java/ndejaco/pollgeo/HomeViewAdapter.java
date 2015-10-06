@@ -70,7 +70,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         poll = mPolls.get(position);
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> descriptions = new ArrayList<>();
-        
+
         for(int i = 0; i < 4; i ++) {
             int votes = poll.getOptionVotes(i);
             if (votes != 0) {
@@ -252,14 +252,17 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         query.whereEqualTo("fromUser", user); // query must match current user voting
         try {
             List<PollActivity> list = query.find();
-            if (list != null) { // query has found matching search, go through and delete previous votes
-                for (PollActivity activities : list) {
-                    int pastOption = Integer.parseInt(activities.getOption().charAt(6) + ""); //pastOption tell us the previous vote they made
-                    activities.deleteInBackground(); // delete the poll activity, for the vote registered is now removed
+            if (list != null && list.size() > 0) { // query has found matching search, go through and delete previous votes
+                PollActivity activity = list.get(0);
+                String optString = activity.getOption();
+                int pastOption = Integer.parseInt(String.valueOf(optString.charAt(optString.length()-1))); //pastOption tell us the previous vote they made
+                Log.i(TAG,"Past opt = " + pastOption + " current = " + votedOption);
+                if(pastOption == votedOption){
+                    return;
+                }else{
+                    activity.deleteInBackground(); // delete the poll activity, for the vote registered is now removed
                     votedPoll.setOptionCount(pastOption, -1); //decrement the option count for past vote
-                    Log.i(TAG, "Found a vote " + pastOption +  "deleted the vote");
                 }
-
             }
 
             votedPoll.setOptionCount(votedOption, 1);
@@ -267,7 +270,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             updateData();
 
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
