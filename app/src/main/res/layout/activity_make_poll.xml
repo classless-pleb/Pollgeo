@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter Title of Your Poll: "
+        android:text="What Is Your Question?"
         android:id="@+id/titleText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -55,36 +55,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="What is the question of your poll?"
-        android:id="@+id/questionTextField"
-        android:layout_below="@+id/userTitleText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#000000" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/questionTextField"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Option 1"
         android:id="@+id/option1TextBox"
-        android:layout_below="@+id/editText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_below="@+id/userTitleText" />
 
     <EditText
         android:layout_width="wrap_content"
