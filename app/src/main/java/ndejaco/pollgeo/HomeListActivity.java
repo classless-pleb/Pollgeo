@@ -61,6 +61,14 @@ public class HomeListActivity extends ListActivity {
             }
         });
 
+        create_button = (Button) findViewById(R.id.logOutButton);
+        create_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToLogin();
+            }
+        });
+
         // Sets a blank homeView Adapter with no data
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);

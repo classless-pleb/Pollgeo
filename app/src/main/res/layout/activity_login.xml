@@ -51,5 +51,13 @@
         android:layout_below="@+id/loginButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="135dp"/>
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="81dp"
+        android:layout_below="@+id/signUpText"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
 

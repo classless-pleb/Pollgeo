@@ -2,8 +2,12 @@ package ndejaco.pollgeo;
 
 import android.app.Application;
 
+
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+
 
 import ndejaco.pollgeo.Model.Poll;
 import ndejaco.pollgeo.Model.PollActivity;
@@ -23,6 +27,9 @@ public class PollgeoApplication extends Application {
         ParseObject.registerSubclass(PollActivity.class);
 
         Parse.initialize(this, "efCVhlYGapbFMccQ3dEk8V02KewoO74TGZaaVoiQ", "ymQXFhW4m96V6RV3l8Ymrg3oDsab2ZLKYSv4MZPu");
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        //ParseFacebookUtils.initialize(String.valueOf(this));
+
 
     }
 }
