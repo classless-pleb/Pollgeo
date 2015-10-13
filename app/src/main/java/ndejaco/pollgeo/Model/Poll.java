@@ -2,6 +2,7 @@ package ndejaco.pollgeo.Model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -38,7 +39,7 @@ public class Poll extends ParseObject {
       value will always be 1 or -1 for we only want to increment or decrement by one
     */
     public void setOptionCount(int opt, int value) {
-        increment("option" + opt+ "count", value);
+        increment("option" + opt + "count", value);
 
     }
     public void setTitle(String title) {
@@ -63,12 +64,13 @@ public class Poll extends ParseObject {
         put("image", file);
     }
 
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint("location");
+    }
 
-
-
-
-
-
+    public void setLocation(ParseGeoPoint value) {
+        put("location", value);
+    }
 
 
 }

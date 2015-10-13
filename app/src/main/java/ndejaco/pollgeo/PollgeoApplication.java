@@ -19,6 +19,11 @@ import ndejaco.pollgeo.Model.PollActivity;
 // Parse Object type that we want to store on Parse
 public class PollgeoApplication extends Application {
 
+    public static final boolean APPDEBUG = true;
+    // Debugging tag for the application
+    public static final String APPTAG = "Pollgeo Locations";
+    public static final String INTENT_EXTRA_LOCATION = "location";
+
     public void onCreate() {
         super.onCreate();
         Parse.enableLocalDatastore(this);

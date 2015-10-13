@@ -2,6 +2,7 @@ package ndejaco.pollgeo;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -28,6 +30,7 @@ public class MakePollActivity extends AppCompatActivity {
     private EditText option4;
     private Button submit;
     private Poll currentPoll;
+    private ParseGeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class MakePollActivity extends AppCompatActivity {
 
         //Logs current user
         Log.i(MakePollActivity.class.getSimpleName(), currentUser.getUsername());
+
+        Intent intent = getIntent();
+        Location location = intent.getParcelableExtra(PollgeoApplication.INTENT_EXTRA_LOCATION);
+        geoPoint = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
 
         // Instance variables for title, options, and submit button
         title = (EditText) findViewById(R.id.userTitleText);
@@ -112,6 +119,7 @@ public class MakePollActivity extends AppCompatActivity {
         currentPoll.setOptions(options);
         currentPoll.setUser(ParseUser.getCurrentUser());
         currentPoll.setTitle(title);
+        currentPoll.setLocation(geoPoint);
         return currentPoll;
     }
 
