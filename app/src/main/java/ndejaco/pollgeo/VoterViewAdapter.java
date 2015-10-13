@@ -35,7 +35,12 @@ public class VoterViewAdapter extends ArrayAdapter<PollActivity> {
         ParseUser user = mVoters.get(position).getFromUser();
         TextView userText = (TextView) v.findViewById(R.id.username);
 
-        userText.setText(user.getUsername());
+        try {
+            user = user.fetchIfNeeded();
+            userText.setText(user.getUsername());
+        }catch(Exception e){
+
+        }
 
 
         return v;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -87,6 +88,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         ds.setColors(colors);
         PieData pd = new PieData(descriptions,ds);
         chart.setData(pd);
+        chart.setDescription("");
         chart.invalidate();
 
         // Creates buttons and textviews
@@ -109,6 +111,15 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         //Sets title of poll to current polls title
         title.setText((String) poll.getTitle());
+        title.setGravity(Gravity.CENTER);
+        ParseUser pu = poll.getUser();
+        try{
+            pu.fetchIfNeeded();
+            title.setText(title.getText() + "\nby " + poll.getUser().getUsername());
+        }catch(Exception e){
+
+        }
+
 
         // Sets option texts
         option1.setText((String)  poll.getOption(0));
