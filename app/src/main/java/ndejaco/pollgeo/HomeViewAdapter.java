@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -98,15 +99,20 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         TextView option3 = (TextView)v.findViewById(R.id.option3);
         TextView option4 = (TextView)v.findViewById(R.id.option4);
 
-        Button option1button = (Button) v.findViewById(R.id.option1button);
-        Button option2button = (Button) v.findViewById(R.id.option2button);
-        Button option3button = (Button) v.findViewById(R.id.option3button);
-        Button option4button = (Button) v.findViewById(R.id.option4button);
+        ImageButton option1button = (ImageButton) v.findViewById(R.id.option1button);
+        ImageButton option2button = (ImageButton) v.findViewById(R.id.option2button);
+        ImageButton option3button = (ImageButton) v.findViewById(R.id.option3button);
+        ImageButton option4button = (ImageButton) v.findViewById(R.id.option4button);
 
         option1button.setEnabled(true);
         option2button.setEnabled(true);
         option3button.setEnabled(true);
         option4button.setEnabled(true);
+
+        option1button.setBackgroundResource(R.drawable.not_voted);
+        option2button.setBackgroundResource(R.drawable.not_voted);
+        option3button.setBackgroundResource(R.drawable.not_voted);
+        option4button.setBackgroundResource(R.drawable.not_voted);
 
 
         //Sets title of poll to current polls title
@@ -245,15 +251,19 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             switch(pos){
                 case 0:
                     option1button.setEnabled(false);
+                    option1button.setBackgroundResource(R.drawable.voted);
                     break;
                 case 1:
                     option2button.setEnabled(false);
+                    option2button.setBackgroundResource(R.drawable.voted);
                     break;
                 case 2:
                     option3button.setEnabled(false);
+                    option3button.setBackgroundResource(R.drawable.voted);
                     break;
                 case 3:
                     option4button.setEnabled(false);
+                    option4button.setBackgroundResource(R.drawable.voted);
                     break;
             }
         }

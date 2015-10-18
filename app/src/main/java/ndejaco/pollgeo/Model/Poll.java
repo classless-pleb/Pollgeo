@@ -16,8 +16,6 @@ import java.util.HashMap;
 @ParseClassName("Poll")
 public class Poll extends ParseObject {
 
-
-
     public Poll() {
 
     }
