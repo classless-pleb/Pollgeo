@@ -28,4 +28,9 @@
     <string name="no_data">\"No Data\"</string>
     <string name="title_activity_voter_view">VoterViewActivity</string>
     <string name="facebook_app_id">535438106608315</string>
+    <string-array name="sections_array">
+    <item>Local</item>
+    <item>Groups</item>
+    <item>Settings</item>
+    </string-array>
 </resources>

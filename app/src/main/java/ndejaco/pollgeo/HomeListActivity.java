@@ -1,34 +1,31 @@
 package ndejaco.pollgeo;
 
-import android.app.Application;
+
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.IntentSender;
-import android.graphics.SweepGradient;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.ErrorDialogFragment;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -49,6 +46,9 @@ public class HomeListActivity extends ListActivity implements LocationListener,
     // Button used to create new poll
     private Button create_button;
     private Button logOutButton;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private String[] mSections;
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
@@ -148,6 +148,22 @@ public class HomeListActivity extends ListActivity implements LocationListener,
                 swipeLayout.setRefreshing(false);
             }
         });
+
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //mDrawerLayout.setDrawerShadow(R.mipmap.drawer_shadow, GravityCompat.START);
+
+
+        // set up the drawer's list view with items and click listener
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mSections = getResources().getStringArray(R.array.sections_array);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mSections));
+       // mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
+
+
 
     }
 

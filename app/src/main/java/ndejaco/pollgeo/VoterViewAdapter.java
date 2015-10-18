@@ -32,6 +32,7 @@ public class VoterViewAdapter extends ArrayAdapter<PollActivity> {
         }
 
         // Gets the username from the user that voted and sets the text to the username
+
         ParseUser user = mVoters.get(position).getFromUser();
         TextView userText = (TextView) v.findViewById(R.id.username);
 
