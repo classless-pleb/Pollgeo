@@ -11,7 +11,10 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class VoterViewActivity extends ListActivity {
     private static final String TAG = VoterViewActivity.class.getSimpleName();
 
     private VoterViewAdapter mVoterViewAdapter;
+    private int voteOption;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,7 @@ public class VoterViewActivity extends ListActivity {
          Log.i(TAG, optionNumber);
 
         // Sets empty voter view adapter but then calls updateData to query for data.
-        mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<PollActivity>());
+        mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<ParseUser>());
         setListAdapter(mVoterViewAdapter);
         updateData(thePoll, optionNumber);
     }
@@ -57,25 +61,20 @@ public class VoterViewActivity extends ListActivity {
     }
 
     private void updateData(String thePoll, String optionNumber) {
-        // Query returns all votes of the option number matching the optionNumber that was passed on the
-        // poll matching the poll id that was passed.
-        // i.e, we should return all votes on the poll with objectID = thePoll with option = to optionNumber
-
-        ParseQuery<PollActivity> query = new ParseQuery<PollActivity>("PollActivity");
-        query.whereMatches("Poll", thePoll);
-        query.whereMatches("option", "option" + optionNumber);
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<PollActivity>() {
-
-            @Override
-            public void done(List<PollActivity> voters, com.parse.ParseException e) {
-                if (voters != null) {
-                    // Adds the data to the VoterViewList
+        voteOption = Integer.parseInt(optionNumber);
+        ParseQuery<Poll> query = ParseQuery.getQuery("Poll");
+        query.getInBackground(thePoll, new GetCallback<Poll>() {
+            public void done(Poll object, ParseException e) {
+                if (e == null) {
+                    ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
                     mVoterViewAdapter.clear();
-                    mVoterViewAdapter.addAll(voters);
+                    mVoterViewAdapter.addAll(users);
+                } else {
+
                 }
             }
         });
+
     }
 
     @Override

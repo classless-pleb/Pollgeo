@@ -16,10 +16,10 @@ import ndejaco.pollgeo.Model.PollActivity;
  * Created by Nicholas on 10/1/2015.
  */
 
-public class VoterViewAdapter extends ArrayAdapter<PollActivity> {
-    private List<PollActivity> mVoters;
+public class VoterViewAdapter extends ArrayAdapter<ParseUser> {
+    private List<ParseUser> mVoters;
 
-    public VoterViewAdapter(Context context, List<PollActivity> voters) {
+    public VoterViewAdapter(Context context, List<ParseUser> voters) {
         super(context, R.layout.voter_view_item, voters);
         mVoters = voters;
     }
@@ -33,16 +33,8 @@ public class VoterViewAdapter extends ArrayAdapter<PollActivity> {
 
         // Gets the username from the user that voted and sets the text to the username
 
-        ParseUser user = mVoters.get(position).getFromUser();
         TextView userText = (TextView) v.findViewById(R.id.username);
-
-        try {
-            user = user.fetchIfNeeded();
-            userText.setText(user.getUsername());
-        }catch(Exception e){
-
-        }
-
+        userText.setText(mVoters.get(position).getUsername());
 
         return v;
     }
