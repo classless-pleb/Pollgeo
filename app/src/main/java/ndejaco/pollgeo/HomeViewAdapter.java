@@ -70,12 +70,11 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         // Saves current poll at the index in the List of Polls
         poll = mPolls.get(position);
-        PollActivity pa = getActivity(poll);
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> descriptions = new ArrayList<>();
 
         for(int i = 0; i < 4; i ++) {
-            int votes = poll.getOptionVotes(i);
+            int votes = poll.getOptionCount(i);
             if (votes != 0) {
                 entries.add(new Entry((float) votes, i));
                 descriptions.add(poll.getOption(i));
@@ -139,10 +138,10 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         TextView votes4 = (TextView)v.findViewById(R.id.votes4);
 
         // Sets votes texts
-        votes1.setText((String) (poll.getOptionVotes(0)  + ""));
-        votes2.setText((String) (poll.getOptionVotes(1) + ""));
-        votes3.setText((String) (poll.getOptionVotes(2) + ""));
-        votes4.setText((String) (poll.getOptionVotes(3) + ""));
+        votes1.setText((String) (poll.getOptionCount(0)  + ""));
+        votes2.setText((String) (poll.getOptionCount(1) + ""));
+        votes3.setText((String) (poll.getOptionCount(2) + ""));
+        votes4.setText((String) (poll.getOptionCount(3) + ""));
 
         // Sets option1 button tag to store its position in mPolls.
         // Then on click adds vote to correct poll and correct option
@@ -153,7 +152,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 0);
-                addVoteActivity(mPolls.get(position), 0);
             }
         });
 
@@ -167,7 +165,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 1);
-                addVoteActivity(mPolls.get(position), 1);
             }
         });
 
@@ -181,7 +178,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 2);
-                addVoteActivity(mPolls.get(position), 2);
             }
         });
 
@@ -195,7 +191,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 addVote(mPolls.get(position), 3);
-                addVoteActivity(mPolls.get(position), 3);
             }
         });
 
@@ -246,6 +241,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
+        /*
         if(pa != null){
             int pos = determinePositionVoted(pa);
             switch(pos){
@@ -267,6 +263,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                     break;
             }
         }
+        */
 
         //returns view
         return v;
@@ -290,64 +287,40 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         //Check to see if the current user has already voted on this poll
         votedPoll = thePoll;
         votedOption = i;
-        PollActivity activity = getActivity(thePoll);
+
         //determinePositionVoted does our null checking.
-        int pastOption = determinePositionVoted(activity);
-        try {
-            if (pastOption != -1) {
-                if(pastOption == votedOption){
-                    return;
-                }else{
-                    activity.deleteInBackground(); // delete the poll activity, for the vote registered is now removed
-                    votedPoll.setOptionCount(pastOption, -1); //decrement the option count for past vote
+        //int pastOption = determinePositionVoted(activity);
+        boolean flag = removePreviousVotes(votedPoll, votedPoll.getTotalOptions(), votedOption);
+        if (flag) {
+            votedPoll.setOptionCount(votedOption, ParseUser.getCurrentUser());
+        }
+        votedPoll.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                updateData();
+            }
+        });
+
+
+    }
+
+    private boolean removePreviousVotes(Poll votedPoll, int optionCount, int ignore) {
+        for (int i = 0; i < optionCount; i++) {
+            if (votedPoll.getOptionVoters(i) != null) {
+                if (votedPoll.getOptionVoters(i).contains(ParseUser.getCurrentUser())) {
+                    if (i == ignore) {
+                        return false;
+                    }
+                    else {
+                        votedPoll.removeUser(i, ParseUser.getCurrentUser());
+                    }
                 }
             }
 
-            votedPoll.setOptionCount(votedOption, 1);
-            votedPoll.save();
-            updateData();
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-    }
-
-    private PollActivity getActivity(Poll thePoll){
-        ParseUser user = ParseUser.getCurrentUser();
-        String pollId = thePoll.getObjectId(); //grab the poll id
-        ParseQuery<PollActivity> query = new ParseQuery<PollActivity>("PollActivity"); //Create a query to find if user has already voted on this poll
-        query.whereEqualTo("Poll", pollId); // query must match poll
-        query.whereEqualTo("fromUser", user); // query must match current user voting
-        try {
-            List<PollActivity> list = query.find();
-            if (list != null && list.size() > 0) { // query has found matching search, go through and delete previous votes
-                return list.get(0);
-            }
-        }catch(Exception e){
-            return null;
-        }
-        return null;
-    }
-
-
-    //Returns -1 if the poll hasn't been voted on.
-    private int determinePositionVoted(PollActivity activity){
-        if (activity != null) {
-            String optString = activity.getOption();
-            int pastOption = Integer.parseInt(String.valueOf(optString.charAt(optString.length()-1))); //pastOption tell us the previous vote they made
-            return pastOption;
-        }
-        return -1;
-    }
-
-    private void addVoteActivity(Poll thePoll, int i) {
-        PollActivity aVote = new PollActivity();
-        aVote.setFromUser(ParseUser.getCurrentUser());
-        aVote.setOption(i);
-        aVote.setPollId(thePoll.getObjectId());
-        aVote.setType("Vote");
-        aVote.saveInBackground();
+        return true;
     }
 
 

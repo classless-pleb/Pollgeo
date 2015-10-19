@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Nicholas on 9/20/2015.
@@ -29,16 +30,39 @@ public class Poll extends ParseObject {
     public void setOptions(ArrayList<String> options) {
        for (int i = 0; i < options.size(); i++) {
            put("option" + i, options.get(i));
-           put("option" + i + "count", 0);
        }
     }
 
     /* setOptionCount, takes in an int representing which option is being voted on and a value by how much to increment the vote count
       value will always be 1 or -1 for we only want to increment or decrement by one
     */
-    public void setOptionCount(int opt, int value) {
-        increment("option" + opt + "count", value);
+    public void setOptionCount(int opt, ParseUser pu) {
+        add("option" + opt + "count", pu);
+    }
 
+    public int getOptionCount(int opt) {
+        if (getList("option" + opt + "count") != null)
+           return getList("option" + opt + "count").size();
+        else
+            return 0;
+    }
+
+    public void setTotalOptions(int opt) {
+        put("totalOptions", opt);
+    }
+
+    public int getTotalOptions() {
+        return getInt("totalOptions");
+    }
+
+    public List<ParseUser> getOptionVoters(int opt) {
+        return getList("option" + opt + "count");
+    }
+
+    public void removeUser(int opt, ParseUser Pu) {
+        List<ParseUser> toRemove = new ArrayList<ParseUser>();
+        toRemove.add(Pu);
+        removeAll("option" + opt + "count", toRemove);
     }
     public void setTitle(String title) {
         put("title", title);
@@ -49,10 +73,8 @@ public class Poll extends ParseObject {
     }
 
     public String getOption(int opt){
-        return getString("option"+opt);
+        return getString("option" + opt);
     }
-
-    public int getOptionVotes(int opt) { return getInt("option" + opt + "count");}
 
     public ParseFile getImage() {
         return getParseFile("image");

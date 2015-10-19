@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Nicholas on 9/27/2015.
@@ -44,6 +45,16 @@ public class PollActivity extends ParseObject {
     public void setOption(int i) {
         put("option", "option" + i);
     }
+
+
+    public void addUser(ParseUser p) {
+        add("users", p);
+    }
+
+    public List<ParseUser> getUsers() {
+        return getList("users");
+    }
+
 
     public String getOption() { return getString("option");}
 
