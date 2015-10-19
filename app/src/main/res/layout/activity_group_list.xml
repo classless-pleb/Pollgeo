@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/mainGroupRelativeLayout"
+    tools:context=".GroupActivity"
+    android:background="#FFFFFF">
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+    </com.baoyz.widget.PullRefreshLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="My Groups"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/swipe_container"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="true"
+        android:textColorLink="#93e0ff"
+        android:textSize="30dp"
+        android:textColorHighlight="#a9e6ff"
+        android:layout_alignRight="@+id/swipe_container"
+        android:layout_alignEnd="@+id/swipe_container"
+        android:background="#96ecff" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Groups"
+        android:id="@+id/groupList"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group Invites"
+        android:id="@+id/groupInvites"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/groupList" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Group"
+        android:id="@+id/makeGroupButton"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/groupInvites"
+        android:layout_alignBottom="@+id/groupInvites"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/makeGroupButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/swipe_container"
+        android:layout_alignEnd="@+id/swipe_container"
+        android:id="@+id/groupInvitesLayout"
+        android:background="#c6c6c6">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/groupInvitesLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/swipe_container"
+        android:layout_alignEnd="@+id/swipe_container"
+        android:id="@+id/groupListLayout"
+        android:background="#c1c1c1">
+    </RelativeLayout>
+
+
+</RelativeLayout>
