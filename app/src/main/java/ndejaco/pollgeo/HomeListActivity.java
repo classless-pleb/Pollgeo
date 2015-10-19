@@ -202,7 +202,6 @@ public class HomeListActivity extends ListActivity implements LocationListener,
     private void navigateToMakePoll() {
         Intent intent = new Intent(this, MakePollActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
         if (myLoc == null) {
             Toast.makeText(HomeListActivity.this,

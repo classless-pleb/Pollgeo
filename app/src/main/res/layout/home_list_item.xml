@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option1button"
-        android:background="@drawable/optionclick"
+        android:background="@drawable/voted"
         android:layout_below="@+id/title"
         android:layout_alignLeft="@+id/option2button"
         android:layout_alignStart="@+id/option2button" />
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option2button"
-        android:background="@drawable/optionclick"
+        android:background="@drawable/voted"
         android:layout_above="@+id/option3"
         android:layout_centerHorizontal="true" />
 
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option3button"
-        android:background="@drawable/optionclick"
+        android:background="@drawable/voted"
         android:layout_alignBottom="@+id/votes3"
         android:layout_centerHorizontal="true" />
 
@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option4button"
-        android:background="@drawable/optionclick"
+        android:background="@drawable/voted"
         android:layout_above="@+id/chart"
         android:layout_centerHorizontal="true" />
 
