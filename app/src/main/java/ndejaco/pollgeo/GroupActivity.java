@@ -1,31 +1,14 @@
+
 package ndejaco.pollgeo;
 
 import android.app.ListActivity;
-import android.graphics.SweepGradient;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.baoyz.widget.PullRefreshLayout;
-import com.parse.FindCallback;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-
-import ndejaco.pollgeo.Model.*;
 
 /**
  * Created by Matthew on 10/11/2015.
@@ -82,7 +65,7 @@ public class GroupActivity extends ListActivity {
 
     /*
     navigateToMakeGroup is called when the makeGroupButton is pressed.
-    This button will take the user to the make_group_poll.xml layout to make a group
+    This button will take the user to the make_group.xmlut to make a group
      */
     private void navigateToMakeGroup() {
         Intent intent = new Intent(this, MakeGroupActivity.class);

@@ -24,7 +24,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:layout_alignRight="@+id/userTitleText"
+            android:layout_alignEnd="@+id/userTitleText" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -38,164 +40,84 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Invite people to your group (up to 9)"
-            android:id="@+id/groupInvite"
-            android:textColor="#000000"
-            android:layout_below="@+id/userTitleText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Invite people by username"
-            android:id="@+id/textView3"
-            android:textColor="#000000"
-            android:layout_below="@+id/groupInvite"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user1"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Group"
             android:id="@+id/createGroupButton"
-            android:layout_below="@+id/addMember"
+            android:layout_below="@+id/userTitleText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user9"
-            android:layout_alignEnd="@+id/user9" />
+            android:layout_alignRight="@+id/userTitleText"
+            android:layout_alignEnd="@+id/userTitleText" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Member"
+            android:text="Invite Member"
             android:id="@+id/addMember"
+            android:layout_above="@+id/memberInviteStatus"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/user9" />
+            android:layout_alignRight="@+id/userNameEntry"
+            android:layout_alignEnd="@+id/userNameEntry" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Group Create Message"
+            android:id="@+id/groupCreateMessage"
+            android:layout_below="@+id/createGroupButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/createGroupButton"
+            android:layout_alignEnd="@+id/createGroupButton" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="User Name"
+            android:text="username"
             android:ems="10"
-            android:id="@+id/user2"
-            android:layout_below="@+id/user1"
+            android:id="@+id/userNameEntry"
+            android:layout_above="@+id/addMember"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignRight="@+id/inviteMemberText"
+            android:layout_alignEnd="@+id/inviteMemberText" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user3"
-            android:layout_below="@+id/user2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/inviteMemberText"
+            android:text="Invite members by inputing their username  You can add as many as you like"
+            android:textSize="18dp"
+            android:layout_above="@+id/userNameEntry"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user2"
-            android:layout_alignEnd="@+id/user2" />
+            android:layout_alignParentStart="true" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user4"
-            android:layout_below="@+id/user3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="invite success message"
+            android:id="@+id/memberInviteStatus"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user3"
-            android:layout_alignEnd="@+id/user3" />
+            android:layout_alignParentStart="true" />
 
-        <EditText
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user5"
-            android:layout_below="@+id/user4"
+            android:text="DONE"
+            android:id="@+id/doneButton"
+            android:layout_below="@+id/memberInviteStatus"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user4"
-            android:layout_alignEnd="@+id/user4" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user6"
-            android:layout_below="@+id/user5"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user5"
-            android:layout_alignEnd="@+id/user5" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user7"
-            android:layout_below="@+id/user6"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user6"
-            android:layout_alignEnd="@+id/user6" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user8"
-            android:layout_below="@+id/user7"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user7"
-            android:layout_alignEnd="@+id/user7" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="User Name"
-            android:ems="10"
-            android:id="@+id/user9"
-            android:layout_below="@+id/user8"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/user8"
-            android:layout_alignEnd="@+id/user8" />
+            android:layout_alignParentStart="true" />
 
 
     </RelativeLayout>

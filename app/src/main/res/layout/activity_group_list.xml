@@ -78,10 +78,12 @@
         android:layout_alignEnd="@+id/swipe_container"
         android:id="@+id/groupInvitesLayout"
         android:background="#c6c6c6">
+        
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/groupInvitesLayout"

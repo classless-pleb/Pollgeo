@@ -27,50 +27,8 @@ import java.util.List;
 @ParseClassName("Group")
 public class Group extends ParseObject {
 
-    private int memberCount = 1;
 
-    // addMember takes in strings user names and looks for the username in the parse database to add the member to the group
-    public void addMembers(ArrayList<String> members)  {
 
-        // memberCount will hold how many users are in the group, the max will be 10 and the minimum 3, for now
-
-        //first add the user who create the group as the first member
-        ParseUser user = ParseUser.getCurrentUser();
-        put("member1", user);
-        memberCount++;
-        // Loop through the string user names in members, query the strings if they actually exist, and if they do, add them to the group
-        for (String member : members) {
-            ParseUser tempMember;
-            //query the string representing the user name in the _user table in Parse
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username", member);
-            query.findInBackground(new FindCallback<ParseUser>() {
-                public void done(List<ParseUser> objects, ParseException e) {
-                    if (e == null) {
-                        // The query was successful
-                        String memberPosition = "member" + memberCount;
-                        inviteMember(objects.get(0),memberPosition );
-                    } else {
-                        // Something went wrong.
-                    }
-                }
-            });
-
-        }
-    }
-
-    // inviteMember takes in a user and the member count and attempts to invite the user to the group if there is room
-    public void inviteMember(ParseUser user, String memberPosition){
-        if (memberCount >= 10){ //Group is full, do not add user to group
-            return;
-        }
-        else {
-            // put the user in the right Parse field and increment memberCount
-            put(memberPosition, user);
-            memberCount++;
-        }
-
-    }
     // set the title name of the group
     public void setTitle(String title) {
         put("title", title);
@@ -80,4 +38,32 @@ public class Group extends ParseObject {
     public String getTitle() {
         return getString("title");
     }
+
+    // this method is different from firstMember in that it setsMemberCount to 1, and does not increment the count
+    public void addFirstMember(ParseUser creator){
+        add("members",creator);
+        setMemberCount(1);
+    }
+    // addMember adds a user to the group and increments the memberCount
+    public void addMember(ParseUser newMember) {
+        add("members", newMember);
+        int memberCount = getMemberCount();
+        memberCount++;
+        setMemberCount(memberCount);
+    }
+
+    // getMembers returns a list of parse users who are members of the group
+    public List<ParseUser> getMembers() {
+        return getList("members");
+
+    }
+
+    // sets the memberCount for the group
+    public void setMemberCount(int count) {
+        put("memberCount", count);
+    }
+    public int getMemberCount() {
+        return getInt("memberCount");
+    }
+
 }
