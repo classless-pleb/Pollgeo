@@ -27,10 +27,10 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile files('libs/mpandroidchartlibrary-2-1-4.jar')
     compile 'com.google.android.gms:play-services:8.1.0'
-
     compile files(rootProject.ext.parseFacebookUtilsPath)
     compile files(rootProject.ext.parseTwitterUtilsPath)
     compile project(':ParseUI-Login')
+    compile project(':ParseUI-Widget')
 
 
 }

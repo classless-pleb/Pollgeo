@@ -10,12 +10,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +29,10 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -59,6 +64,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
     private GoogleApiClient locationClient;
     private Location lastLocation;
     private Location currentLocation;
+    private ParseUser currentUser;
 
 
     /*
@@ -118,11 +124,11 @@ public class HomeListActivity extends ListActivity implements LocationListener,
 
 
         // Gets current user, if null goes to login screen, if not logs current user
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser == null) {
+        ParseUser current= ParseUser.getCurrentUser();
+        if (current == null) {
             navigateToLogin();
         } else {
-            Log.i(TAG, currentUser.getUsername());
+            currentUser = current;
         }
 
 
@@ -161,13 +167,31 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //mDrawerLayout.setDrawerShadow(R.mipmap.drawer_shadow, GravityCompat.START);
 
+        ParseImageView fbPhotoView = (ParseImageView) findViewById(R.id.thumbnail);
+        if (currentUser != null) {
+            ParseFile thumbnailFile = currentUser.getParseFile("profilePictureSmall");
+            if (thumbnailFile != null) {
+                fbPhotoView.setParseFile(thumbnailFile);
+                fbPhotoView.loadInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, com.parse.ParseException e) {
+
+                    }
+                });
+            } else { // Clear ParseImageView if an object doesn't have a photo
+                fbPhotoView.setImageResource(android.R.color.transparent);
+            }
+        }
+
+
+
 
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mSections));
-       // mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
 
 
 

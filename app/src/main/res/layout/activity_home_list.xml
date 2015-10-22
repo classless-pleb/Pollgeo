@@ -61,15 +61,34 @@
             android:text="Log out"/>
     </FrameLayout>
 
-    <ListView
-        android:id="@+id/left_drawer"
+    <RelativeLayout
+        android:id="@+id/slider"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:background="#FFDE5842"
+        android:layout_gravity="start">
 
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"/>
+        <com.parse.ParseImageView
+            android:layout_gravity="top"
+            android:id = "@+id/thumbnail"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="5dp">
+        </com.parse.ParseImageView>
+
+
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below = "@+id/thumbnail"
+            android:background="#FFDE5842"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+    </RelativeLayout>
+
+
 </android.support.v4.widget.DrawerLayout>
 
