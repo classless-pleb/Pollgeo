@@ -5,23 +5,22 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
 import android.location.Location;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,14 +28,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +61,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
     private Location lastLocation;
     private Location currentLocation;
     private ParseUser currentUser;
+    private ProfilePictureView fbPhoto;
 
 
     /*
@@ -94,9 +91,6 @@ public class HomeListActivity extends ListActivity implements LocationListener,
             * FAST_CEILING_IN_SECONDS;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,9 +116,8 @@ public class HomeListActivity extends ListActivity implements LocationListener,
                 .build();
 
 
-
         // Gets current user, if null goes to login screen, if not logs current user
-        ParseUser current= ParseUser.getCurrentUser();
+        ParseUser current = ParseUser.getCurrentUser();
         if (current == null) {
             navigateToLogin();
         } else {
@@ -167,24 +160,17 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //mDrawerLayout.setDrawerShadow(R.mipmap.drawer_shadow, GravityCompat.START);
 
-        ParseImageView fbPhotoView = (ParseImageView) findViewById(R.id.thumbnail);
-        if (currentUser != null) {
-            ParseFile thumbnailFile = currentUser.getParseFile("profilePictureSmall");
-            if (thumbnailFile != null) {
-                fbPhotoView.setParseFile(thumbnailFile);
-                fbPhotoView.loadInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, com.parse.ParseException e) {
+        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
 
-                    }
-                });
-            } else { // Clear ParseImageView if an object doesn't have a photo
-                fbPhotoView.setImageResource(android.R.color.transparent);
+        if (currentUser != null) {
+            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = currentUser.getString("facebookId");
+            if (profileId != null) {
+                fbPhoto.setProfileId(currentUser.getString("facebookId"));
+            } else {
+
             }
         }
-
-
-
 
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -193,11 +179,17 @@ public class HomeListActivity extends ListActivity implements LocationListener,
                 R.layout.drawer_list_item, mSections));
 
 
+    }
 
 
+    private byte[] compressAndConvertImageToByteFrom(Bitmap imageBitmap) {
 
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
 
     }
+
 
     // Private method will navigate to login screen if current user is null
     private void navigateToLogin() {
@@ -352,7 +344,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
      */
     public void onDisconnected() {
         if (PollgeoApplication.APPDEBUG) {
-            Log.i(TAG,"Disconnect location");
+            Log.i(TAG, "Disconnect location");
         }
     }
 
@@ -419,7 +411,6 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 locationClient, locationRequest, this);
     }
-
 
 
     /*

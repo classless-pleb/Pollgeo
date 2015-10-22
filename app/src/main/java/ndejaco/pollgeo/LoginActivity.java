@@ -3,13 +3,23 @@ package ndejaco.pollgeo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
+
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -62,6 +72,7 @@ public class LoginActivity extends Activity {
                             .setFacebookLoginButtonText("Facebook")
                             .setFacebookLoginPermissions(Arrays.asList("user_friends", "public_profile"))
                             .setTwitterLoginEnabled(false)
+
                             .build();
                     startActivityForResult(parseLoginIntent, LOGIN_REQUEST);
                 }
@@ -85,11 +96,50 @@ public class LoginActivity extends Activity {
      * Shows the profile of the given user.
      */
     private void showProfileLoggedIn() {
+        getFacebookPhoto();    }
+
+    private void getFacebookPhoto() {
+        Bundle params = new Bundle();
+        params.putString("fields", "id");
+        GraphRequest request =
+                new GraphRequest(AccessToken.getCurrentAccessToken(),
+                        "me",
+                        params,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            @Override
+                            public void onCompleted(GraphResponse response) {
+                                if (response != null) {
+                                    try {
+                                        JSONObject data = response.getJSONObject();
+                                        String facebookId = data.getString("id");
+                                        ParseUser user = ParseUser.getCurrentUser();
+                                        user.put("facebookId", facebookId);
+                                        user.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                navigateToHomeList();
+                                            }
+                                        });
+
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+        request.executeAsync();
+
+    }
+
+    private void navigateToHomeList() {
         Intent intent = new Intent(LoginActivity.this, HomeListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 
     /**
      * Show a message asking the user to log in, toggle login/logout button text.

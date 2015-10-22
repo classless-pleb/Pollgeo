@@ -120,7 +120,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         ParseUser pu = poll.getUser();
         try{
             pu.fetchIfNeeded();
-            title.setText(title.getText() + "\nby " + poll.getUser().getUsername());
+            title.setText(title.getText() + "\nby " + poll.getUser().getString("name"));
         }catch(Exception e){
 
         }

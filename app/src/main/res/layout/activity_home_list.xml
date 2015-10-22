@@ -68,14 +68,14 @@
         android:background="#FFDE5842"
         android:layout_gravity="start">
 
-        <com.parse.ParseImageView
+        <com.facebook.login.widget.ProfilePictureView
             android:layout_gravity="top"
             android:id = "@+id/thumbnail"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:layout_alignParentLeft="true"
             android:paddingTop="5dp">
-        </com.parse.ParseImageView>
+        </com.facebook.login.widget.ProfilePictureView>
 
 
         <ListView
