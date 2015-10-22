@@ -135,6 +135,14 @@ public class HomeListActivity extends ListActivity implements LocationListener,
             }
         });
 
+        logOutButton = (Button) findViewById(R.id.logOutButton);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToLogin();
+            }
+        });
+
         // Sets a blank homeView Adapter with no data
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
         setListAdapter(mHomeViewAdapter);
@@ -144,7 +152,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         swipeLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //updateData();
+                updateData();
                 swipeLayout.setRefreshing(false);
             }
         });

@@ -60,7 +60,7 @@ public class LoginActivity extends Activity {
                             .setParseSignupSubmitButtonText("Submit registration")
                             .setFacebookLoginEnabled(true)
                             .setFacebookLoginButtonText("Facebook")
-                            .setFacebookLoginPermissions(Arrays.asList("user_status", "read_stream"))
+                            //.setFacebookLoginPermissions(Arrays.asList("user_status", "read_stream"))
                             .setTwitterLoginEnabled(false)
                             .build();
                     startActivityForResult(parseLoginIntent, LOGIN_REQUEST);
