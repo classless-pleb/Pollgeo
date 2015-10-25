@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -34,7 +35,12 @@ public class VoterViewAdapter extends ArrayAdapter<ParseUser> {
         // Gets the username from the user that voted and sets the text to the username
 
         TextView userText = (TextView) v.findViewById(R.id.username);
-        userText.setText(mVoters.get(position).getUsername());
+        userText.setText((String) mVoters.get(position).getString("name"));
+
+        ProfilePictureView fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
+        fbPhoto.setPresetSize(ProfilePictureView.SMALL);
+        fbPhoto.setProfileId((String) mVoters.get(position).getString("facebookId"));
+
 
         return v;
     }
