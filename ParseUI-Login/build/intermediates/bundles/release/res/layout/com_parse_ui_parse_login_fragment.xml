@@ -5,6 +5,7 @@
     android:paddingLeft="@dimen/com_parse_ui_horizontal_margin"
     android:paddingRight="@dimen/com_parse_ui_horizontal_margin"
     android:paddingBottom="@dimen/com_parse_ui_vertical_margin"
+    android:background="#FFDE5842"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -26,4 +27,4 @@
         <include layout="@layout/com_parse_ui_parse_login_third_party_section" />
     </LinearLayout>
 </LinearLayout>
-<!-- From: file:/C:/Users/Zac/AndroidStudioProjects/Pollgeo/ParseUI-Login/src/main/res/layout/com_parse_ui_parse_login_fragment.xml -->
+<!-- From: file:/Users/zkp/AndroidStudioProjects/Pollgeo/ParseUI-Login/src/main/res/layout/com_parse_ui_parse_login_fragment.xml -->
