@@ -42,7 +42,7 @@ public class MakeGroupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.make_group_poll);
+        setContentView(R.layout.make_group);
 
         // Gets current user
         ParseUser currentUser = ParseUser.getCurrentUser();

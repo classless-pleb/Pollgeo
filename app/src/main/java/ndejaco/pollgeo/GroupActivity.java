@@ -32,7 +32,7 @@ public class GroupActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_list);
+        setContentView(R.layout.activity_group_home);
 
         // Gets current user, if null goes to login screen, if not logs current user
         ParseUser currentUser = ParseUser.getCurrentUser();

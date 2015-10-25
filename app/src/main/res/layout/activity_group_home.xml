@@ -78,7 +78,7 @@
         android:layout_alignEnd="@+id/swipe_container"
         android:id="@+id/groupInvitesLayout"
         android:background="#c6c6c6">
-        
+
 
     </RelativeLayout>
 
