@@ -30,40 +30,32 @@ public class Group extends ParseObject {
 
 
     // set the title name of the group
-    public void setTitle(String title) {
-        put("title", title);
+    public void setName(String title) {
+        put("name", title);
     }
 
     // return the title name of the group
-    public String getTitle() {
-        return getString("title");
+    public String getName() {
+        return getString("name");
     }
 
-    // this method is different from firstMember in that it setsMemberCount to 1, and does not increment the count
-    public void addFirstMember(ParseUser creator){
-        add("members",creator);
-        setMemberCount(1);
-    }
     // addMember adds a user to the group and increments the memberCount
     public void addMember(ParseUser newMember) {
         add("members", newMember);
-        int memberCount = getMemberCount();
-        memberCount++;
-        setMemberCount(memberCount);
     }
 
     // getMembers returns a list of parse users who are members of the group
     public List<ParseUser> getMembers() {
         return getList("members");
-
     }
 
-    // sets the memberCount for the group
-    public void setMemberCount(int count) {
-        put("memberCount", count);
+    public void addPoll(Poll newPoll) {
+        add("poll", newPoll);
     }
-    public int getMemberCount() {
-        return getInt("memberCount");
+
+    public List<Poll> getPolls() {
+        return getList("poll");
     }
+
 
 }

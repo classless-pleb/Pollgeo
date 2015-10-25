@@ -1,32 +1,45 @@
 
 package ndejaco.pollgeo;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.baoyz.widget.PullRefreshLayout;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ndejaco.pollgeo.Model.Group;
+import ndejaco.pollgeo.Model.Poll;
 
 /**
  * Created by Matthew on 10/11/2015.
-
- GroupActivity is the activity that will handle Group Poll functionality
- It will display group polls are in and the option to make a group poll
+ * <p/>
+ * GroupActivity is the activity that will handle Group Poll functionality
+ * It will display group polls are in and the option to make a group poll
  */
 public class GroupActivity extends ListActivity {
 
     // TAG used for debugging
     private static final String TAG = GroupActivity.class.getSimpleName();
-
-    private Button myGroupsButton; // Button to show or hide user's Group list view
-    private Button groupInvitesButton; //Button to hide or show users invitations to groups
-    private Button makeGroupButton; // Button to make a group
-    private RelativeLayout groupsLayout; // Layout that displays users groups
-    private RelativeLayout invitesLayout; //Layout the displays users invites to join groups
-
+    private Button create_button;
+    private Button logOutButton;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private String[] mSections;
+    private PullRefreshLayout swipeLayout;
+    private GroupViewAdapter mGroupViewAdapter;
 
 
     @Override
@@ -34,33 +47,61 @@ public class GroupActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_home);
 
-        // Gets current user, if null goes to login screen, if not logs current user
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        //Set Relative Layouts
-        groupsLayout = (RelativeLayout) findViewById(R.id.groupListLayout);
-        invitesLayout = (RelativeLayout) findViewById(R.id.groupInvitesLayout);
-        invitesLayout.setVisibility(View.GONE); //Set to GONE(invisible and doesnt take up space) user has to click on invite button to make visible
-
-        // Button listener will navigate to screen where user can make poll
-        makeGroupButton = (Button) findViewById(R.id.makeGroupButton);
-        makeGroupButton.setOnClickListener(new View.OnClickListener() {
+        create_button = (Button) findViewById(R.id.makePoll);
+        create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navigateToMakeGroup();
             }
         });
 
-        // Button listener will change the screen to where the user can view invites
-        groupInvitesButton = (Button) findViewById(R.id.makeGroupButton);
-        groupInvitesButton.setOnClickListener(new View.OnClickListener() {
+        logOutButton = (Button) findViewById(R.id.logOutButton);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateGroupInvites();
+                navigateToLogin();
             }
         });
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateData();
+                swipeLayout.setRefreshing(false);
+            }
+        });
+
+        mGroupViewAdapter = new GroupViewAdapter(this, new ArrayList<Group>());
+        setListAdapter(mGroupViewAdapter);
+
+
+        // set up the drawer's list view with items and click listener
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mSections = getResources().getStringArray(R.array.sections_array);
+        mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+
+    }
+
+    private void updateData() {
+
+        ParseUser current = ParseUser.getCurrentUser();
+        ArrayList<ParseUser> users = new ArrayList<ParseUser>();
+        users.add(current);
+        ParseQuery<Group> query = new ParseQuery<Group>("Group");
+        query.whereContainedIn("members", users);
+        query.findInBackground(new FindCallback<Group>() {
+            @Override
+            public void done(List<Group> objects, ParseException e) {
+                mGroupViewAdapter.clear();
+                if (objects != null) {
+                    mGroupViewAdapter.addAll(objects);
+                }
+            }
+        });
     }
 
     /*
@@ -74,19 +115,11 @@ public class GroupActivity extends ListActivity {
         startActivity(intent);
     }
 
-    /*
-    navigateToGroupInvites() is called on when the group Invites button is clicked, this method will
-    show the users his group invites by making the groupInvites list visible, if the invites are already visible
-    then the button will hide the visibility of the group invites layout.
-     */
-    private void navigateGroupInvites() {
-
-        if (invitesLayout.getVisibility() == View.GONE) {
-            // Its visible
-        } else {
-            // Either gone or invisible
-        }
-
+    private void navigateToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 }

@@ -65,7 +65,7 @@ public class MakeGroupActivity extends AppCompatActivity {
 
 
         // set listener for make group button
-        createGroupButton = (Button) findViewById(R.id.makeGroupButton);
+        createGroupButton = (Button) findViewById(R.id.createGroupButton);
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,7 @@ public class MakeGroupActivity extends AppCompatActivity {
         });
 
         //Initialize the addMemberButton
-        addMemberButton = (Button) findViewById(R.id.makeGroupButton);
+        addMemberButton = (Button) findViewById(R.id.addMember);
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +160,7 @@ public class MakeGroupActivity extends AppCompatActivity {
      */
     private Group createGroup(String groupName, ParseUser user){
         Group group = new Group();
-        group.setTitle(groupName);
+        group.setName(groupName);
         group.addMember(user);
         return group;
     }
@@ -198,7 +198,7 @@ public class MakeGroupActivity extends AppCompatActivity {
                     }
                     currentGroup.addMember(newMember); // add newMember to the group
                     // display success in the view
-                    memberInviteStatus.setText(newMember.getUsername() + " successfully added to " + currentGroup.getTitle() + "!");
+                    memberInviteStatus.setText(newMember.getUsername() + " successfully added to " + currentGroup.getName() + "!");
 
                     //update the view
                     addMemberButton.setEnabled(true);

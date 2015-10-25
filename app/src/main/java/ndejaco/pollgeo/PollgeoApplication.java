@@ -9,6 +9,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 
 
+import ndejaco.pollgeo.Model.Group;
 import ndejaco.pollgeo.Model.Poll;
 import ndejaco.pollgeo.Model.PollActivity;
 
@@ -30,6 +31,7 @@ public class PollgeoApplication extends Application {
 
         ParseObject.registerSubclass(Poll.class);
         ParseObject.registerSubclass(PollActivity.class);
+        ParseObject.registerSubclass(Group.class);
 
         Parse.initialize(this, "efCVhlYGapbFMccQ3dEk8V02KewoO74TGZaaVoiQ", "ymQXFhW4m96V6RV3l8Ymrg3oDsab2ZLKYSv4MZPu");
         ParseFacebookUtils.initialize(this);

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< Updated upstream
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+=======
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+>>>>>>> Stashed changes
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+<<<<<<< Updated upstream
         android:text="Group title"
         android:id="@+id/groupTitle"
         android:layout_alignParentTop="true"
@@ -40,3 +47,10 @@
 
 
 </RelativeLayout>
+=======
+        android:text="Large Text"
+        android:id="@+id/groupName"
+        android:layout_centerVertical="true" />
+
+</LinearLayout>
+>>>>>>> Stashed changes

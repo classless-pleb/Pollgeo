@@ -14,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -158,7 +160,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //mDrawerLayout.setDrawerShadow(R.mipmap.drawer_shadow, GravityCompat.START);
+
 
         fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
 
@@ -175,8 +177,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
-        mDrawerList.setAdapter(new DrawerAdapter(this,mSections));
-
+        mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
     }
 
@@ -235,6 +236,10 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         intent.putExtra(PollgeoApplication.INTENT_EXTRA_LOCATION, myLoc);
 
         startActivity(intent);
+    }
+
+    private void navigateToGroupActivity() {
+
     }
 
 
@@ -448,6 +453,8 @@ public class HomeListActivity extends ListActivity implements LocationListener,
             errorFragment.show(getFragmentManager(), PollgeoApplication.APPTAG);
         }
     }
+
+
 
     /*
    * Define a DialogFragment to display the error dialog generated in showErrorDialog.
