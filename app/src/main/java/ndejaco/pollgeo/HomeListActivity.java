@@ -175,8 +175,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mSections));
+        mDrawerList.setAdapter(new DrawerAdapter(this,mSections));
 
 
     }
@@ -253,7 +252,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_logout) {
+        if (id == R.id.logOutButton) {
             ParseUser.logOut();
             navigateToLogin();
         }
