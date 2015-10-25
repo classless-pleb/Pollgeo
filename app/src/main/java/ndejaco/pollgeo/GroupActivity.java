@@ -6,6 +6,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -47,7 +48,7 @@ public class GroupActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_home);
 
-        create_button = (Button) findViewById(R.id.makePoll);
+        create_button = (Button) findViewById(R.id.makeGroup);
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +66,9 @@ public class GroupActivity extends ListActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        mGroupViewAdapter = new GroupViewAdapter(this, new ArrayList<Group>());
+        setListAdapter(mGroupViewAdapter);
+
         swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,20 +78,18 @@ public class GroupActivity extends ListActivity {
             }
         });
 
-        mGroupViewAdapter = new GroupViewAdapter(this, new ArrayList<Group>());
-        setListAdapter(mGroupViewAdapter);
-
 
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
+        updateData();
+
 
     }
 
     private void updateData() {
-
         ParseUser current = ParseUser.getCurrentUser();
         ArrayList<ParseUser> users = new ArrayList<ParseUser>();
         users.add(current);
@@ -96,10 +98,11 @@ public class GroupActivity extends ListActivity {
         query.findInBackground(new FindCallback<Group>() {
             @Override
             public void done(List<Group> objects, ParseException e) {
-                mGroupViewAdapter.clear();
                 if (objects != null) {
+                    mGroupViewAdapter.clear();
                     mGroupViewAdapter.addAll(objects);
                 }
+
             }
         });
     }

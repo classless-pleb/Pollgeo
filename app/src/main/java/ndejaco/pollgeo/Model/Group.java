@@ -31,12 +31,12 @@ public class Group extends ParseObject {
 
     // set the title name of the group
     public void setName(String title) {
-        put("name", title);
+        put("GroupName", title);
     }
 
     // return the title name of the group
     public String getName() {
-        return getString("name");
+        return getString("GroupName");
     }
 
     // addMember adds a user to the group and increments the memberCount
