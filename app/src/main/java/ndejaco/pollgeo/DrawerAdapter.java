@@ -2,11 +2,14 @@ package ndejaco.pollgeo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -54,6 +57,8 @@ public class DrawerAdapter extends ArrayAdapter<String> {
             case 1:
                 Intent intent = new Intent(mContext, ProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle b = new Bundle();
+                intent.putExtra("target", ParseUser.getCurrentUser().getUsername());
                 mContext.startActivity(intent);
                 break;
             case 2:
