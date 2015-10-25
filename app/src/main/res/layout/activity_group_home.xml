@@ -30,7 +30,7 @@
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/makePoll"
+                android:layout_below="@+id/makeGroup"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
@@ -40,7 +40,7 @@
         </com.baoyz.widget.PullRefreshLayout>
 
         <Button
-            android:id="@+id/makePoll"
+            android:id="@+id/makeGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -74,17 +74,7 @@
         android:layout_gravity="top"
         android:id = "@+id/thumbnail"
         android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_alignParentLeft="true"
-<<<<<<< Updated upstream:app/src/main/res/layout/activity_group_home.xml
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/swipe_container"
-        android:layout_alignEnd="@+id/swipe_container"
-        android:id="@+id/groupInvitesLayout"
-        android:background="#c6c6c6">
-
-=======
-        android:paddingTop="5dp">
+        android:layout_height = "wrap_content">
     </com.facebook.login.widget.ProfilePictureView>
 
 
@@ -97,10 +87,7 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"/>
-</RelativeLayout>
->>>>>>> Stashed changes:app/src/main/res/layout/activity_group_list.xml
 
-
-
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

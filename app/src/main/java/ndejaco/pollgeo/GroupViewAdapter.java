@@ -28,13 +28,16 @@ public class GroupViewAdapter extends ArrayAdapter<Group> {
     public View getView(int position, View v, ViewGroup parent) {
 
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.group_view_item, null);
+            v = View.inflate(getContext(), R.layout.group_list_item, null);
         }
 
         // Gets the username from the user that voted and sets the text to the username
 
-        TextView userText = (TextView) v.findViewById(R.id.username);
-        userText.setText((String) mGroups.get(position).getName());
+        TextView userText = (TextView) v.findViewById(R.id.GroupName);
+
+        if (mGroups.get(position) == null) {
+            userText.setText((String) mGroups.get(position).getName());
+        }
 
 
         return v;
