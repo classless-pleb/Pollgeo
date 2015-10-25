@@ -2,11 +2,14 @@ package ndejaco.pollgeo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
     protected String mOpts[];
     protected Context mContext;
 
-    public DrawerAdapter(Context c, String opts[]) {
+    public DrawerAdapter(Context c,String opts[]){
         super(c, R.layout.drawer_list_item, opts);
         mOpts = opts;
         mContext = c;
@@ -33,7 +36,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
             v = View.inflate(getContext(), R.layout.drawer_list_item, null);
         }
 
-        TextView buttonText = (TextView) v.findViewById(R.id.drawerText);
+        TextView buttonText = (TextView) v.findViewById(R.id.drawerButton);
         buttonText.setText(mOpts[position]);
         buttonText.setTag(position);
         buttonText.setOnClickListener(new View.OnClickListener() {
@@ -41,27 +44,18 @@ public class DrawerAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 int pos = (Integer) v.getTag();
                 String cmd = mOpts[pos];
-                doAction(pos);
+                doAction(cmd);
             }
         });
-
 
         return v;
     }
 
-    private void doAction(int position) {
-        switch (position) {
-
-            case 1:
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-                break;
-            case 2:
-                Intent intent2 = new Intent(mContext, GroupActivity.class);
-                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent2);
-                break;
-        }
+    public void doAction(String cmd){
+        Intent intent = new Intent(mContext, ProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle b = new Bundle();
+        intent.putExtra("target", ParseUser.getCurrentUser().getUsername());
+        mContext.startActivity(intent);
     }
 }

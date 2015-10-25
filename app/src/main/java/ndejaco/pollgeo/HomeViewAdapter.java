@@ -3,6 +3,9 @@ package ndejaco.pollgeo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -108,21 +111,24 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         option3button.setEnabled(true);
         option4button.setEnabled(true);
 
-        option1button.setBackgroundResource(R.drawable.not_voted);
-        option2button.setBackgroundResource(R.drawable.not_voted);
-        option3button.setBackgroundResource(R.drawable.not_voted);
-        option4button.setBackgroundResource(R.drawable.not_voted);
-
-
         //Sets title of poll to current polls title
         title.setText((String) poll.getTitle());
         title.setGravity(Gravity.CENTER);
+        title.setTag(position);
         ParseUser pu = poll.getUser();
+        title.setOnClickListener(new TitleClickListener(pu,mContext));
+        String titleText = null;
         try{
             pu.fetchIfNeeded();
-            title.setText(title.getText() + "\nby " + poll.getUser().getString("name"));
+            titleText = title.getText() + "\nby " + poll.getUser().getString("name");
         }catch(Exception e){
+        }
 
+        if(titleText != null){
+            SpannableString ss = new SpannableString(titleText);
+            ss.setSpan(new UnderlineSpan(),0,titleText.length(),0);
+            title.setText(ss);
+            title.setTextColor(mContext.getResources().getColor(R.color.aqua));
         }
 
 
@@ -337,5 +343,28 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 }
             }
         });
+    }
+}
+
+class TitleClickListener implements View.OnClickListener{
+    private ParseUser curr;
+    private Context c;
+    public TitleClickListener(ParseUser pu,Context c){
+        curr = pu;
+        this.c = c;
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            curr.fetchIfNeeded();
+            Intent intent = new Intent(c, ProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle b = new Bundle();
+            intent.putExtra("target", curr.getUsername());
+            c.startActivity(intent);
+        }catch(Exception e){
+            return;
+        }
     }
 }
