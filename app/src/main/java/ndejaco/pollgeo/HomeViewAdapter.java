@@ -247,30 +247,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
-        /*
-        if(pa != null){
-            int pos = determinePositionVoted(pa);
-            switch(pos){
-                case 0:
-                    option1button.setEnabled(false);
-                    option1button.setBackgroundResource(R.drawable.voted);
-                    break;
-                case 1:
-                    option2button.setEnabled(false);
-                    option2button.setBackgroundResource(R.drawable.voted);
-                    break;
-                case 2:
-                    option3button.setEnabled(false);
-                    option3button.setBackgroundResource(R.drawable.voted);
-                    break;
-                case 3:
-                    option4button.setEnabled(false);
-                    option4button.setBackgroundResource(R.drawable.voted);
-                    break;
-            }
-        }
-        */
-
         //returns view
         return v;
 

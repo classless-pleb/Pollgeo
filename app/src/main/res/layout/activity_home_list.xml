@@ -10,11 +10,7 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FFEDEDEA"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:background="#FFEDEDEA" >
 
         <com.baoyz.widget.PullRefreshLayout
             android:id="@+id/swipe_container"

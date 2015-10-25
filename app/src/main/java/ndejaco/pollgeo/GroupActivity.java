@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.facebook.login.widget.ProfilePictureView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -41,6 +42,7 @@ public class GroupActivity extends ListActivity {
     private String[] mSections;
     private PullRefreshLayout swipeLayout;
     private GroupViewAdapter mGroupViewAdapter;
+    private ProfilePictureView fbPhoto;
 
 
     @Override
@@ -77,6 +79,18 @@ public class GroupActivity extends ListActivity {
                 swipeLayout.setRefreshing(false);
             }
         });
+
+        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+
+        if (ParseUser.getCurrentUser() != null) {
+            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = ParseUser.getCurrentUser().getString("facebookId");
+            if (profileId != null) {
+                fbPhoto.setProfileId(ParseUser.getCurrentUser().getString("facebookId"));
+            } else {
+
+            }
+        }
 
 
         // set up the drawer's list view with items and click listener
