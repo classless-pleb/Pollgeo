@@ -140,6 +140,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseUser.logOut();
                 navigateToLogin();
             }
         });
