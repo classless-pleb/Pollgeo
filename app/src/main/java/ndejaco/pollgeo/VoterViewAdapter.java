@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import ndejaco.pollgeo.Model.PollActivity;
 
 public class VoterViewAdapter extends ArrayAdapter<ParseUser> {
     private List<ParseUser> mVoters;
+    private TextView userText;
+    private ProfilePictureView fbPhoto;
 
     public VoterViewAdapter(Context context, List<ParseUser> voters) {
         super(context, R.layout.voter_view_item, voters);
@@ -34,12 +37,20 @@ public class VoterViewAdapter extends ArrayAdapter<ParseUser> {
 
         // Gets the username from the user that voted and sets the text to the username
 
-        TextView userText = (TextView) v.findViewById(R.id.username);
-        userText.setText((String) mVoters.get(position).getString("name"));
-
-        ProfilePictureView fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
+        userText = (TextView) v.findViewById(R.id.username);
+        fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
         fbPhoto.setPresetSize(ProfilePictureView.SMALL);
-        fbPhoto.setProfileId((String) mVoters.get(position).getString("facebookId"));
+
+        try {
+            ParseUser current = mVoters.get(position).fetchIfNeeded();
+            if (current != null) {
+                userText.setText((String) current.getString("name"));
+                fbPhoto.setProfileId((String) current.getString("facebookId"));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
         return v;
