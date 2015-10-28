@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
             android:background="#FFDE5842"
-            android:text="Make Poll"
+            android:text="Create a Poll"
             android:textColor="#FFEDEDEA"
             android:textSize="25sp"/>
 
@@ -92,4 +92,3 @@
 
 
 </android.support.v4.widget.DrawerLayout>
-

@@ -100,10 +100,12 @@ public class MakePollActivity extends AppCompatActivity {
                                 @Override
                                 public void done(ParseException e) {
                                     if (e == null) {
-                                Intent intent = new Intent(MakePollActivity.this, HomeListActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                        ParseUser.getCurrentUser().increment("score",10);
+                                        ParseUser.getCurrentUser().saveEventually();
+                                        Intent intent = new Intent(MakePollActivity.this, HomeListActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MakePollActivity.this);
                                 builder.setMessage(e.getMessage()).setTitle(R.string.make_poll_error_title).

@@ -128,7 +128,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             SpannableString ss = new SpannableString(titleText);
             ss.setSpan(new UnderlineSpan(),0,titleText.length(),0);
             title.setText(ss);
-            title.setTextColor(mContext.getResources().getColor(R.color.aqua));
+            title.setTextColor(mContext.getResources().getColor(R.color.turq));
         }
 
 
@@ -274,15 +274,23 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         //int pastOption = determinePositionVoted(activity);
         boolean flag = removePreviousVotes(votedPoll, votedPoll.getTotalOptions(), votedOption);
         if (flag) {
+            ParseUser.getCurrentUser().increment("score");
             votedPoll.setOptionCount(votedOption, ParseUser.getCurrentUser());
         }
+
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                ;
+            }
+        });
+
         votedPoll.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 updateData();
             }
         });
-
 
     }
 

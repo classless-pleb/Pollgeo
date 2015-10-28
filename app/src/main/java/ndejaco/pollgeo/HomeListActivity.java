@@ -4,9 +4,12 @@ package ndejaco.pollgeo;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +37,8 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
     private Button create_button;
     private Button logOutButton;
     private DrawerLayout mDrawerLayout;
+    private Context mContext;
     private ListView mDrawerList;
     private String[] mSections;
 
@@ -126,6 +132,7 @@ public class HomeListActivity extends ListActivity implements LocationListener,
             currentUser = current;
         }
 
+        mContext = this;
 
         // Button listener will navigate to screen where user can make poll
         create_button = (Button) findViewById(R.id.makePoll);
@@ -205,6 +212,33 @@ public class HomeListActivity extends ListActivity implements LocationListener,
 
         // Queries poll data and orders by most recent polls. Finds in background.
         Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+            create_button.setText("No Internet Connection Detected :(");
+            create_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ;
+                }
+            });
+        }else{
+            create_button.setText("Create Your Poll");
+            create_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateToMakePoll();
+                }
+            });
+        }
+
+        if(myLoc == null){
+            return;
+        }
+
 
         Log.i(TAG, "Starting query");
         ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
@@ -490,6 +524,3 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         }
     }
 }
-
-
-
