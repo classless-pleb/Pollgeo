@@ -35,7 +35,7 @@ public class GroupViewAdapter extends ArrayAdapter<Group> {
 
         TextView userText = (TextView) v.findViewById(R.id.GroupName);
 
-        if (mGroups.get(position) == null) {
+        if (mGroups.get(position) != null) {
             userText.setText((String) mGroups.get(position).getName());
         }
 
