@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import ndejaco.pollgeo.Model.GroupPoll;
 import ndejaco.pollgeo.Model.Poll;
 import ndejaco.pollgeo.Model.PollActivity;
 
@@ -29,28 +30,31 @@ public class VoterViewActivity extends ListActivity {
 
     private VoterViewAdapter mVoterViewAdapter;
     private int voteOption;
+    private String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voter_view);
         ListView lv = getListView();
 
-         // Gets intent passed to this activity
-         Intent passed = getIntent();
+        // Gets intent passed to this activity
+        Intent passed = getIntent();
+        type = passed.getStringExtra("type");
 
-         // Intent includes poll id of poll and option number of option we wish to return votes from
-         String thePoll = (String) passed.getStringExtra("Poll");
-         String optionNumber = passed.getStringExtra("option number");
 
-         //Log.i(TAG, thePoll.getTitle());
-         Log.i(TAG, optionNumber);
+        // Intent includes poll id of poll and option number of option we wish to return votes from
+        String thePoll = (String) passed.getStringExtra("Poll");
+        String optionNumber = passed.getStringExtra("option number");
+
+        //Log.i(TAG, thePoll.getTitle());
+        Log.i(TAG, optionNumber);
 
         // Sets empty voter view adapter but then calls updateData to query for data.
         mVoterViewAdapter = new VoterViewAdapter(this, new ArrayList<ParseUser>());
         setListAdapter(mVoterViewAdapter);
         updateData(thePoll, optionNumber);
     }
-
 
 
     @Override
@@ -62,18 +66,35 @@ public class VoterViewActivity extends ListActivity {
 
     private void updateData(String thePoll, String optionNumber) {
         voteOption = Integer.parseInt(optionNumber);
-        ParseQuery<Poll> query = ParseQuery.getQuery("Poll");
-        query.getInBackground(thePoll, new GetCallback<Poll>() {
-            public void done(Poll object, ParseException e) {
-                if (e == null) {
-                    ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
-                    mVoterViewAdapter.clear();
-                    mVoterViewAdapter.addAll(users);
-                } else {
+        if (type.equals("local")) {
+            ParseQuery<Poll> query = ParseQuery.getQuery("Poll");
+            query.getInBackground(thePoll, new GetCallback<Poll>() {
+                public void done(Poll object, ParseException e) {
+                    if (e == null) {
+                        ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
+                        mVoterViewAdapter.clear();
+                        mVoterViewAdapter.addAll(users);
+                    } else {
 
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        else if (type.equals("group")) {
+            ParseQuery<GroupPoll> query = ParseQuery.getQuery("GroupPoll");
+            query.getInBackground(thePoll, new GetCallback<GroupPoll>() {
+                public void done(GroupPoll object, ParseException e) {
+                    if (e == null) {
+                        ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
+                        mVoterViewAdapter.clear();
+                        mVoterViewAdapter.addAll(users);
+                    } else {
+
+                    }
+                }
+            });
+        }
 
     }
 

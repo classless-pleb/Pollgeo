@@ -24,6 +24,8 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import ndejaco.pollgeo.Model.GroupPoll;
+import ndejaco.pollgeo.Model.LocalPoll;
 import ndejaco.pollgeo.Model.Poll;
 
 
@@ -246,10 +248,26 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     }
 
     private void navigateToVoterView(Poll aPoll, String optionNumber) {
-        Intent intent = new Intent(mContext, VoterViewActivity.class);
-        intent.putExtra("Poll", aPoll.getObjectId());
-        intent.putExtra("option number", optionNumber);
-        mContext.startActivity(intent);
+
+        if (aPoll instanceof LocalPoll) {
+            Intent intent = new Intent(mContext, VoterViewActivity.class);
+            intent.putExtra("Poll", aPoll.getObjectId());
+            intent.putExtra("option number", optionNumber);
+            intent.putExtra("type", "local");
+            mContext.startActivity(intent);
+        }
+
+        else if (aPoll instanceof GroupPoll) {
+            Intent intent = new Intent(mContext, VoterViewActivity.class);
+            intent.putExtra("Poll", aPoll.getObjectId());
+            intent.putExtra("option number", optionNumber);
+            intent.putExtra("type", "group");
+            mContext.startActivity(intent);
+        }
+
+        else {
+
+        }
     }
 
 
