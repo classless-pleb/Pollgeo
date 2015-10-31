@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
@@ -43,6 +46,7 @@ public class GroupActivity extends ListActivity {
     private PullRefreshLayout swipeLayout;
     private GroupViewAdapter mGroupViewAdapter;
     private ProfilePictureView fbPhoto;
+    private ListView groupList;
 
 
     @Override
@@ -92,6 +96,15 @@ public class GroupActivity extends ListActivity {
             }
         }
 
+        groupList = getListView();
+        groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Group clicked = (Group) mGroupViewAdapter.getItem(position);
+                navigateToGroupPoll(clicked);
+            }
+        });
+
 
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -103,12 +116,20 @@ public class GroupActivity extends ListActivity {
 
     }
 
+    private void navigateToGroupPoll(Group clicked) {
+        String objectId = clicked.getObjectId();
+        Intent intent = new Intent(this, GroupHomeListActivity.class);
+        intent.putExtra("Group", objectId);
+        startActivity(intent);
+    }
+
     private void updateData() {
         ParseUser current = ParseUser.getCurrentUser();
         ArrayList<ParseUser> users = new ArrayList<ParseUser>();
         users.add(current);
         ParseQuery<Group> query = new ParseQuery<Group>("Group");
         query.whereContainedIn("members", users);
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Group>() {
             @Override
             public void done(List<Group> objects, ParseException e) {

@@ -126,9 +126,9 @@ public class MakeGroupActivity extends ListActivity {
         // set up side drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+        fbPhoto.setPresetSize(ProfilePictureView.LARGE);
 
         if (ParseUser.getCurrentUser() != null) {
-            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
             String profileId = ParseUser.getCurrentUser().getString("facebookId");
             if (profileId != null) {
                 fbPhoto.setProfileId(ParseUser.getCurrentUser().getString("facebookId"));
@@ -144,7 +144,6 @@ public class MakeGroupActivity extends ListActivity {
 
         // grab the users friend and display them to add
         setUpFriendsList();
-
 
     }
 

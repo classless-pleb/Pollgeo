@@ -6,12 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,11 +17,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -31,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
-import ndejaco.pollgeo.Model.PollActivity;
 
 
 /**
@@ -76,7 +69,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> descriptions = new ArrayList<>();
 
-        for(int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             int votes = poll.getOptionCount(i);
             if (votes != 0) {
                 entries.add(new Entry((float) votes, i));
@@ -86,20 +79,20 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         PieChart chart = (PieChart) v.findViewById(R.id.chart);
         chart.setNoDataText("");
-        PieDataSet ds = new PieDataSet(entries,"");
-        int colors[] = {Color.BLUE,Color.RED,Color.GREEN,Color.YELLOW};
+        PieDataSet ds = new PieDataSet(entries, "");
+        int colors[] = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
         ds.setColors(colors);
-        PieData pd = new PieData(descriptions,ds);
+        PieData pd = new PieData(descriptions, ds);
         chart.setData(pd);
         chart.setDescription("");
         chart.invalidate();
 
         // Creates buttons and textviews
         TextView title = (TextView) v.findViewById(R.id.title);
-        TextView option1 = (TextView)v.findViewById(R.id.option1);
-        TextView option2 = (TextView)v.findViewById(R.id.option2);
-        TextView option3 = (TextView)v.findViewById(R.id.option3);
-        TextView option4 = (TextView)v.findViewById(R.id.option4);
+        TextView option1 = (TextView) v.findViewById(R.id.option1);
+        TextView option2 = (TextView) v.findViewById(R.id.option2);
+        TextView option3 = (TextView) v.findViewById(R.id.option3);
+        TextView option4 = (TextView) v.findViewById(R.id.option4);
 
         ImageButton option1button = (ImageButton) v.findViewById(R.id.option1button);
         ImageButton option2button = (ImageButton) v.findViewById(R.id.option2button);
@@ -116,35 +109,35 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         title.setGravity(Gravity.CENTER);
         title.setTag(position);
         ParseUser pu = poll.getUser();
-        title.setOnClickListener(new TitleClickListener(pu,mContext));
+        title.setOnClickListener(new TitleClickListener(pu, mContext));
         String titleText = null;
-        try{
+        try {
             pu.fetchIfNeeded();
             titleText = title.getText() + "\nby " + poll.getUser().getString("name");
-        }catch(Exception e){
+        } catch (Exception e) {
         }
 
-        if(titleText != null){
+        if (titleText != null) {
             SpannableString ss = new SpannableString(titleText);
-            ss.setSpan(new UnderlineSpan(),0,titleText.length(),0);
+            ss.setSpan(new UnderlineSpan(), 0, titleText.length(), 0);
             title.setText(ss);
             title.setTextColor(mContext.getResources().getColor(R.color.turq));
         }
 
 
         // Sets option texts
-        option1.setText((String)  poll.getOption(0));
-        option2.setText((String)  poll.getOption(1));
-        option3.setText((String)  poll.getOption(2));
-        option4.setText((String)  poll.getOption(3));
+        option1.setText((String) poll.getOption(0));
+        option2.setText((String) poll.getOption(1));
+        option3.setText((String) poll.getOption(2));
+        option4.setText((String) poll.getOption(3));
 
-        TextView votes1 = (TextView)v.findViewById(R.id.votes1);
-        TextView votes2 = (TextView)v.findViewById(R.id.votes2);
-        TextView votes3 = (TextView)v.findViewById(R.id.votes3);
-        TextView votes4 = (TextView)v.findViewById(R.id.votes4);
+        TextView votes1 = (TextView) v.findViewById(R.id.votes1);
+        TextView votes2 = (TextView) v.findViewById(R.id.votes2);
+        TextView votes3 = (TextView) v.findViewById(R.id.votes3);
+        TextView votes4 = (TextView) v.findViewById(R.id.votes4);
 
         // Sets votes texts
-        votes1.setText((String) (poll.getOptionCount(0)  + ""));
+        votes1.setText((String) (poll.getOptionCount(0) + ""));
         votes2.setText((String) (poll.getOptionCount(1) + ""));
         votes3.setText((String) (poll.getOptionCount(2) + ""));
         votes4.setText((String) (poll.getOptionCount(3) + ""));
@@ -300,8 +293,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 if (votedPoll.getOptionVoters(i).contains(ParseUser.getCurrentUser())) {
                     if (i == ignore) {
                         return false;
-                    }
-                    else {
+                    } else {
                         votedPoll.removeUser(i, ParseUser.getCurrentUser());
                     }
                 }
@@ -315,18 +307,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
 
     private void updateData() {
-        ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<Poll>() {
-
-            @Override
-            public void done(List<Poll> polls, com.parse.ParseException e) {
-                if (polls != null) {
-                    mPolls = polls;
-                    notifyDataSetChanged();
-                }
-            }
-        });
+        notifyDataSetChanged();
     }
 }
 

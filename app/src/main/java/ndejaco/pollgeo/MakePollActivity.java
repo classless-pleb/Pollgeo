@@ -2,13 +2,9 @@ package ndejaco.pollgeo;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +17,10 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import ndejaco.pollgeo.Model.GroupPoll;
+import ndejaco.pollgeo.Model.LocalPoll;
 import ndejaco.pollgeo.Model.Poll;
 
 public class MakePollActivity extends AppCompatActivity {
@@ -37,6 +33,8 @@ public class MakePollActivity extends AppCompatActivity {
     private Button submit;
     private Poll currentPoll;
     private ParseGeoPoint geoPoint;
+    private String type;
+    private String objectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +50,13 @@ public class MakePollActivity extends AppCompatActivity {
         Log.i(MakePollActivity.class.getSimpleName(), currentUser.getUsername());
 
         Intent intent = getIntent();
-        Location location = intent.getParcelableExtra(PollgeoApplication.INTENT_EXTRA_LOCATION);
-        geoPoint = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+        type = intent.getStringExtra("type");
+        if (type.equals("local")) {
+            Location location = intent.getParcelableExtra(PollgeoApplication.INTENT_EXTRA_LOCATION);
+            geoPoint = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+        } else if (type.equals("group")) {
+            objectId = intent.getStringExtra("groupId");
+        }
 
         // Instance variables for title, options, and submit button
         title = (EditText) findViewById(R.id.userTitleText);
@@ -97,15 +100,26 @@ public class MakePollActivity extends AppCompatActivity {
                     // Saves the current poll, and then if successful moves back to HomeListActivity
                     // If not successful sends alert dialog error message.
                     currentPoll.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        ParseUser.getCurrentUser().increment("score",10);
-                                        ParseUser.getCurrentUser().saveEventually();
-                                        Intent intent = new Intent(MakePollActivity.this, HomeListActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                ParseUser.getCurrentUser().increment("score", 10);
+                                ParseUser.getCurrentUser().saveEventually();
+                                if (type.equals("local")) {
+                                    Intent intent = new Intent(MakePollActivity.this, LocalHomeListActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+
+                                else if (type.equals("group")) {
+                                    Intent intent = new Intent(MakePollActivity.this, GroupHomeListActivity.class);
+                                    intent.putExtra("Group", objectId);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+
+                                }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MakePollActivity.this);
                                 builder.setMessage(e.getMessage()).setTitle(R.string.make_poll_error_title).
@@ -123,13 +137,29 @@ public class MakePollActivity extends AppCompatActivity {
 
     // Private method to create a poll object.
     private Poll createPoll(String title, ArrayList<String> options) {
-        Poll currentPoll = new Poll();
-        currentPoll.setOptions(options);
-        currentPoll.setUser(ParseUser.getCurrentUser());
-        currentPoll.setTitle(title);
-        currentPoll.setLocation(geoPoint);
-        currentPoll.setTotalOptions(options.size());
-        return currentPoll;
+
+        if (type.equals("local")) {
+            LocalPoll currentPoll = new LocalPoll();
+            currentPoll.setOptions(options);
+            currentPoll.setUser(ParseUser.getCurrentUser());
+            currentPoll.setTitle(title);
+            currentPoll.setLocation(geoPoint);
+            currentPoll.setTotalOptions(options.size());
+            return currentPoll;
+        }
+
+        else if (type.equals("group")) {
+            GroupPoll currentPoll = new GroupPoll();
+            currentPoll.setOptions(options);
+            currentPoll.setUser(ParseUser.getCurrentUser());
+            currentPoll.setTitle(title);
+            currentPoll.setGroup(objectId);
+            currentPoll.setTotalOptions(options.size());
+            return currentPoll;
+        }
+
+        return null;
+
     }
 
     // Private method to navigate to loginActivity if current user is null.

@@ -17,11 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -37,20 +34,18 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.*;
 
-public class HomeListActivity extends ListActivity implements LocationListener,
+public class LocalHomeListActivity extends ListActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     // TAG used for debugging
-    private static final String TAG = HomeListActivity.class.getSimpleName();
+    private static final String TAG = LocalHomeListActivity.class.getSimpleName();
     // Button used to create new poll
     private Button create_button;
     private Button logOutButton;
@@ -226,7 +221,6 @@ public class HomeListActivity extends ListActivity implements LocationListener,
                 }
             });
         }else{
-            create_button.setText("Create Your Poll");
             create_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,19 +257,18 @@ public class HomeListActivity extends ListActivity implements LocationListener,
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
         if (myLoc == null) {
-            Toast.makeText(HomeListActivity.this,
+            Toast.makeText(LocalHomeListActivity.this,
                     "Please try again after your location is turned on", Toast.LENGTH_LONG).show();
             return;
         }
 
+        intent.putExtra("type", "local");
         intent.putExtra(PollgeoApplication.INTENT_EXTRA_LOCATION, myLoc);
 
         startActivity(intent);
     }
 
-    private void navigateToGroupActivity() {
 
-    }
 
 
     @Override

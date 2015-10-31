@@ -84,13 +84,5 @@ public class Poll extends ParseObject {
         put("image", file);
     }
 
-    public ParseGeoPoint getLocation() {
-        return getParseGeoPoint("location");
-    }
-
-    public void setLocation(ParseGeoPoint value) {
-        put("location", value);
-    }
-
 
 }
