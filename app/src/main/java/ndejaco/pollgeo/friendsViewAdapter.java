@@ -68,14 +68,14 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
         // ParseUser variable for current friend
         ParseUser friend;
 
-
+        boolean clicked = false;
         // set up elements from layout
         TextView friendName = (TextView) v.findViewById(R.id.userName);
         ProfilePictureView fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
         fbPhoto.setPresetSize(ProfilePictureView.SMALL);
-        Button addMember = (Button) v.findViewById(R.id.addFriend);
-        addMember.setEnabled(true);
-        addMember.setClickable(true);
+        final Button addButton = (Button) v.findViewById(R.id.addFriend);
+        addButton.setEnabled(true);
+        addButton.setClickable(true);
 
         try {
             friend = friends.get(position).fetchIfNeeded();
@@ -91,22 +91,23 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
                     fbPhoto.setProfileId((String) friend.getString("facebookId"));
                 }
                 // set up addMember button
-                addMember.setTag(position);
-                addMember.setOnClickListener(new View.OnClickListener() {
+                addButton.setTag(position);
+                addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int position = (Integer) v.getTag();
-                        addMember(friends.get(position));
-                        clicked = true;
+                        int position = (Integer) v.getTag(); // get where the friend is
+                        ParseUser user = friends.get(position); // friend being added
+                        insertMember(user); // insert friend to group
+                        addButton.setEnabled(false); //dont want user to spam add same friend
+                        addButton.setClickable(false);
+                        addButton.setText(user.getString("name") + " Added");
+
 
                     }
                 });
-                if (clicked) {
-                    addMember.setEnabled(false); //dont want user to spam click the button
-                    addMember.setClickable(false);
-                    addMember.setText("Friend Added");
-                    clicked = false;
-                }
+
+
+
             }
 
         } catch (ParseException e) {
@@ -123,7 +124,7 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
     /*
     addMember adds a ParseUser to the group
      */
-    public void addMember(ParseUser user) {
+    public void insertMember(ParseUser user) {
         Log.d(TAG, user.getString("name") + " added to Group");
         Log.d(TAG, currGroup.getName() + " is the Group");
         currGroup.addMember(user);

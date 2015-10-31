@@ -90,7 +90,7 @@ public class MakeGroupActivity extends ListActivity {
         });
 
         finishButton = (Button) findViewById(R.id.finishButton);
-        finishButton.setVisibility(View.GONE);
+        finishButton.setVisibility(View.INVISIBLE);
         finishButton.setEnabled(false);
         finishButton.setClickable(false);
         finishButton.setOnClickListener(new View.OnClickListener() {
