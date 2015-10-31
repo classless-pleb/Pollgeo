@@ -2,28 +2,32 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="wrap_content"
     tools:context="ndejaco.pollgeo.MakeGroupActivity"
     android:background="#FFEDEDEA">
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="What will be the name of your Group?"
+        android:background="#FFDE5842"
+        android:text="Name your Group"
+        android:textColor="#FFEDEDEA"
+        android:gravity="center"
+        android:padding="10dp"
         android:id="@+id/textView"
-        android:textSize="20sp"
+        android:textSize="18dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
+        android:layout_marginTop="7dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/groupName"
@@ -34,6 +38,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
@@ -45,6 +50,8 @@
         android:layout_alignParentStart="true" />
 
     <ListView
+
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@android:id/list"
@@ -54,15 +61,21 @@
         android:layout_above="@+id/finishButton" />
 
     <Button
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Finish"
         android:id="@+id/finishButton"
+        android:background="#FFDE5842"
+        android:textColor="#FFEDEDEA"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@android:id/list"
-        android:layout_alignEnd="@android:id/list" />
+        android:layout_marginBottom="0dp"/>
         <!--android:layout_below="@android:id/list"
         android:layout_alignEnd="@android:id/list" /> -->
 

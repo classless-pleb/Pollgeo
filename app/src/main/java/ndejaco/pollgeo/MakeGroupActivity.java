@@ -45,6 +45,7 @@ public class MakeGroupActivity extends ListActivity {
     private static final String TAG = MakeGroupActivity.class.getSimpleName();
 
     // set up element variables for user interactions with make_group.xml
+    private TextView textView;
     private EditText groupName; // groupName will be the users choice for the group name
     private Button createGroupButton; // button when once clicked, creates a group
     private Button finishButton; // button will exit the make group activity
@@ -75,6 +76,8 @@ public class MakeGroupActivity extends ListActivity {
         // Gets current user
         creator = ParseUser.getCurrentUser();
 
+        // textView will prompt user for group name, then when the group is created, display the name of the group
+        textView = (TextView) findViewById(R.id.textView);
         //Set up textField for group name insertion
         groupName = (EditText) findViewById(R.id.groupName);
 
@@ -161,6 +164,9 @@ public class MakeGroupActivity extends ListActivity {
 
     }
 
+    /*
+    setupAdapter sets up the list view adapter, friendsViewAdapter for adding friends
+     */
     public void setupAdapter(){
         Log.d(TAG, "In SetupAdapter, FriendsList array size: ---" + friendsList.size());
         for ( ParseUser pu : friendsList) {
@@ -212,6 +218,7 @@ public class MakeGroupActivity extends ListActivity {
             for(ParseUser pu: friendsList) {
                 Log.d(TAG, "Adding " + pu.get("name") + " to current group");
             }
+            // set up the list for adding friends
             setupAdapter();
 
             // save the group to the database
@@ -220,7 +227,13 @@ public class MakeGroupActivity extends ListActivity {
                 public void done(ParseException e) {
                 }
             });
-            createGroupButton.setText("GROUP CREATED");
+            //set createGroupButton and groupName to GONE
+            createGroupButton.setText("GROUP " + groupNameString + " CREATED");
+            createGroupButton.setVisibility(View.GONE);
+            groupName.setVisibility(View.GONE);
+            textView.setText(groupNameString);
+            textView.setAllCaps(true);
+            //make finish button visible
             finishButton.setVisibility(View.VISIBLE);
             finishButton.setEnabled(true); //dont want user to spam click the button
             finishButton.setClickable(true);

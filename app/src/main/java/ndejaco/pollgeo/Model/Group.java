@@ -57,5 +57,14 @@ public class Group extends ParseObject {
         return getList("poll");
     }
 
+    /*
+    removeMember removes a user from the group
+     */
+    public void removeMember(ParseUser user) {
+        List<ParseUser> toRemove = new ArrayList<ParseUser>();
+        toRemove.add(user);
+        removeAll("members", toRemove);
+    }
+
 
 }
