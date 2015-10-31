@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphRequest;
@@ -53,13 +54,12 @@ public class MakeGroupActivity extends ListActivity {
     private ParseUser creator; // the user who is making the group
     private friendsViewAdapter friendsViewAdapter;
     private ArrayList<ParseUser> friendsList = new ArrayList<ParseUser>();
-    private ListView friendsListView;
-    private ArrayList<String> fbIds = new ArrayList<String>();
 
     // elements for side drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] mSections;
+    private PullRefreshLayout swipeLayout;
     private ProfilePictureView fbPhoto;
 
 
@@ -72,6 +72,24 @@ public class MakeGroupActivity extends ListActivity {
         ListView lv = getListView();
         // Gets intent passed to this activity
         Intent passed = getIntent();
+
+        // set up side drawer
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+
+        if (ParseUser.getCurrentUser() != null) {
+            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = ParseUser.getCurrentUser().getString("facebookId");
+            if (profileId != null) {
+                fbPhoto.setProfileId(ParseUser.getCurrentUser().getString("facebookId"));
+            } else {
+
+            }
+        }
+        // set up the drawer's list view with items and click listener
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mSections = getResources().getStringArray(R.array.sections_array);
+        mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
         // Gets current user
         creator = ParseUser.getCurrentUser();
@@ -104,11 +122,36 @@ public class MakeGroupActivity extends ListActivity {
                 navigateToGroupActivity();
             }
         });
+
+        // set up side drawer
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+
+        if (ParseUser.getCurrentUser() != null) {
+            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = ParseUser.getCurrentUser().getString("facebookId");
+            if (profileId != null) {
+                fbPhoto.setProfileId(ParseUser.getCurrentUser().getString("facebookId"));
+            } else {
+
+            }
+        }
+        // set up the drawer's list view with items and click listener
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mSections = getResources().getStringArray(R.array.sections_array);
+        mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+
+        // grab the users friend and display them to add
         setUpFriendsList();
 
 
     }
 
+    /*
+    setUpFriendsList() maekes a request to Facebook to grab the Parse users' friends, creating the friendsList array list
+     in the process.
+     */
     public void setUpFriendsList(){
         /* make the API call to get users friends list*/
         GraphRequest friendsRequest = new GraphRequest(
