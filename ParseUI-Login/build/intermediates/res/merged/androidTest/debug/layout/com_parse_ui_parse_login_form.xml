@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:id="@+id/parse_login"
+    android:background="#FFDE5842"
     android:visibility="gone">
 
     <EditText

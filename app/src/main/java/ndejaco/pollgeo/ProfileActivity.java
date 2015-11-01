@@ -72,6 +72,13 @@ public class ProfileActivity extends AppCompatActivity {
         TextView userName = (TextView)findViewById(R.id.profileName);
         userName.setText((String)pu.get("name"));
 
+        TextView scoreText = (TextView)findViewById(R.id.scoreText);
+        Integer userScore = (Integer)pu.get("score");
+        if(userScore == null){
+            userScore = 0;
+        }
+        scoreText.setText("Score: " + userScore);
+
     }
 
     @Override
