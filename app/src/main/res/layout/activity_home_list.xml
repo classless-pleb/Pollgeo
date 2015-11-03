@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#FFEDEDEA" >
@@ -25,15 +25,6 @@
             android:textColor="#FFEDEDEA"
             android:textSize="25sp"/>
 
-        <Button
-            android:id="@+id/logOutButton"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="Log out"/>
 
         <com.baoyz.widget.PullRefreshLayout
             android:id="@+id/swipe_container"
@@ -46,7 +37,7 @@
 
 
             <ListView
-                android:paddingTop="50dp"
+                android:paddingTop="0dp"
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +51,7 @@
         </com.baoyz.widget.PullRefreshLayout>
 
 
-    </FrameLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/slider"
@@ -86,8 +77,18 @@
             android:layout_below = "@+id/thumbnail"
             android:background="#FFDE5842"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"/>
+            android:divider="#d96656"
+            android:dividerHeight="2dp"/>
+
+        <Button
+            android:id="@+id/logOutButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Log out"/>
     </RelativeLayout>
 
 
