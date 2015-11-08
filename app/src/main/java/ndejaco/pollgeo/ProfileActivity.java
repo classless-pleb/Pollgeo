@@ -1,24 +1,39 @@
 package ndejaco.pollgeo;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    protected ParseUser currentUser;
+    private ListView mDrawerList;
+    private String[] mSections;
+    private DrawerLayout mDrawerLayout;
+
+    //Refresh layout swipe
+    private PullRefreshLayout swipeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +79,13 @@ public class ProfileActivity extends AppCompatActivity {
             Log.e("in profile activity","exception happened.");
         }
 
+        currentUser = pu;
 
         ProfilePictureView fbPhoto = (ProfilePictureView) findViewById(R.id.profilePicture);
         fbPhoto.setPresetSize(ProfilePictureView.LARGE);
-        fbPhoto.setProfileId((String) pu.get("facebookId"));
+        if(pu.get("facebookId") != null ){
+            fbPhoto.setProfileId((String) pu.get("facebookId"));
+        }
 
         TextView userName = (TextView)findViewById(R.id.profileName);
         userName.setText((String)pu.get("name"));
@@ -77,8 +95,29 @@ public class ProfileActivity extends AppCompatActivity {
         if(userScore == null){
             userScore = 0;
         }
+
         scoreText.setText("Score: " + userScore);
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+
+        if (currentUser != null) {
+            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = currentUser.getString("facebookId");
+            if (profileId != null) {
+                fbPhoto.setProfileId(currentUser.getString("facebookId"));
+            } else {
+
+            }
+        }
+
+        // set up the drawer's list view with items and click listener
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mSections = getResources().getStringArray(R.array.sections_array);
+        mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+        updateData();
     }
 
     @Override
@@ -101,5 +140,29 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateData() {
+
+        // Queries poll data and orders by most recent polls. Finds in background.
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+            return;
+        }
+
+        ParseQuery<Poll> query = new ParseQuery<Poll>("GroupPoll");
+        query.orderByDescending("createdAt");
+        query.whereEqualTo("user", currentUser);
+        query.findInBackground(new FindCallback<Poll>() {
+
+            @Override
+            public void done(List<Poll> polls, com.parse.ParseException e) {
+                if (polls != null) {
+                }
+            }
+        });
     }
 }

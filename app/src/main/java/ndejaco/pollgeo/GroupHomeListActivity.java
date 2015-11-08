@@ -137,9 +137,6 @@ public class GroupHomeListActivity extends ListActivity {
 
     }
 
-
-
-
     // Private method will navigate to login screen if current user is null
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);

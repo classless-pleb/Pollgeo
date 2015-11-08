@@ -54,6 +54,12 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 
     private void doAction(int position) {
         switch (position) {
+            case 0:
+                Intent intent0 = new Intent(mContext,LocalHomeListActivity.class);
+                intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent0);
+                break;
             case 1:
                 Intent intent = new Intent(mContext, ProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -65,6 +71,9 @@ public class DrawerAdapter extends ArrayAdapter<String> {
                 Intent intent2 = new Intent(mContext, GroupActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent2);
+                break;
+            case 3:
+                //Settings go here.
                 break;
         }
     }

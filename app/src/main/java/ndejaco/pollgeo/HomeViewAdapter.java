@@ -285,7 +285,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         //int pastOption = determinePositionVoted(activity);
         boolean flag = removePreviousVotes(votedPoll, votedPoll.getTotalOptions(), votedOption);
         if (flag) {
-            ParseUser.getCurrentUser().increment("score");
             votedPoll.setOptionCount(votedOption, ParseUser.getCurrentUser());
         }
 
@@ -306,23 +305,34 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     }
 
     private boolean removePreviousVotes(Poll votedPoll, int optionCount, int ignore) {
+        boolean found = false;
         for (int i = 0; i < optionCount; i++) {
             if (votedPoll.getOptionVoters(i) != null) {
                 if (votedPoll.getOptionVoters(i).contains(ParseUser.getCurrentUser())) {
                     if (i == ignore) {
                         return false;
                     } else {
+                        found = true;
                         votedPoll.removeUser(i, ParseUser.getCurrentUser());
                     }
                 }
             }
+        }
 
-
+        if(!found){
+            ParseUser.getCurrentUser().increment("score");
+            ParseUser pu = poll.getUser();
+            try{
+                pu.fetchIfNeeded();
+                pu.increment("score");
+                pu.saveEventually();
+            }catch(Exception e){
+                return true;
+            }
         }
 
         return true;
     }
-
 
     private void updateData() {
         notifyDataSetChanged();
