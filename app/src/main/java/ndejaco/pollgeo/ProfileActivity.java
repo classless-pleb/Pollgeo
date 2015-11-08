@@ -100,13 +100,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        fbPhoto = (ProfilePictureView) findViewById(R.id.thumbnail);
+        ProfilePictureView fbThumb = (ProfilePictureView) findViewById(R.id.thumbnail);
 
         if (currentUser != null) {
-            fbPhoto.setPresetSize(ProfilePictureView.LARGE);
-            String profileId = currentUser.getString("facebookId");
+            fbThumb.setPresetSize(ProfilePictureView.LARGE);
+            String profileId = ParseUser.getCurrentUser().getString("facebookId");
             if (profileId != null) {
-                fbPhoto.setProfileId(currentUser.getString("facebookId"));
+                fbThumb.setProfileId(profileId);
             } else {
 
             }
