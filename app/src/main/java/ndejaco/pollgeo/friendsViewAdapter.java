@@ -1,14 +1,29 @@
 package ndejaco.pollgeo;
-
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+//************************
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.ListView;
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
@@ -34,8 +49,6 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
     // variable for the current group being created, where the friends will be added and removed from
     private Group currGroup;
 
-
-
     private static final String TAG = friendsViewAdapter.class.getSimpleName();
 
 
@@ -54,12 +67,22 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
     @Override
     public View getView(int position, View v, ViewGroup parent) {
 
+        ViewHolder viewHolder = null;
+
         // If the view passed is null it inflates the home list item view to create a new one
         if (v == null) {
             v = View.inflate(getContext(), R.layout.friends_list_item, null);
-            Log.d(TAG, "FRIENDS VIEW being inflated");
-        }
+            // set up viewHolder
+            viewHolder = new ViewHolder();
+            viewHolder.friendName = (TextView) v.findViewById(R.id.friendName);
+            viewHolder.fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
+            viewHolder.checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+            // set tag
+            v.setTag(viewHolder);
 
+        } else{
+            viewHolder = (ViewHolder) v.getTag();
+        }
         Log.d(TAG, "GROUP NAME: " + currGroup.getName());
 
         // ParseUser variable for current friend
@@ -159,6 +182,16 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
             }
         });
 
+    }
+
+    /*
+    ViewHolder class, helps maintain list items that are not visible are being functioned on by a different items
+    position
+     */
+    private static class ViewHolder {
+        public TextView friendName;
+        public ProfilePictureView fbPhoto;
+        public CheckBox checkBox;
     }
 
 }
