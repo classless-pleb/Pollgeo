@@ -1,35 +1,21 @@
 package ndejaco.pollgeo;
-import android.app.ListActivity;
-import android.os.Bundle;
+
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-//************************
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.ListView;
+
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.Group;
@@ -89,12 +75,16 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
         ParseUser friend;
 
         // set up elements from layout
-        TextView friendName = (TextView) v.findViewById(R.id.friendName);
-        ProfilePictureView fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
+//        TextView friendName = (TextView) v.findViewById(R.id.friendName);
+//        ProfilePictureView fbPhoto = (ProfilePictureView) v.findViewById(R.id.fbPhoto);
+        TextView friendName = (TextView) viewHolder.friendName;
+        ProfilePictureView fbPhoto = (ProfilePictureView) viewHolder.fbPhoto;
         fbPhoto.setPresetSize(ProfilePictureView.SMALL);
 
         //set up check box
         final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+        //final CheckBox checkBox = (CheckBox) viewHolder.checkBox;
+
         checkBox.setEnabled(true);
         checkBox.setClickable(true);
 
@@ -104,12 +94,11 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
             if (friend != null) {
                 Log.d(TAG, "ADAPTER, friend name: " + friend.getString("name"));
                 if (friendName != null) {
-                    Log.d(TAG, "ADAPTER, friend name not null");
                     friendName.setText((String) friend.getString("name"));
+                    Log.d(TAG, friend.getString("name") + " is at the position " + position);
                 }
                 String profileId = friend.getString("facebookId");
                 if (profileId != null && fbPhoto != null){
-                    Log.d(TAG, "ADAPTER, profile Id and fbPhoto not null");
                     fbPhoto.setProfileId((String) friend.getString("facebookId"));
                 }
                 // set up the checkBox
@@ -117,6 +106,7 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //final int position = getListView().getPositionForView(v);
                         int position = (Integer) v.getTag(); // get where the friend is
                         ParseUser user = friends.get(position); // friend being added
 
@@ -129,10 +119,13 @@ public class friendsViewAdapter extends ArrayAdapter<ParseUser> {
                             // let user know friend has been added by changing color of checkbox
                             checkBox.setHighlightColor(Color.GREEN);
 
+
+
                             // let the user know of change by text
                             checkBox.setText( user.getString("name") + " added (uncheck to take out of group)");
                             Log.d(TAG, user.getString("name") + " added to Group");
                             Log.d(TAG, currGroup.getName() + " is the Group");
+                            Log.d(TAG, position + " is the position");
                         }
                         else {
                             //friend has been added to group, now remove friend from group

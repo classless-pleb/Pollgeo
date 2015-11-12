@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <RelativeLayout
@@ -12,18 +13,28 @@
         android:layout_height="fill_parent"
         android:background="#FFEDEDEA" >
 
+        <app:android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#FFDE5842"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
         <Button
             android:id="@+id/makePoll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="55dp"
             android:layout_gravity="top"
-            android:background="#FFDE5842"
+            android:background="#dea397"
             android:text="Create a Poll"
             android:textColor="#FFEDEDEA"
-            android:textSize="25sp"/>
+            android:textSize="15sp"
+            android:layout_below="@+id/toolbar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
         <com.baoyz.widget.PullRefreshLayout
@@ -38,7 +49,7 @@
 
             <ListView
                 android:paddingTop="0dp"
-                android:id="@android:id/list"
+                android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/makePoll"

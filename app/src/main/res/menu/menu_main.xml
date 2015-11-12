@@ -1,6 +1,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="ndejaco.pollgeo.MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools" tools:context="ndejaco.pollgeo.LocalHomeListActivity">
+
+    <item
+        android:id="@+id/drawer"
+        android:title="Drawer"
+        android:icon="@drawable/ic_drawer"
+        android:orderInCategory="1"
+        android:checkable="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/activityTitle"
+        android:title="Local Polls"
+        android:icon="@drawable/pollgeo3"
+        android:checkable="false"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/create_poll"
+        android:title="Create Poll"
+        android:icon="@drawable/create"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="4"
+        app:showAsAction="never" />
+
+
 </menu>

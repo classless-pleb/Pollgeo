@@ -1,6 +1,7 @@
 package ndejaco.pollgeo;
 
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
@@ -12,7 +13,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -20,6 +23,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.app.ActionBar;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
@@ -40,7 +45,7 @@ import java.util.List;
 
 import ndejaco.pollgeo.Model.*;
 
-public class LocalHomeListActivity extends ListActivity implements LocationListener,
+public class LocalHomeListActivity extends AppCompatActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -99,6 +104,13 @@ public class LocalHomeListActivity extends ListActivity implements LocationListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_list);
 
+        // set up app toolbar and actionBar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
+
         // Create a new global location parameters object
         locationRequest = LocationRequest.create();
 
@@ -149,7 +161,10 @@ public class LocalHomeListActivity extends ListActivity implements LocationListe
 
         // Sets a blank homeView Adapter with no data
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
-        setListAdapter(mHomeViewAdapter);
+
+        // Change this to be able to extend AppCompatActivity
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(mHomeViewAdapter);
 
         // Set up the PullRefreshLayout and add the listener.
         swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
@@ -183,6 +198,8 @@ public class LocalHomeListActivity extends ListActivity implements LocationListe
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
     }
+
+
 
 
     private byte[] compressAndConvertImageToByteFrom(Bitmap imageBitmap) {
@@ -278,19 +295,46 @@ public class LocalHomeListActivity extends ListActivity implements LocationListe
         return true;
     }
 
+    /*
+    onOptionsItemSelected handles the clickable action tabs in the action bar
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        if (id == R.id.logOutButton) {
-            ParseUser.logOut();
-            navigateToLogin();
+        // Handle action bar item clicks here.
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                Log.i(TAG, "Settings clicked");
+                return true;
+
+            case R.id.create_poll:
+                // User chose the "create_poll" action, take the user to create poll
+                Log.i(TAG, "create_poll clicked");
+                // go to MakePollActivity
+                navigateToMakePoll();
+                return true;
+
+
+            case R.id.drawer:
+                // User chose the "drawer" item, slide out the drawer from the left
+                Log.i(TAG, "Drawer clicked");
+                //open the side view drawer
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
 
-        return super.onOptionsItemSelected(item);
+
+//        if (id == R.id.logOutButton) {
+//            ParseUser.logOut();
+//            navigateToLogin();
+//        }
     }
 
     /*
