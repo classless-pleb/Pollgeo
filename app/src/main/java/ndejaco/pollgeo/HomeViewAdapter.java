@@ -144,6 +144,56 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         votes3.setText((String) (poll.getOptionCount(2) + ""));
         votes4.setText((String) (poll.getOptionCount(3) + ""));
 
+
+        boolean buttonSet = false;
+        if (!buttonSet && poll.getList("option" + 0 + "count") != null) {
+            for (int j = 0; j < poll.getList("option" + 0 + "count").size(); j++) {
+                if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 0 + "count").get(j)) {
+                    option1button.setBackgroundResource(R.drawable.voted);
+                    option2button.setBackgroundResource(R.drawable.not_voted);
+                    option3button.setBackgroundResource(R.drawable.not_voted);
+                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    buttonSet = true;
+                }
+            }
+        }
+
+        if(!buttonSet && poll.getList("option" + 1 + "count")!= null) {
+            for (int j = 0; j < poll.getList("option" + 1 + "count").size(); j++) {
+                if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 1 + "count").get(j)) {
+                    option2button.setBackgroundResource(R.drawable.voted);
+                    option1button.setBackgroundResource(R.drawable.not_voted);
+                    option3button.setBackgroundResource(R.drawable.not_voted);
+                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    buttonSet = true;
+                }
+            }
+        }
+
+        if(!buttonSet && poll.getList("option" + 2 + "count")!= null) {
+            for (int j = 0; j < poll.getList("option" + 2 + "count").size(); j++) {
+                if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 2 + "count").get(j)) {
+                    option3button.setBackgroundResource(R.drawable.voted);
+                    option1button.setBackgroundResource(R.drawable.not_voted);
+                    option2button.setBackgroundResource(R.drawable.not_voted);
+                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    buttonSet = true;
+                }
+            }
+        }
+
+        if(!buttonSet && poll.getList("option" + 3 + "count")!= null) {
+            for (int j = 0; j < poll.getList("option" + 3 + "count").size(); j++) {
+                if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 3 + "count").get(j)) {
+                    option4button.setBackgroundResource(R.drawable.voted);
+                    option1button.setBackgroundResource(R.drawable.not_voted);
+                    option2button.setBackgroundResource(R.drawable.not_voted);
+                    option3button.setBackgroundResource(R.drawable.not_voted);
+                    buttonSet = true;
+                }
+            }
+        }
+
         // Sets option1 button tag to store its position in mPolls.
         // Then on click adds vote to correct poll and correct option
         // Also, adds vote activity to link current user with option with poll
@@ -196,6 +246,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         });
 
 
+
         // Sets vote1 tag position in order to get correct poll onClick
         // On click navigates to voter view to show which users voted on that option in this poll
         votes1.setTag(position);
@@ -241,6 +292,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 navigateToVoterView(mPolls.get(position), "3");
             }
         });
+
+
 
         //returns view
         return v;
