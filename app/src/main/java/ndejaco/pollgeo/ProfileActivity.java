@@ -37,9 +37,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Hide the stupid action bar
-        ActionBar bar = getSupportActionBar();
-        bar.hide();
         setContentView(R.layout.activity_profile);
 
         Bundle extras = getIntent().getExtras();
