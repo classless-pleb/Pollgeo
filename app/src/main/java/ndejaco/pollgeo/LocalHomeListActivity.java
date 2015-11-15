@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,11 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ActionBar;
+
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
@@ -58,6 +61,9 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
     private Context mContext;
     private ListView mDrawerList;
     private String[] mSections;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+    private CharSequence mTitle = "Pollgeo";
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
@@ -103,12 +109,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_list);
-
-        // set up app toolbar and actionBar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
 
         // Create a new global location parameters object
@@ -196,6 +196,38 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+
+        // set up app toolbar and actionBar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true); // this will be to go back
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setLogo(R.drawable.ic_drawer);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                // need a tool bar here????
+                toolbar,  /* tool bar */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        );
+
+        //   mDrawerToggle.syncState();
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+//        View logoView = getToolbarLogoView(toolbar);
+//        logoView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //logo clicked
+//            }
+//        });
 
     }
 
@@ -300,7 +332,11 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            Log.i(TAG, "Drawer toggle clicked!!!!");
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+            return true;
+        }
         // Handle action bar item clicks here.
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -329,12 +365,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
                 return super.onOptionsItemSelected(item);
 
         }
-
-
-//        if (id == R.id.logOutButton) {
-//            ParseUser.logOut();
-//            navigateToLogin();
-//        }
     }
 
     /*

@@ -40,4 +40,6 @@
     <string name="profile_login_button_label">Log in</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>
