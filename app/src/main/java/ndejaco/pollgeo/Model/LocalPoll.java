@@ -1,5 +1,7 @@
 package ndejaco.pollgeo.Model;
 
+import android.util.Log;
+
 import com.parse.ParseGeoPoint;
 
 /**
@@ -13,5 +15,9 @@ public class LocalPoll extends Poll {
 
     public void setLocation(ParseGeoPoint value) {
         put("location", value);
+    }
+
+    public void setUserId(String id){
+        put("userID",id);
     }
 }

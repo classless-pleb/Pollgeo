@@ -74,6 +74,9 @@ public class DrawerAdapter extends ArrayAdapter<String> {
                 break;
             case 3:
                 //Settings go here.
+                Intent intent3 = new Intent(mContext, SettingsActivity.class);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent3);
                 break;
         }
     }

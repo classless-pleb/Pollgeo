@@ -1,5 +1,6 @@
 package ndejaco.pollgeo;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,12 +26,13 @@ import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends ListActivity {
 
     protected ParseUser currentUser;
     private ListView mDrawerList;
     private String[] mSections;
     private DrawerLayout mDrawerLayout;
+    private HomeViewAdapter mProfileViewAdapter;
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
@@ -44,8 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
         if(extras != null){
             user = (String)extras.get("target");
         }
-
-        Log.e("In profile activity","Username = " + user);
 
         ParseUser pu = null;
         if(user.equals(ParseUser.getCurrentUser().getUsername())){
@@ -114,6 +114,10 @@ public class ProfileActivity extends AppCompatActivity {
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
+
+        mProfileViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
+        setListAdapter(mProfileViewAdapter);
+
         updateData();
     }
 
@@ -150,14 +154,23 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        ParseQuery<Poll> query = new ParseQuery<Poll>("GroupPoll");
+        ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
         query.orderByDescending("createdAt");
-        query.whereEqualTo("user", currentUser);
+        try{
+            currentUser.fetchIfNeeded();
+        }catch(Exception e){
+            return;
+        }
+
+        Log.i("Here -->","In update data with " + currentUser.getObjectId());
+        query.whereEqualTo("userID", currentUser.getObjectId());
         query.findInBackground(new FindCallback<Poll>() {
 
             @Override
             public void done(List<Poll> polls, com.parse.ParseException e) {
                 if (polls != null) {
+                    mProfileViewAdapter.clear();
+                    mProfileViewAdapter.addAll(polls);
                 }
             }
         });

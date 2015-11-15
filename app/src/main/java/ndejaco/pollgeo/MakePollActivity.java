@@ -145,6 +145,7 @@ public class MakePollActivity extends AppCompatActivity {
             currentPoll.setTitle(title);
             currentPoll.setLocation(geoPoint);
             currentPoll.setTotalOptions(options.size());
+            currentPoll.setUserId(ParseUser.getCurrentUser().getObjectId());
             return currentPoll;
         }
 

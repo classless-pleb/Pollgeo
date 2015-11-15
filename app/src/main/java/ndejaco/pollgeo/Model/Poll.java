@@ -1,5 +1,7 @@
 package ndejaco.pollgeo.Model;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -23,6 +25,7 @@ public class Poll extends ParseObject {
     public ParseUser getUser() {
         return getParseUser("user");
     }
+    public String getObjID(){return (String)get("userID");}
     public void setUser(ParseUser user) {
         put("user", user);
     }
