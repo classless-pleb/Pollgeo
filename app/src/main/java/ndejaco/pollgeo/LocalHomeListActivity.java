@@ -285,7 +285,11 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
 
         Log.i(TAG, "Starting query");
         ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
-        query.whereWithinMiles("location", geoPointFromLocation(myLoc), 10);
+        int s = 10;
+        if(currentUser.get("searchRadius") != null){
+            s = (int)currentUser.get("searchRadius");
+        }
+        query.whereWithinMiles("location", geoPointFromLocation(myLoc), s);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Poll>() {
 
