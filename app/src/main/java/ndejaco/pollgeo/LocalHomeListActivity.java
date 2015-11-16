@@ -17,12 +17,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +63,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
     private ListView mDrawerList;
     private String[] mSections;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar toolbar;
     private CharSequence mTitle = "Pollgeo";
 
     //Refresh layout swipe
@@ -104,6 +104,8 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
     private static final long FAST_INTERVAL_CEILING_IN_MILLISECONDS = MILLISECONDS_PER_SECOND
             * FAST_CEILING_IN_SECONDS;
 
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,14 +143,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
 
         mContext = this;
 
-        // Button listener will navigate to screen where user can make poll
-        create_button = (Button) findViewById(R.id.makePoll);
-        create_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToMakePoll();
-            }
-        });
 
         logOutButton = (Button) findViewById(R.id.logOutButton);
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +155,7 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
 
         // Sets a blank homeView Adapter with no data
         mHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
+
 
         // Change this to be able to extend AppCompatActivity
         ListView list = (ListView) findViewById(R.id.list);
@@ -203,10 +198,11 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
         setSupportActionBar(toolbar);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true); // this will be to go back
+
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setLogo(R.drawable.ic_drawer);
+
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -221,17 +217,9 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-//        View logoView = getToolbarLogoView(toolbar);
-//        logoView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //logo clicked
-//            }
-//        });
+
 
     }
-
-
 
 
     private byte[] compressAndConvertImageToByteFrom(Bitmap imageBitmap) {
@@ -261,7 +249,7 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+        /*if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
             create_button.setText("No Internet Connection Detected :(");
             create_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -276,7 +264,7 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
                     navigateToMakePoll();
                 }
             });
-        }
+        }*/
 
         if(myLoc == null){
             return;
@@ -356,12 +344,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
                 return true;
 
 
-            case R.id.drawer:
-                // User chose the "drawer" item, slide out the drawer from the left
-                Log.i(TAG, "Drawer clicked");
-                //open the side view drawer
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-                return true;
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -559,8 +541,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
             errorFragment.show(getFragmentManager(), PollgeoApplication.APPTAG);
         }
     }
-
-
 
     /*
    * Define a DialogFragment to display the error dialog generated in showErrorDialog.

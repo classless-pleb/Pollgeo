@@ -31,6 +31,7 @@ public class MakePollActivity extends AppCompatActivity {
     private EditText option3;
     private EditText option4;
     private Button submit;
+    private Button photoButton;
     private Poll currentPoll;
     private ParseGeoPoint geoPoint;
     private String type;
@@ -65,6 +66,15 @@ public class MakePollActivity extends AppCompatActivity {
         option3 = (EditText) findViewById(R.id.option3);
         option4 = (EditText) findViewById(R.id.option4);
         submit = (Button) findViewById(R.id.submit);
+
+        photoButton = (Button) findViewById(R.id.photo);
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MakePollActivity.this, PhotoUpload.class);
+                startActivity(intent);
+            }
+        });
 
 
         // On click of submit gets title and option strings.

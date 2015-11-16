@@ -2,22 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context="ndejaco.pollgeo.LocalHomeListActivity">
 
-    <item
-        android:id="@+id/drawer"
-        android:title="Drawer"
-        android:icon="@drawable/ic_drawer"
-        android:orderInCategory="1"
-        android:checkable="false"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/activityTitle"
-        android:title="Local Polls"
-        android:icon="@drawable/pollgeo3"
-        android:checkable="false"
-        android:orderInCategory="3"
-        app:showAsAction="ifRoom" />
-
 
     <item
         android:id="@+id/create_poll"
@@ -25,12 +9,6 @@
         android:icon="@drawable/create"
         android:orderInCategory="2"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="4"
-        app:showAsAction="never" />
 
 
 </menu>

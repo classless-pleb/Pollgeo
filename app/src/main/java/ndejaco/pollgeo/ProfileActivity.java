@@ -1,23 +1,28 @@
 package ndejaco.pollgeo;
 
+
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -26,16 +31,19 @@ import java.util.List;
 
 import ndejaco.pollgeo.Model.Poll;
 
-public class ProfileActivity extends ListActivity {
+public class ProfileActivity extends Activity {
 
     protected ParseUser currentUser;
     private ListView mDrawerList;
     private String[] mSections;
     private DrawerLayout mDrawerLayout;
     private HomeViewAdapter mProfileViewAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,53 +51,51 @@ public class ProfileActivity extends ListActivity {
 
         Bundle extras = getIntent().getExtras();
         String user = "";
-        if(extras != null){
-            user = (String)extras.get("target");
+        if (extras != null) {
+            user = (String) extras.get("target");
         }
 
         ParseUser pu = null;
-        if(user.equals(ParseUser.getCurrentUser().getUsername())){
+        if (user.equals(ParseUser.getCurrentUser().getUsername())) {
             pu = ParseUser.getCurrentUser();
-        }
-        else if(!user.equals("")){
+        } else if (!user.equals("")) {
             ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username",user);
+            query.whereEqualTo("username", user);
             List<ParseUser> userList = null;
             try {
                 userList = query.find();
-            }catch(Exception e){
+            } catch (Exception e) {
             }
 
-            if(userList != null){
+            if (userList != null) {
                 try {
                     pu = userList.get(0);
-                }catch(Exception e){
-                    Log.e("In profile activity","The list is empty.");
+                } catch (Exception e) {
+                    Log.e("In profile activity", "The list is empty.");
                 }
-            }
-            else{
-                Log.e("In profile activity","The returned list is null");
+            } else {
+                Log.e("In profile activity", "The returned list is null");
             }
         }
 
-        if(pu == null){
-            Log.e("in profile activity","exception happened.");
+        if (pu == null) {
+            Log.e("in profile activity", "exception happened.");
         }
 
         currentUser = pu;
 
         ProfilePictureView fbPhoto = (ProfilePictureView) findViewById(R.id.profilePicture);
         fbPhoto.setPresetSize(ProfilePictureView.LARGE);
-        if(pu.get("facebookId") != null ){
+        if (pu.get("facebookId") != null) {
             fbPhoto.setProfileId((String) pu.get("facebookId"));
         }
 
-        TextView userName = (TextView)findViewById(R.id.profileName);
-        userName.setText((String)pu.get("name"));
+        TextView userName = (TextView) findViewById(R.id.profileName);
+        userName.setText((String) pu.get("name"));
 
-        TextView scoreText = (TextView)findViewById(R.id.scoreText);
-        Integer userScore = (Integer)pu.get("score");
-        if(userScore == null){
+        TextView scoreText = (TextView) findViewById(R.id.scoreText);
+        Integer userScore = (Integer) pu.get("score");
+        if (userScore == null) {
             userScore = 0;
         }
 
@@ -114,9 +120,19 @@ public class ProfileActivity extends ListActivity {
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
+        ListView lv = (ListView) findViewById(R.id.list);
+
 
         mProfileViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
-        setListAdapter(mProfileViewAdapter);
+        lv.setAdapter(mProfileViewAdapter);
+
+
+        android.app.ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+
+
 
         updateData();
     }
@@ -140,6 +156,10 @@ public class ProfileActivity extends ListActivity {
             return true;
         }
 
+        if (id == android.R.id.home) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,19 +170,19 @@ public class ProfileActivity extends ListActivity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
             return;
         }
 
         ParseQuery<Poll> query = new ParseQuery<Poll>("Poll");
         query.orderByDescending("createdAt");
-        try{
+        try {
             currentUser.fetchIfNeeded();
-        }catch(Exception e){
+        } catch (Exception e) {
             return;
         }
 
-        Log.i("Here -->","In update data with " + currentUser.getObjectId());
+        Log.i("Here -->", "In update data with " + currentUser.getObjectId());
         query.whereEqualTo("userID", currentUser.getObjectId());
         query.findInBackground(new FindCallback<Poll>() {
 

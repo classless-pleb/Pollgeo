@@ -19,23 +19,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_gravity="top"
             android:background="#FFDE5842"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <Button
-            android:id="@+id/makePoll"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_gravity="top"
-            android:background="#dea397"
-            android:text="Create a Poll"
-            android:textColor="#FFEDEDEA"
-            android:textSize="15sp"
-            android:layout_below="@+id/toolbar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
 
         <com.baoyz.widget.PullRefreshLayout
             android:id="@+id/swipe_container"
@@ -43,7 +30,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/makePoll"
+            android:layout_below="@+id/toolbar"
             android:layout_gravity="left|top">
 
 
@@ -52,7 +39,7 @@
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/makePoll"
+                android:layout_below="@+id/toolbar"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
