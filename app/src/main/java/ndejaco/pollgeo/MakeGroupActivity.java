@@ -1,5 +1,7 @@
 package ndejaco.pollgeo;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -7,6 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +46,7 @@ import ndejaco.pollgeo.Model.Poll;
  * Created by Matthew on 10/13/2015.
  * MakeGroupActivity is responsible for making a group
  */
-public class MakeGroupActivity extends ListActivity {
+public class MakeGroupActivity extends Activity {
 
     private static final String TAG = MakeGroupActivity.class.getSimpleName();
 
@@ -69,7 +74,6 @@ public class MakeGroupActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.make_group);
 
-        ListView lv = getListView();
         // Gets intent passed to this activity
         Intent passed = getIntent();
 
@@ -141,6 +145,11 @@ public class MakeGroupActivity extends ListActivity {
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Pollgeo");
 
         // grab the users friend and display them to add
         setUpFriendsList();
@@ -218,7 +227,8 @@ public class MakeGroupActivity extends ListActivity {
         // Sets a friends View Adapter with friendsList
 //       ListView friendsListView = (ListView) findViewById(android.R.id.list);
         friendsViewAdapter = new friendsViewAdapter(this, friendsList, currentGroup);
-        setListAdapter(friendsViewAdapter);
+        ListView lv = (ListView) findViewById(R.id.list);
+        lv.setAdapter(friendsViewAdapter);
 
     }
 
@@ -345,5 +355,32 @@ public class MakeGroupActivity extends ListActivity {
         currentGroup.addMember(user);
 
     } //end of addMember()
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_group_make, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 }
 

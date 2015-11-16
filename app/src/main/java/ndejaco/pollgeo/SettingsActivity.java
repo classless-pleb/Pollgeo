@@ -1,10 +1,13 @@
 package ndejaco.pollgeo;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends Activity {
 
     protected ParseUser currentUser;
     private ListView mDrawerList;
@@ -139,6 +142,13 @@ public class SettingsActivity extends AppCompatActivity {
              }
             }
         });
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Pollgeo");
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
     }
 
     @Override
@@ -158,6 +168,10 @@ public class SettingsActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == android.R.id.home) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
         }
 
         return super.onOptionsItemSelected(item);

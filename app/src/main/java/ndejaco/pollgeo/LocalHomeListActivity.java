@@ -9,25 +9,24 @@ import android.content.Context;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
-import android.app.ActionBar;
+
 
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -63,7 +62,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
     private ListView mDrawerList;
     private String[] mSections;
     private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mTitle = "Pollgeo";
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
@@ -204,18 +202,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
         actionBar.setHomeButtonEnabled(true);
 
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                // need a tool bar here????
-                toolbar,  /* tool bar */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        );
-
-        //   mDrawerToggle.syncState();
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 
 
@@ -244,27 +230,6 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
 
         // Queries poll data and orders by most recent polls. Finds in background.
         Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
-
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-        /*if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()){
-            create_button.setText("No Internet Connection Detected :(");
-            create_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ;
-                }
-            });
-        }else{
-            create_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navigateToMakePoll();
-                }
-            });
-        }*/
 
         if(myLoc == null){
             return;
@@ -324,26 +289,22 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            Log.i(TAG, "Drawer toggle clicked!!!!");
-            mDrawerLayout.openDrawer(Gravity.LEFT);
-            return true;
-        }
+
         // Handle action bar item clicks here.
         switch (item.getItemId()) {
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 Log.i(TAG, "Settings clicked");
                 return true;
-
             case R.id.create_poll:
                 // User chose the "create_poll" action, take the user to create poll
                 Log.i(TAG, "create_poll clicked");
                 // go to MakePollActivity
                 navigateToMakePoll();
                 return true;
-
-
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+                return true;
 
             default:
                 // If we got here, the user's action was not recognized.

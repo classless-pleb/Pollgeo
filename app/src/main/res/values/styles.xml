@@ -9,6 +9,11 @@
 
     <style name="MyActionBar" parent="Theme.AppCompat.Light">
         <item name="android:background">#FFDE5842</item>
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
         <!-- Customize your theme here. -->
 

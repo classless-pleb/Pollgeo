@@ -1,9 +1,10 @@
 package ndejaco.pollgeo;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +24,7 @@ import ndejaco.pollgeo.Model.GroupPoll;
 import ndejaco.pollgeo.Model.LocalPoll;
 import ndejaco.pollgeo.Model.Poll;
 
-public class MakePollActivity extends AppCompatActivity {
+public class MakePollActivity extends Activity {
 
     private EditText title;
     private EditText option1;
@@ -142,6 +143,12 @@ public class MakePollActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Pollgeo");
 
     }
 

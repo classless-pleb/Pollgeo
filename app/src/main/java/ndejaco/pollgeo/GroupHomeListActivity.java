@@ -1,5 +1,7 @@
 package ndejaco.pollgeo;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
@@ -12,7 +14,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +44,7 @@ import ndejaco.pollgeo.Model.Poll;
 /**
  * Created by Nicholas on 10/31/2015.
  */
-public class GroupHomeListActivity extends ListActivity {
+public class GroupHomeListActivity extends AppCompatActivity {
 
     // TAG used for debugging
     private static final String TAG = GroupHomeListActivity.class.getSimpleName();
@@ -50,6 +55,7 @@ public class GroupHomeListActivity extends ListActivity {
     private Context mContext;
     private ListView mDrawerList;
     private String[] mSections;
+    private Toolbar toolbar;
 
     //Refresh layout swipe
     private PullRefreshLayout swipeLayout;
@@ -81,26 +87,11 @@ public class GroupHomeListActivity extends ListActivity {
 
 
         // Button listener will navigate to screen where user can make poll
-        create_button = (Button) findViewById(R.id.makePoll);
-        create_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToMakePoll();
-            }
-        });
-
-        logOutButton = (Button) findViewById(R.id.logOutButton);
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                navigateToLogin();
-            }
-        });
 
         // Sets a blank homeView Adapter with no data
         mGroupHomeViewAdapter = new HomeViewAdapter(this, new ArrayList<Poll>());
-        setListAdapter(mGroupHomeViewAdapter);
+        ListView lv = (ListView) findViewById(R.id.list);
+        lv.setAdapter(mGroupHomeViewAdapter);
 
         // Set up the PullRefreshLayout and add the listener.
         swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
@@ -132,6 +123,16 @@ public class GroupHomeListActivity extends ListActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
 
         updateData();
 
@@ -199,14 +200,29 @@ public class GroupHomeListActivity extends ListActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        if (id == R.id.logOutButton) {
-            ParseUser.logOut();
-            navigateToLogin();
+        // Handle action bar item clicks here.
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                Log.i(TAG, "Settings clicked");
+                return true;
+            case R.id.create_poll:
+                // User chose the "create_poll" action, take the user to create poll
+                Log.i(TAG, "create_poll clicked");
+                // go to MakePollActivity
+                navigateToMakePoll();
+                return true;
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

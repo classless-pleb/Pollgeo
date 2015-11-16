@@ -7,14 +7,20 @@
     tools:context=".MainActivity">
 
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#FFEDEDEA"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:layout_height="fill_parent">
+
+        <app:android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="top"
+            android:background="#FFDE5842"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <com.baoyz.widget.PullRefreshLayout
             android:id="@+id/swipe_container"
@@ -22,47 +28,23 @@
             android:layout_height="fill_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/makePoll"
+            android:layout_below="@+id/toolbar"
             android:layout_gravity="left|top">
 
 
             <ListView
-                android:id="@android:id/list"
-                android:paddingTop="50dp"
+                android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/makeGroup"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
+                android:layout_below="@+id/toolbar"
                 android:paddingLeft="10dp"
-                android:background="#FFEDEDEA"
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="true"/>
         </com.baoyz.widget.PullRefreshLayout>
 
-        <Button
-            android:id="@+id/makeGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="top"
-            android:background="#FFDE5842"
-            android:text="Make Group"
-            android:textColor="#FFEDEDEA"
-            android:textSize="25sp"/>
-
-        <Button
-            android:id="@+id/logOutButton"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="Log out"/>
-    </FrameLayout>
+    </RelativeLayout>
 
     <RelativeLayout
     android:id="@+id/slider"

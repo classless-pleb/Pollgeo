@@ -1,19 +1,21 @@
 
 package ndejaco.pollgeo;
 
-import android.app.Activity;
-import android.app.ListActivity;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.facebook.login.widget.ProfilePictureView;
@@ -34,7 +36,7 @@ import ndejaco.pollgeo.Model.Poll;
  * GroupActivity is the activity that will handle Group Poll functionality
  * It will display group polls are in and the option to make a group poll
  */
-public class GroupActivity extends ListActivity {
+public class GroupActivity extends AppCompatActivity {
 
     // TAG used for debugging
     private static final String TAG = GroupActivity.class.getSimpleName();
@@ -47,6 +49,7 @@ public class GroupActivity extends ListActivity {
     private GroupViewAdapter mGroupViewAdapter;
     private ProfilePictureView fbPhoto;
     private ListView groupList;
+    private Toolbar toolBar;
 
 
     @Override
@@ -54,26 +57,13 @@ public class GroupActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_home);
 
-        create_button = (Button) findViewById(R.id.makeGroup);
-        create_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToMakeGroup();
-            }
-        });
 
-        logOutButton = (Button) findViewById(R.id.logOutButton);
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToLogin();
-            }
-        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mGroupViewAdapter = new GroupViewAdapter(this, new ArrayList<Group>());
-        setListAdapter(mGroupViewAdapter);
+        groupList = (ListView) findViewById(R.id.list);
+        groupList.setAdapter(mGroupViewAdapter);
 
         swipeLayout = (PullRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -96,7 +86,6 @@ public class GroupActivity extends ListActivity {
             }
         }
 
-        groupList = getListView();
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,6 +99,18 @@ public class GroupActivity extends ListActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
+
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Pollgeo");
 
         updateData();
 
@@ -148,8 +149,6 @@ public class GroupActivity extends ListActivity {
      */
     private void navigateToMakeGroup() {
         Intent intent = new Intent(this, MakeGroupActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
@@ -158,6 +157,36 @@ public class GroupActivity extends ListActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_group_make, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+
+        if (id == R.id.create_group) {
+            navigateToMakeGroup();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
