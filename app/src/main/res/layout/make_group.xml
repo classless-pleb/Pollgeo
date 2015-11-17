@@ -63,11 +63,9 @@
         android:id="@+id/list"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/createGroupButton"
         android:layout_above="@+id/finishButton" />
 
     <Button
-        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Finish"
@@ -75,14 +73,24 @@
         android:background="#FFDE5842"
         android:textColor="#FFEDEDEA"
         android:gravity="center"
-        android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="0dp"/>
+        android:layout_alignParentStart="true"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Photo"
+        android:id="@+id/photoButton"
+        android:background="#FFDE5842"
+        android:textColor="#FFEDEDEA"
+        android:layout_above="@+id/finishButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 
 </RelativeLayout>

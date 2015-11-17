@@ -1,12 +1,16 @@
 package ndejaco.pollgeo;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseImageView;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -34,9 +38,30 @@ public class GroupViewAdapter extends ArrayAdapter<Group> {
         // Gets the username from the user that voted and sets the text to the username
 
         TextView userText = (TextView) v.findViewById(R.id.GroupName);
+        ParseImageView groupPhoto = (ParseImageView) v.findViewById(R.id.GroupPhoto);;
 
-        if (mGroups.get(position) != null) {
-            userText.setText((String) mGroups.get(position).getName());
+        Group current = mGroups.get(position);
+
+
+
+        if (current != null) {
+            userText.setText((String) current.getName());
+            Log.i("GroupViewAdapter", "found name" + position);
+
+            if (current == null) {
+                Log.i("GroupViewAdapter", "lost user" + position);
+            }
+
+            if (current.getPhoto() != null) {
+                Log.i("GroupViewAdapter", "found photo" + position);
+                groupPhoto.setParseFile(current.getPhoto());
+                groupPhoto.loadInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, ParseException e) {
+
+                    }
+                });
+            }
         }
 
 

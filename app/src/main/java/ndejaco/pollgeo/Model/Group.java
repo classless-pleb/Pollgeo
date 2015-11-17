@@ -49,13 +49,6 @@ public class Group extends ParseObject {
         return getList("members");
     }
 
-    public void addPoll(Poll newPoll) {
-        add("poll", newPoll);
-    }
-
-    public List<Poll> getPolls() {
-        return getList("poll");
-    }
 
     /*
     removeMember removes a user from the group
@@ -64,6 +57,14 @@ public class Group extends ParseObject {
         List<ParseUser> toRemove = new ArrayList<ParseUser>();
         toRemove.add(user);
         removeAll("members", toRemove);
+    }
+
+    public void addPhoto(ParseFile photo) {
+        put("photo", photo);
+    }
+
+    public ParseFile getPhoto() {
+        return getParseFile("photo");
     }
 
 

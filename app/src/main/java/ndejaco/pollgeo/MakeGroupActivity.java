@@ -5,6 +5,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +33,7 @@ import com.facebook.HttpMethod;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -36,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +74,8 @@ public class MakeGroupActivity extends Activity {
     private String[] mSections;
     private PullRefreshLayout swipeLayout;
     private ProfilePictureView fbPhoto;
-
+    private Button photoButton;
+    private ParseFile photoFile;
 
 
     @Override
@@ -145,6 +154,15 @@ public class MakeGroupActivity extends Activity {
         mSections = getResources().getStringArray(R.array.sections_array);
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
+        photoButton = (Button) findViewById(R.id.photoButton);
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+            }
+        });
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -160,7 +178,7 @@ public class MakeGroupActivity extends Activity {
     setUpFriendsList() maekes a request to Facebook to grab the Parse users' friends, creating the friendsList array list
      in the process.
      */
-    public void setUpFriendsList(){
+    public void setUpFriendsList() {
         /* make the API call to get users friends list*/
         GraphRequest friendsRequest = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -192,7 +210,7 @@ public class MakeGroupActivity extends Activity {
                                 } // end of for loop
                                 Log.d(TAG, "IN Request call");
                                 Log.d(TAG, "FriendsList array size: ---" + friendsList.size());
-                                for ( ParseUser pu : friendsList) {
+                                for (ParseUser pu : friendsList) {
                                     Log.d(TAG, "IN FRIENDS LIST FOR LOOP!");
                                     Log.d(TAG, "name " + pu.get("name") + " IN FRIENDS LIST");
                                 }
@@ -201,8 +219,7 @@ public class MakeGroupActivity extends Activity {
                                 e.printStackTrace();
                                 Log.d(TAG, "Problem Facebook request for friends in OnCreate()");
                             }
-                        }
-                        else {
+                        } else {
                             Log.d(TAG, "Facebook friends request could not be found");
                         }
                     }
@@ -218,9 +235,9 @@ public class MakeGroupActivity extends Activity {
     /*
     setupAdapter sets up the list view adapter, friendsViewAdapter for adding friends
      */
-    public void setupAdapter(){
+    public void setupAdapter() {
         Log.d(TAG, "In SetupAdapter, FriendsList array size: ---" + friendsList.size());
-        for ( ParseUser pu : friendsList) {
+        for (ParseUser pu : friendsList) {
             Log.d(TAG, "IN FRIENDS LIST FOR LOOP!");
             Log.d(TAG, "name " + pu.get("name") + " IN FRIENDS LIST");
         }
@@ -236,7 +253,7 @@ public class MakeGroupActivity extends Activity {
     /*
     navigateToGroupActivity exits the make group activity and its view and moves the user back to the main group view, GroupActivity
      */
-    public void navigateToGroupActivity(){
+    public void navigateToGroupActivity() {
         Intent intent = new Intent(this, GroupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -261,24 +278,17 @@ public class MakeGroupActivity extends Activity {
             createGroupButton.setEnabled(true); //dont want user to spam click the button
             createGroupButton.setClickable(true);
             return;
-        }
-        else { //create a group, and add the user who created the group to the group
+        } else { //create a group, and add the user who created the group to the group
             //create the group
             currentGroup = createGroup(groupNameString); //create the initial empty group
             addMember(creator); //first add the person who created the group to the group
             Log.d(TAG, "MAKEGROUP BUTTON FRIENDSLIST SIZE: --- " + friendsList.size());
-            for(ParseUser pu: friendsList) {
+            for (ParseUser pu : friendsList) {
                 Log.d(TAG, "Adding " + pu.get("name") + " to current group");
             }
             // set up the list for adding friends
             setupAdapter();
 
-            // save the group to the database
-            currentGroup.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                }
-            });
             //set createGroupButton and groupName to GONE
             createGroupButton.setText("GROUP " + groupNameString + " CREATED");
             createGroupButton.setVisibility(View.GONE);
@@ -291,8 +301,6 @@ public class MakeGroupActivity extends Activity {
             finishButton.setClickable(true);
 
 
-
-
         }
 
     }
@@ -302,7 +310,7 @@ public class MakeGroupActivity extends Activity {
         createGroup takes in a string which is to be the name of a group and list of usernames for the users to be in the
         group and creates a group, and returns that group
      */
-    private Group createGroup(String groupName){
+    private Group createGroup(String groupName) {
         Group group = new Group();
         group.setName(groupName);
         return group;
@@ -312,7 +320,7 @@ public class MakeGroupActivity extends Activity {
     /*
     searchForFriend takes in a Facebook string id and queries the Parse database for the user with that Facebook id
      */
-    public void searchForFriend(String fbId){
+    public void searchForFriend(String fbId) {
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("facebookId", fbId);
@@ -344,7 +352,6 @@ public class MakeGroupActivity extends Activity {
         }); // end of query
 
     }
-
 
 
     /*
@@ -381,6 +388,62 @@ public class MakeGroupActivity extends Activity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String[] projection = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(projection[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+
+                    Bitmap selectedImageScaled = Bitmap.createScaledBitmap(selectedImage, 100, 100, false);
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    selectedImageScaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+                    byte[] scaledData = bos.toByteArray();
+
+                    // Save the scaled image to Parse
+                    photoFile = new ParseFile("group_photo.jpg", scaledData);
+                    photoFile.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (currentGroup != null) {
+                                Log.i(TAG, "uploaded photo");
+                                currentGroup.addPhoto(photoFile);
+                                currentGroup.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.i(TAG, "added Photo");
+                                    }
+                                });
+
+
+                            }
+                        }
+                    });
+
+                }
+                break;
+
+            default:
+                break;
+
+        }
+
+
     }
 }
 
