@@ -40,7 +40,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLength="20"
-        android:maxLines="2" />
+        android:maxLines="2"
+        android:textColor="#FFDE5842" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +56,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLength="20"
-        android:maxLines="2" />
+        android:maxLines="2"
+        android:textColor="#FFDE5842" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -79,7 +81,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLength="20"
-        android:maxLines="2" />
+        android:maxLines="2"
+        android:textColor="#FFDE5842" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -103,7 +106,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLength="20"
-        android:maxLines="2" />
+        android:maxLines="2"
+        android:textColor="#FFDE5842" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -126,7 +130,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="29dp"
-        android:layout_marginEnd="29dp"/>
+        android:layout_marginEnd="29dp"
+        android:textColor="#FFDE5842" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -139,7 +144,8 @@
         android:layout_alignBaseline="@+id/option2"
         android:layout_alignBottom="@+id/option2"
         android:layout_alignLeft="@+id/votes1"
-        android:layout_alignStart="@+id/votes1"/>
+        android:layout_alignStart="@+id/votes1"
+        android:textColor="#FFDE5842" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -151,7 +157,8 @@
         android:textSize="20dp"
         android:layout_alignTop="@+id/option3"
         android:layout_alignLeft="@+id/votes2"
-        android:layout_alignStart="@+id/votes2"/>
+        android:layout_alignStart="@+id/votes2"
+        android:textColor="#FFDE5842" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -163,7 +170,8 @@
         android:textSize="20dp"
         android:layout_alignTop="@+id/option4"
         android:layout_alignLeft="@+id/votes3"
-        android:layout_alignStart="@+id/votes3"/>
+        android:layout_alignStart="@+id/votes3"
+        android:textColor="#FFDE5842" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
