@@ -254,10 +254,19 @@ public class MakeGroupActivity extends Activity {
     navigateToGroupActivity exits the make group activity and its view and moves the user back to the main group view, GroupActivity
      */
     public void navigateToGroupActivity() {
-        Intent intent = new Intent(this, GroupActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+
+        currentGroup.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                Intent intent = new Intent(MakeGroupActivity.this, GroupActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     /*
