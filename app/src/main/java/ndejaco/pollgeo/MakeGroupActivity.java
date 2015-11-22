@@ -78,6 +78,7 @@ public class MakeGroupActivity extends Activity {
     private ParseFile photoFile;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

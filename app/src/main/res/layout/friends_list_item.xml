@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:text="Add"
         android:id="@+id/checkBox"
+        android:focusable="false"
         android:checked="false"
         android:layout_below="@+id/fbPhoto"
         android:layout_alignParentLeft="true"
