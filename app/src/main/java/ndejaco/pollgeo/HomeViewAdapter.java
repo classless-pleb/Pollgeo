@@ -193,6 +193,13 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 }
             }
         }
+        
+        if (!buttonSet) {
+            option4button.setBackgroundResource(R.drawable.not_voted);
+            option1button.setBackgroundResource(R.drawable.not_voted);
+            option2button.setBackgroundResource(R.drawable.not_voted);
+            option3button.setBackgroundResource(R.drawable.not_voted);
+        }
 
         // Sets option1 button tag to store its position in mPolls.
         // Then on click adds vote to correct poll and correct option
