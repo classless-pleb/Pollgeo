@@ -150,7 +150,7 @@ public class SettingsActivity extends Activity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-        }catch(Exception e){
+        }catch(NoSuchMethodError e){
 
         }
     }

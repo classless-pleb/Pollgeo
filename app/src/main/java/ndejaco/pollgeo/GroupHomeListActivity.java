@@ -133,7 +133,7 @@ public class GroupHomeListActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-        }catch(Exception e){
+        }catch(NoSuchMethodError e){
 
         }
 

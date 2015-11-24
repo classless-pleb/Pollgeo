@@ -202,7 +202,7 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-        }catch(Exception e){
+        }catch(NoSuchMethodError e){
 
         }
 

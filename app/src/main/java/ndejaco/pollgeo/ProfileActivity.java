@@ -135,7 +135,7 @@ public class ProfileActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
         }
-        catch(Exception e){
+        catch(NoSuchMethodError e){
         }
 
         updateData();

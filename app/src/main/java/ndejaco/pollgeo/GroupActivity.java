@@ -112,7 +112,7 @@ public class GroupActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setTitle("Pollgeo");
-        }catch(Exception e){
+        }catch(NoSuchMethodError e){
 
         }
 
