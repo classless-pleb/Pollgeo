@@ -128,13 +128,15 @@ public class ProfileActivity extends Activity {
 
 
         android.app.ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Pollgeo");
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-
-
+        try{
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("Pollgeo");
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        }
+        catch(Exception e){
+        }
 
         updateData();
     }

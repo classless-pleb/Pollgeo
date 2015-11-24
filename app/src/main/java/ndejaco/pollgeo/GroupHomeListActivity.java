@@ -129,9 +129,13 @@ public class GroupHomeListActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        try{
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }catch(Exception e){
+
+        }
 
 
         updateData();

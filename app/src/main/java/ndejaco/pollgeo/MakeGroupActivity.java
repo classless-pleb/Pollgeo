@@ -115,11 +115,13 @@ public class MakeGroupActivity extends Activity {
 
         // set listener for make group button
         createGroupButton = (Button) findViewById(R.id.createGroupButton);
+        createGroupButton.setEnabled(true);
+        createGroupButton.setClickable(true);
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createGroupButton.setEnabled(false); //dont want user to spam click the button
-                createGroupButton.setClickable(false);
+                //createGroupButton.setEnabled(false); //dont want user to spam click the button
+                //createGroupButton.setClickable(false);
                 navigateToCreateGroup();
             }
         });

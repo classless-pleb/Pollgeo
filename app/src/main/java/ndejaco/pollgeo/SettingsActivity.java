@@ -143,12 +143,16 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Pollgeo");
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        try{
+            ActionBar actionBar = getActionBar();
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("Pollgeo");
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        }catch(Exception e){
+
+        }
     }
 
     @Override

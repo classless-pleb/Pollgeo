@@ -106,11 +106,15 @@ public class GroupActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Pollgeo");
+        try{
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("Pollgeo");
+        }catch(Exception e){
+
+        }
 
         updateData();
 
