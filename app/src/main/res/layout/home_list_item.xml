@@ -9,6 +9,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFDE5842"
         android:text="Poll Title"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -23,10 +24,12 @@
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option1button"
-        android:background="@drawable/not_voted"
+        android:background="@drawable/circle_plain"
         android:layout_below="@+id/title"
-        android:layout_alignLeft="@+id/option2button"
-        android:layout_alignStart="@+id/option2button" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,12 +39,16 @@
         android:id="@+id/option1"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_alignBottom="@+id/option1button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:maxLength="20"
         android:maxLines="2"
-        android:textColor="#FFDE5842" />
+        android:textColor="#FFDE5842"
+        android:paddingLeft="10dp"
+        android:paddingTop="12dp"
+        android:layout_alignBottom="@+id/option1button"
+        android:layout_toLeftOf="@+id/votes1"
+        android:layout_toRightOf="@+id/option1button"
+        android:layout_toEndOf="@+id/option1button"
+        android:layout_alignTop="@+id/option1button" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,22 +58,28 @@
         android:id="@+id/option2"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/option1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:maxLength="20"
         android:maxLines="2"
-        android:textColor="#FFDE5842" />
+        android:paddingLeft="10dp"
+        android:textColor="#FFDE5842"
+        android:paddingTop="12dp"
+        android:layout_alignBottom="@+id/option2button"
+        android:layout_toRightOf="@+id/option2button"
+        android:layout_toLeftOf="@+id/votes2"
+        android:layout_toStartOf="@+id/votes2"
+        android:layout_below="@+id/option1button" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option2button"
-        android:background="@drawable/not_voted"
-        android:layout_above="@+id/option3"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/circle_plain"
+        android:layout_below="@+id/option1button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -76,22 +89,28 @@
         android:id="@+id/option3"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/option2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:maxLength="20"
         android:maxLines="2"
-        android:textColor="#FFDE5842" />
+        android:paddingLeft="10dp"
+        android:paddingTop="12dp"
+        android:textColor="#FFDE5842"
+        android:layout_alignBottom="@+id/option3button"
+        android:layout_toRightOf="@+id/option3button"
+        android:layout_toLeftOf="@+id/votes3"
+        android:layout_toStartOf="@+id/votes3"
+        android:layout_below="@+id/option2" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option3button"
-        android:background="@drawable/not_voted"
-        android:layout_alignBottom="@+id/votes3"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/circle_plain"
+        android:layout_below="@+id/option2button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,87 +120,111 @@
         android:id="@+id/option4"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/option3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:maxLength="20"
         android:maxLines="2"
-        android:textColor="#FFDE5842" />
+        android:paddingLeft="10dp"
+        android:paddingTop="12dp"
+        android:textColor="#FFDE5842"
+        android:layout_alignBottom="@+id/option4button"
+        android:layout_toRightOf="@+id/option4button"
+        android:layout_toLeftOf="@+id/votes4"
+        android:layout_toStartOf="@+id/votes4"
+        android:layout_below="@+id/option3" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vote"
         android:id="@+id/option4button"
-        android:background="@drawable/not_voted"
-        android:layout_above="@+id/chart"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/circle_plain"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/option3button"
+        android:layout_toLeftOf="@+id/option3"
+        android:layout_toStartOf="@+id/option3"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Votes 1"
+        android:text="1,000"
         android:id="@+id/votes1"
+        android:paddingRight="5dp"
+        android:paddingTop="12dp"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_alignBottom="@+id/option1button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="29dp"
-        android:layout_marginEnd="29dp"
-        android:textColor="#FFDE5842" />
+        android:textColor="#FFDE5842"
+        android:layout_above="@+id/option2button"
+        android:layout_toRightOf="@+id/option2"
+        android:layout_alignRight="@+id/votes3"
+        android:layout_alignEnd="@+id/votes3"
+        android:layout_alignTop="@+id/option1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Votes 2"
+        android:text="1,000"
+        android:paddingRight="5dp"
+        android:paddingTop="12dp"
         android:id="@+id/votes2"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_alignBaseline="@+id/option2"
-        android:layout_alignBottom="@+id/option2"
-        android:layout_alignLeft="@+id/votes1"
-        android:layout_alignStart="@+id/votes1"
-        android:textColor="#FFDE5842" />
+        android:textColor="#FFDE5842"
+        android:layout_toRightOf="@+id/option3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/option3button"
+        android:layout_below="@+id/option1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Votes 3"
+        android:text="1,000"
         android:id="@+id/votes3"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:paddingRight="5dp"
+        android:paddingTop="12dp"
+        android:textColor="#FFDE5842"
         android:layout_alignTop="@+id/option3"
-        android:layout_alignLeft="@+id/votes2"
-        android:layout_alignStart="@+id/votes2"
-        android:textColor="#FFDE5842" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/option4" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Votes 4"
+        android:text="1,000"
+        android:paddingRight="5dp"
+        android:paddingTop="12dp"
         android:id="@+id/votes4"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:textColor="#FFDE5842"
         android:layout_alignTop="@+id/option4"
-        android:layout_alignLeft="@+id/votes3"
-        android:layout_alignStart="@+id/votes3"
-        android:textColor="#FFDE5842" />
+        android:layout_alignRight="@+id/votes3"
+        android:layout_alignEnd="@+id/votes3"
+        android:layout_toEndOf="@+id/option3"
+        android:layout_toRightOf="@+id/option3"
+        android:layout_above="@+id/chart" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chart"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/option4"
         android:minHeight="250dp"
         android:minWidth="250dp"
-        android:longClickable="true" />
+        android:longClickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

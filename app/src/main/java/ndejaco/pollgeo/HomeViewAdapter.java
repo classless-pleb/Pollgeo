@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         PieChart chart = (PieChart) v.findViewById(R.id.chart);
         chart.setNoDataText("");
         PieDataSet ds = new PieDataSet(entries, "");
-        int colors[] = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
+        int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
+                Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
         ds.setColors(colors);
         PieData pd = new PieData(descriptions, ds);
         chart.setData(pd);
@@ -106,7 +108,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         option3button.setEnabled(true);
         option4button.setEnabled(true);
 
-        //Sets title of poll to current polls title
+        //Sets title of poll to current polls title *************************************************************
         title.setText((String) poll.getTitle());
         title.setGravity(Gravity.CENTER);
         title.setTag(position);
@@ -123,7 +125,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             SpannableString ss = new SpannableString(titleText);
             ss.setSpan(new UnderlineSpan(), 0, titleText.length(), 0);
             title.setText(ss);
-            title.setTextColor(mContext.getResources().getColor(R.color.turq));
+            title.setTextColor(mContext.getResources().getColor(R.color.turq)); //change the text color
         }
 
 
@@ -150,9 +152,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             for (int j = 0; j < poll.getList("option" + 0 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 0 + "count").get(j)) {
                     option1button.setBackgroundResource(R.drawable.voted);
-                    option2button.setBackgroundResource(R.drawable.not_voted);
-                    option3button.setBackgroundResource(R.drawable.not_voted);
-                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    option2button.setBackgroundResource(R.drawable.circle_plain);
+                    option3button.setBackgroundResource(R.drawable.circle_plain);
+                    option4button.setBackgroundResource(R.drawable.circle_plain);
                     buttonSet = true;
                 }
             }
@@ -162,9 +164,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             for (int j = 0; j < poll.getList("option" + 1 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 1 + "count").get(j)) {
                     option2button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.not_voted);
-                    option3button.setBackgroundResource(R.drawable.not_voted);
-                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    option1button.setBackgroundResource(R.drawable.circle_plain);
+                    option3button.setBackgroundResource(R.drawable.circle_plain);
+                    option4button.setBackgroundResource(R.drawable.circle_plain);
                     buttonSet = true;
                 }
             }
@@ -174,9 +176,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             for (int j = 0; j < poll.getList("option" + 2 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 2 + "count").get(j)) {
                     option3button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.not_voted);
-                    option2button.setBackgroundResource(R.drawable.not_voted);
-                    option4button.setBackgroundResource(R.drawable.not_voted);
+                    option1button.setBackgroundResource(R.drawable.circle_plain);
+                    option2button.setBackgroundResource(R.drawable.circle_plain);
+                    option4button.setBackgroundResource(R.drawable.circle_plain);
                     buttonSet = true;
                 }
             }
@@ -186,19 +188,19 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             for (int j = 0; j < poll.getList("option" + 3 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 3 + "count").get(j)) {
                     option4button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.not_voted);
-                    option2button.setBackgroundResource(R.drawable.not_voted);
-                    option3button.setBackgroundResource(R.drawable.not_voted);
+                    option1button.setBackgroundResource(R.drawable.circle_plain);
+                    option2button.setBackgroundResource(R.drawable.circle_plain);
+                    option3button.setBackgroundResource(R.drawable.circle_plain);
                     buttonSet = true;
                 }
             }
         }
         
         if (!buttonSet) {
-            option4button.setBackgroundResource(R.drawable.not_voted);
-            option1button.setBackgroundResource(R.drawable.not_voted);
-            option2button.setBackgroundResource(R.drawable.not_voted);
-            option3button.setBackgroundResource(R.drawable.not_voted);
+            option4button.setBackgroundResource(R.drawable.circle_plain);
+            option1button.setBackgroundResource(R.drawable.circle_plain);
+            option2button.setBackgroundResource(R.drawable.circle_plain);
+            option3button.setBackgroundResource(R.drawable.circle_plain);
         }
 
         // Sets option1 button tag to store its position in mPolls.
@@ -332,7 +334,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
 
     /*
-    addVote takes in the poll which is being voted and i, which rperesnts the option which was chosen.
+    addVote takes in the poll which is being voted and i, which represents the option which was chosen.
     The option that was voted on gets incremented and if the user has already voted on the poll, any of their previous votes
     are deleted and decremented from their respective option count
      */
@@ -366,14 +368,15 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
     private boolean removePreviousVotes(Poll votedPoll, int optionCount, int ignore) {
         boolean found = false;
-        for (int i = 0; i < optionCount; i++) {
-            if (votedPoll.getOptionVoters(i) != null) {
+        for (int i = 0; i < optionCount; i++) { // loop through to see if any option contains current user
+            if (votedPoll.getOptionVoters(i) != null) { // if the list of users who voted on the particular option is not null
                 if (votedPoll.getOptionVoters(i).contains(ParseUser.getCurrentUser())) {
                     if (i == ignore) {
                         return false;
                     } else {
                         found = true;
                         votedPoll.removeUser(i, ParseUser.getCurrentUser());
+                        Log.d(TAG,  "i == " + i + ", and user: " + ParseUser.getCurrentUser());
                     }
                 }
             }
