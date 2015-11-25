@@ -31,7 +31,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationServices;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -39,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import ndejaco.pollgeo.Model.Group;
 import ndejaco.pollgeo.Model.Poll;
 
 /**
@@ -65,7 +69,8 @@ public class GroupHomeListActivity extends AppCompatActivity {
 
     private ParseUser currentUser;
     private ProfilePictureView fbPhoto;
-    private String objectId;
+    private String objectId; // id of group
+    private String groupName;  // name of group
 
 
 
@@ -75,7 +80,10 @@ public class GroupHomeListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_list);
 
         Intent intent = getIntent();
-        objectId = intent.getStringExtra("Group");
+        Bundle extras = intent.getExtras();
+        objectId = extras.getString("Group");
+        groupName = extras.getString("groupName");
+
 
         // Gets current user, if null goes to login screen, if not logs current user
         ParseUser current = ParseUser.getCurrentUser();
@@ -119,6 +127,9 @@ public class GroupHomeListActivity extends AppCompatActivity {
             }
         }
 
+
+        Log.d(TAG, "groupNAME DOE: " + groupName);
+
         // set up the drawer's list view with items and click listener
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mSections = getResources().getStringArray(R.array.sections_array);
@@ -129,10 +140,16 @@ public class GroupHomeListActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
+        // just in case the groupName may be null, which shouldnt ever happen though
+        if (groupName == null){
+            groupName = "Group";
+        }
+
         try{
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
+            actionBar.setTitle(groupName);// set the title to the group name
         }catch(NoSuchMethodError e){
 
         }
@@ -190,6 +207,9 @@ public class GroupHomeListActivity extends AppCompatActivity {
     }
 
 
+    private void setGroupName(String name){
+        groupName = name;
+    }
 
 
     @Override

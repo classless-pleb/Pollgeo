@@ -202,6 +202,7 @@ public class LocalHomeListActivity extends AppCompatActivity implements Location
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
+            actionBar.setTitle("Local Polls");
         }catch(NoSuchMethodError e){
 
         }

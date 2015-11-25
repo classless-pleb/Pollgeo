@@ -7,17 +7,23 @@
 
     <TextView
         android:id="@+id/title"
+        android:background="@drawable/poll_title_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFDE5842"
         android:text="Poll Title"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="25dp"
+        android:paddingBottom="5dp"
+        android:fontFamily="serif"
+        android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -28,7 +34,7 @@
         android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginBottom="5dp"/>
 
     <TextView
@@ -78,7 +84,7 @@
         android:layout_below="@+id/option1button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginBottom="5dp"/>
 
     <TextView
@@ -109,7 +115,7 @@
         android:layout_below="@+id/option2button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginBottom="5dp"/>
 
     <TextView
@@ -142,7 +148,7 @@
         android:layout_below="@+id/option3button"
         android:layout_toLeftOf="@+id/option3"
         android:layout_toStartOf="@+id/option3"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginBottom="5dp"/>
 
     <TextView

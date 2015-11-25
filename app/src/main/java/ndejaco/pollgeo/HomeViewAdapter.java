@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -123,9 +127,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         if (titleText != null) {
             SpannableString ss = new SpannableString(titleText);
-            ss.setSpan(new UnderlineSpan(), 0, titleText.length(), 0);
+            ss.setSpan(new MyClickableSpan(titleText), 0, titleText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             title.setText(ss);
-            title.setTextColor(mContext.getResources().getColor(R.color.turq)); //change the text color
+            title.setTextColor(Color.parseColor("#FFDE5842"));
         }
 
 
@@ -423,4 +427,28 @@ class TitleClickListener implements View.OnClickListener{
             return;
         }
     }
+}
+
+/*
+This class is just to get rid of the underlined title for a poll
+
+Matt: 11/24/15
+ */
+class MyClickableSpan extends ClickableSpan {// extend ClickableSpan
+
+    public void updateDrawState(TextPaint ds) {
+        ds.setUnderlineText(false);
+    }
+
+    String clicked;
+
+    public MyClickableSpan(String string) {
+        super();
+        clicked = string;
+    }
+
+    public void onClick(View tv) {
+        return;
+    }
+
 }

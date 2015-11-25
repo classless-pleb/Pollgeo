@@ -111,7 +111,7 @@ public class GroupActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle("Pollgeo");
+            actionBar.setTitle("Groups");
         }catch(NoSuchMethodError e){
 
         }
@@ -124,7 +124,13 @@ public class GroupActivity extends AppCompatActivity {
     private void navigateToGroupPoll(Group clicked) {
         String objectId = clicked.getObjectId();
         Intent intent = new Intent(this, GroupHomeListActivity.class);
-        intent.putExtra("Group", objectId);
+
+        // Send info on both the objectId and name of the group
+        Bundle extras = new Bundle();
+        extras.putString("Group",objectId);
+        extras.putString("groupName",clicked.getName());
+        intent.putExtras(extras);
+
         startActivity(intent);
     }
 

@@ -42,10 +42,9 @@
                 android:layout_below="@+id/toolbar"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
-                android:paddingLeft="10dp"
+                android:paddingLeft="0dp"
                 android:background="#FFEDEDEA"
-                android:fastScrollAlwaysVisible="true"
-                android:fastScrollEnabled="true"/>
+                />
         </com.baoyz.widget.PullRefreshLayout>
 
 
