@@ -146,7 +146,7 @@ public class SettingsActivity extends Activity {
         try{
             ActionBar actionBar = getActionBar();
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle("Pollgeo");
+            actionBar.setTitle("App Settings");
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);

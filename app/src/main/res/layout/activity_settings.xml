@@ -16,20 +16,10 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="ndejaco.pollgeo.SettingsActivity">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="Settings"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <SeekBar
             android:id="@+id/discoveryRadius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="67dp"
             android:max="50"
@@ -58,9 +48,15 @@
             android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="Submit!" />
+            android:text="Submit!"
+            android:background="@drawable/button_border"
+            android:textColor="#FFEDEDEA"
+            android:layout_below="@+id/changeName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="65dp"
+            android:layout_alignRight="@+id/discoveryRadius"
+            android:layout_alignEnd="@+id/discoveryRadius"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -130,7 +130,7 @@ public class ProfileActivity extends Activity {
         android.app.ActionBar actionBar = getActionBar();
         try{
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle("Pollgeo");
+            actionBar.setTitle(currentUser.get("name") + "'s profile");
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);

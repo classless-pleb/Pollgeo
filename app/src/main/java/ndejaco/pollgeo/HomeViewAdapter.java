@@ -1,5 +1,6 @@
 package ndejaco.pollgeo;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -98,6 +100,34 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         optionCount = poll.getOptions();
         Log.d(TAG, "option count: " + optionCount);
+
+        ImageButton deleteButton = (ImageButton) v.findViewById(R.id.pollDelete);
+        if (poll.getUser() != ParseUser.getCurrentUser()) {
+            deleteButton.setVisibility(View.GONE);
+        }
+
+        else {
+            deleteButton.setTag(position);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = (Integer) v.getTag();
+                    mPolls.get(pos).deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setMessage("Poll deleted").
+                                    setPositiveButton(android.R.string.ok, null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+
+                            notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            });
+        }
 
         // Creates buttons and textviews
         TextView title = (TextView) v.findViewById(R.id.title);

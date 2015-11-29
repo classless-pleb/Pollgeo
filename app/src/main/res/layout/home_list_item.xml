@@ -18,10 +18,10 @@
         android:fontFamily="serif"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/votes1"
+        android:layout_toStartOf="@+id/votes1"/>
 
 
 
@@ -232,5 +232,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pollDelete"
+        android:layout_alignBottom="@+id/title"
+        android:layout_toRightOf="@+id/option1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/deleteicon"/>
 
 </RelativeLayout>

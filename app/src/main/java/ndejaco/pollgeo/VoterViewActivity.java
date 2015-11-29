@@ -1,5 +1,6 @@
 package ndejaco.pollgeo;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -74,6 +75,17 @@ public class VoterViewActivity extends ListActivity {
                         ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
                         mVoterViewAdapter.clear();
                         mVoterViewAdapter.addAll(users);
+
+                        try{
+                            ActionBar actionBar = getActionBar();
+                            actionBar.setDisplayShowTitleEnabled(true);
+                            actionBar.setTitle("Voters for " + object.getOption(voteOption));
+                            actionBar.setHomeButtonEnabled(true);
+                            actionBar.setDisplayHomeAsUpEnabled(true);
+                            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+                        }catch(NoSuchMethodError w){
+
+                        }
                     } else {
 
                     }
@@ -89,6 +101,16 @@ public class VoterViewActivity extends ListActivity {
                         ArrayList<ParseUser> users = (ArrayList<ParseUser>) object.getOptionVoters(voteOption);
                         mVoterViewAdapter.clear();
                         mVoterViewAdapter.addAll(users);
+                        try{
+                            ActionBar actionBar = getActionBar();
+                            actionBar.setDisplayShowTitleEnabled(true);
+                            actionBar.setTitle("Voters for " + object.getOption(voteOption));
+                            actionBar.setHomeButtonEnabled(true);
+                            actionBar.setDisplayHomeAsUpEnabled(true);
+                            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+                        }catch(NoSuchMethodError w){
+
+                        }
                     } else {
 
                     }

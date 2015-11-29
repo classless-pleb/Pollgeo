@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
+        android:textColor = "#000000"
         android:id="@+id/GroupName"
         android:layout_toRightOf="@+id/GroupPhoto"
         android:paddingLeft="15dp"

@@ -120,8 +120,6 @@ public class MakeGroupActivity extends Activity {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //createGroupButton.setEnabled(false); //dont want user to spam click the button
-                //createGroupButton.setClickable(false);
                 navigateToCreateGroup();
             }
         });
@@ -158,6 +156,7 @@ public class MakeGroupActivity extends Activity {
         mDrawerList.setAdapter(new DrawerAdapter(this, mSections));
 
         photoButton = (Button) findViewById(R.id.photoButton);
+        photoButton.setVisibility(View.INVISIBLE);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,6 +310,11 @@ public class MakeGroupActivity extends Activity {
             finishButton.setVisibility(View.VISIBLE);
             finishButton.setEnabled(true); //dont want user to spam click the button
             finishButton.setClickable(true);
+
+            photoButton.setVisibility(View.VISIBLE);
+            photoButton.setEnabled(true); //dont want user to spam click the button
+            photoButton.setClickable(true);
+
 
 
         }
