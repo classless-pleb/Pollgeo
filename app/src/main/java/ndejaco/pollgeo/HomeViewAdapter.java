@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -411,6 +412,18 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 ;
             }
         });
+
+        Log.e("Got here","pls work");
+
+        try{
+            votedPoll.fetchIfNeeded();
+            ParsePush push = new ParsePush();
+            push.setChannel(votedPoll.getObjectId());
+            push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
+            push.sendInBackground();
+        }catch(Exception e2){
+            Log.e("Here","--> error happened during push");
+        }
 
         votedPoll.saveInBackground(new SaveCallback() {
             @Override

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -138,6 +139,12 @@ public class MakePollActivity extends Activity {
                             if (e == null) {
                                 ParseUser.getCurrentUser().increment("score", 10);
                                 ParseUser.getCurrentUser().saveEventually();
+                                try{
+                                    currentPoll.fetchIfNeeded();
+                                    ParsePush.subscribeInBackground(currentPoll.getObjectId());
+                                }catch(Exception e2) {
+                                    ;
+                                }
                                 if (type.equals("local")) {
                                     Intent intent = new Intent(MakePollActivity.this, LocalHomeListActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
