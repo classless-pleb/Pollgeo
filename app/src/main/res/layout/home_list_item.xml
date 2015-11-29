@@ -237,10 +237,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pollDelete"
-        android:layout_alignBottom="@+id/title"
-        android:layout_toRightOf="@+id/option1"
+        android:src="@drawable/deleteicon"
+        android:layout_above="@+id/option1"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/deleteicon"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
