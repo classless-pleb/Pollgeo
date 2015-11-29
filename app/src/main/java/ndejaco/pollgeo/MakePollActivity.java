@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -37,6 +38,9 @@ public class MakePollActivity extends Activity {
     private ParseGeoPoint geoPoint;
     private String type;
     private String objectId;
+    private ImageView optionButton3;
+    private ImageView optionButton4;
+    private int optionCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,24 @@ public class MakePollActivity extends Activity {
                     dialog.show();
                 } else {
 
+                    //check the poll's options that are filled out and set the correct optionCount
+                    if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()){
+                        optionCount = 4;
+                    }
+                    if (o3.isEmpty() && o4.isEmpty()){
+                        optionCount = 2;
+                    }
+                    if (!o3.isEmpty() && o4.isEmpty()) {
+                        optionCount = 3;
+                    }
+                    if (o3.isEmpty() && !(o4.isEmpty())){
+                        optionCount = 3;
+                        //set o3 == o4 to help make things easier, there will only be 3 options in the poll and
+                        // since the user left option3 empty, switch option4's content into option3
+                        Log.i(MakePollActivity.class.getSimpleName(), "option count set TO: " + optionCount);
+                        o3 = o4;
+                    }
+                    Log.i(MakePollActivity.class.getSimpleName(), "option count set TO: " + optionCount);
                     // Adds options to an array list.
                     ArrayList<String> options = new ArrayList<String>();
                     options.add(o1);
@@ -157,6 +179,7 @@ public class MakePollActivity extends Activity {
 
         if (type.equals("local")) {
             LocalPoll currentPoll = new LocalPoll();
+            currentPoll.setOptionCount(optionCount);
             currentPoll.setOptions(options);
             currentPoll.setUser(ParseUser.getCurrentUser());
             currentPoll.setTitle(title);
@@ -169,6 +192,7 @@ public class MakePollActivity extends Activity {
         else if (type.equals("group")) {
             GroupPoll currentPoll = new GroupPoll();
             currentPoll.setOptions(options);
+            currentPoll.setOptionCount(optionCount);
             currentPoll.setUser(ParseUser.getCurrentUser());
             currentPoll.setTitle(title);
             currentPoll.setGroup(objectId);

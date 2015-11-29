@@ -50,6 +50,12 @@ public class Poll extends ParseObject {
             return 0;
     }
 
+    // setOptionCount sets the options that the user gave in the poll, can range between 2 - 4
+    public void setOptionCount(int count){put("optionCount", count);}
+
+    // getOptions returns the number of options a poll has to vote on
+    public int getOptions(){ return getInt("optionCount");}
+
     public void setTotalOptions(int opt) {
         put("totalOptions", opt);
     }

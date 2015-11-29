@@ -51,6 +51,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
     private Poll votedPoll;
     private int votedOption;
+    private int optionCount;
 
     private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
@@ -94,6 +95,9 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         chart.setData(pd);
         chart.setDescription("");
         chart.invalidate();
+
+        optionCount = poll.getOptions();
+        Log.d(TAG, "option count: " + optionCount);
 
         // Creates buttons and textviews
         TextView title = (TextView) v.findViewById(R.id.title);
@@ -150,6 +154,23 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         votes3.setText((String) (poll.getOptionCount(2) + ""));
         votes4.setText((String) (poll.getOptionCount(3) + ""));
 
+        // make some elements invisible depending on the option count
+        if (optionCount == 3){
+            //set all elements corresponding to option 4 invisible/gone
+            votes4.setVisibility(View.GONE);
+            option4.setVisibility(View.GONE);
+            option4button.setVisibility(View.GONE);
+        }
+        if (optionCount == 2){
+            //set all elements corresponding to option 3 and 4 invisible/gone
+            votes4.setVisibility(View.GONE);
+            option4.setVisibility(View.GONE);
+            option4button.setVisibility(View.GONE);
+
+            votes3.setVisibility(View.GONE);
+            option3.setVisibility(View.GONE);
+            option3button.setVisibility(View.GONE);
+        }
 
         boolean buttonSet = false;
         if (!buttonSet && poll.getList("option" + 0 + "count") != null) {
