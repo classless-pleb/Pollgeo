@@ -187,12 +187,32 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         // make some elements invisible depending on the option count
         if (optionCount == 3){
             //set all elements corresponding to option 4 invisible/gone
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
+            votes3.setVisibility(View.VISIBLE);
+            option3.setVisibility(View.VISIBLE);
+            option3button.setVisibility(View.VISIBLE);
+
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
         }
-        if (optionCount == 2){
+        else if (optionCount == 2){
             //set all elements corresponding to option 3 and 4 invisible/gone
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
@@ -200,6 +220,23 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             votes3.setVisibility(View.GONE);
             option3.setVisibility(View.GONE);
             option3button.setVisibility(View.GONE);
+        }
+        else {
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
+            votes3.setVisibility(View.VISIBLE);
+            option3.setVisibility(View.VISIBLE);
+            option3button.setVisibility(View.VISIBLE);
+
+            votes4.setVisibility(View.VISIBLE);
+            option4.setVisibility(View.VISIBLE);
+            option4button.setVisibility(View.VISIBLE);
         }
 
         boolean buttonSet = false;
