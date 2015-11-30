@@ -223,7 +223,7 @@
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/chart"
+        android:id="@+id/pieChart"
         android:minHeight="250dp"
         android:minWidth="250dp"
         android:longClickable="true"
@@ -233,6 +233,21 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/fb_share_button" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/barChart"
+        android:minHeight="250dp"
+        android:minWidth="250dp"
+        android:longClickable="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/fb_share_button" />
+
 
     <ImageButton
         android:layout_width="wrap_content"

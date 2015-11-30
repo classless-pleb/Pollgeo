@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -79,8 +82,8 @@ public class SettingsActivity extends Activity {
             currentUser.put("searchRadius",10);
             currentUser.saveEventually();
         }
-        else{
-            currRadius = (int)currentUser.get("searchRadius");
+        else {
+            currRadius = (int) currentUser.get("searchRadius");
         }
 
         searchRadius.setText(Integer.toString(currRadius));
@@ -103,11 +106,58 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        final CheckBox pieCheck = (CheckBox) findViewById(R.id.pieOption);
+        final CheckBox barCheck = (CheckBox) findViewById(R.id.barOption);
+        pieCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barCheck.setChecked(false);
+                pieCheck.setChecked(true);
+                currentUser.put("chartPref","pie");
+            }
+        });
+
+        barCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barCheck.setChecked(true);
+                pieCheck.setChecked(false);
+                currentUser.put("chartPref","bar");
+            }
+        });
+
+        if(currentUser.get("chartPref") == null){
+            currentUser.put("chartPref","pie");
+            currentUser.saveEventually();
+            pieCheck.setChecked(true);
+        }else if(currentUser.get("chartPref").equals("pie")){
+            pieCheck.setChecked(true);
+        }else{
+            barCheck.setChecked(true);
+        }
+
+
+        final CheckBox radioButton = (CheckBox)findViewById(R.id.userNameRadio);
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uName.setText("");
+                if(!radioButton.isChecked()){
+                    uName.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    uName.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        uName.setVisibility(View.INVISIBLE);
         submitButton = (Button)findViewById(R.id.submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
              submitButton.setOnClickListener(null);
+             Log.i("TAG","IN SUBMIT");
              boolean changed = false;
              if(!uName.getText().equals("") && !uName.getText().equals(currentUser.get("name"))) {
                  currentUser.put("name", uName.getText().toString());
@@ -121,25 +171,14 @@ public class SettingsActivity extends Activity {
                      changed = true;
                      currentUser.put("searchRadius",r);
                  }
-             }catch(Exception e){
+             }catch(Exception e) {
 
              }
-             if(changed) {
-                 currentUser.saveInBackground(new SaveCallback() {
-                     @Override
-                     public void done(ParseException e) {
-                         Intent intent0 = new Intent(mContext, LocalHomeListActivity.class);
-                         intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                         intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                         mContext.startActivity(intent0);
-                     }
-                 });
-             }else{
-                 Intent intent0 = new Intent(mContext, LocalHomeListActivity.class);
-                 intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                 intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                 mContext.startActivity(intent0);
-             }
+                currentUser.saveEventually();
+                Intent intent0 = new Intent(mContext, LocalHomeListActivity.class);
+                intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent0);
             }
         });
 

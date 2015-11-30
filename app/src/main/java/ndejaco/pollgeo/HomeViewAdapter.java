@@ -25,7 +25,11 @@ import android.widget.Toast;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -35,6 +39,7 @@ import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +67,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private int votedOption;
     private int optionCount;
     private Button shareButton;
-    private ArrayList<PieChart> mCharts;
+    private ParseUser currentUser;
+    private ArrayList<Chart> mCharts;
 
     private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
@@ -72,7 +78,13 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         super(context, R.layout.home_list_item, objects);
         this.mContext = context;
         this.mPolls = objects;
-        this.mCharts = new ArrayList<PieChart>();
+        this.mCharts = new ArrayList<Chart>();
+        currentUser = ParseUser.getCurrentUser();
+        try{
+            currentUser.fetchIfNeeded();
+        }catch(Exception e){
+
+        }
     }
 
 
@@ -86,27 +98,84 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
         // Saves current poll at the index in the List of Polls
         poll = mPolls.get(position);
-        ArrayList<Entry> entries = new ArrayList<>();
-        ArrayList<String> descriptions = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
-            int votes = poll.getOptionCount(i);
-            if (votes != 0) {
-                entries.add(new Entry((float) votes, i));
-                descriptions.add(poll.getOption(i));
+        Chart chart;
+        Chart pChart = (Chart) v.findViewById(R.id.pieChart);
+        Chart bChart = (Chart) v.findViewById(R.id.barChart);
+        try{
+            if(currentUser.get("chartPref").equals("pie")){
+                ArrayList<Entry> entries = new ArrayList<>();
+                ArrayList<String> descriptions = new ArrayList<>();
+
+                for (int i = 0; i < 4; i++) {
+                    int votes = poll.getOptionCount(i);
+                    if (votes != 0) {
+                        entries.add(new Entry((float) votes, i));
+                        descriptions.add(poll.getOption(i));
+                    }
+                }
+
+                chart = pChart;
+                bChart.setVisibility(View.INVISIBLE);
+                pChart.setVisibility(View.VISIBLE);
+                chart.setNoDataText("");
+                PieDataSet ds = new PieDataSet(entries, "");
+                int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
+                        Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
+                ds.setColors(colors);
+                PieData pd = new PieData(descriptions, ds);
+                chart.setData(pd);
+                chart.setDescription("");
+                chart.invalidate();
+            }else{
+                ArrayList<BarEntry> entries = new ArrayList<>();
+                ArrayList<String> descriptions = new ArrayList<>();
+
+                for (int i = 0; i < 4; i++) {
+                    int votes = poll.getOptionCount(i);
+                    if (votes != 0) {
+                        entries.add(new BarEntry((float) votes, i));
+                        descriptions.add(poll.getOption(i));
+                    }
+                }
+                chart = bChart;
+                bChart.setVisibility(View.VISIBLE);
+                pChart.setVisibility(View.INVISIBLE);
+                chart.setNoDataText("");
+                BarDataSet ds = new BarDataSet(entries,"");
+                int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
+                        Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
+                ds.setColors(colors);
+                BarData pd = new BarData(descriptions, ds);
+                chart.setData(pd);
+                chart.setDescription("");
+                chart.invalidate();
             }
-        }
+        }catch(Exception e){
+            ArrayList<Entry> entries = new ArrayList<>();
+            ArrayList<String> descriptions = new ArrayList<>();
 
-        PieChart chart = (PieChart) v.findViewById(R.id.chart);
-        chart.setNoDataText("");
-        PieDataSet ds = new PieDataSet(entries, "");
-        int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
-                Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
-        ds.setColors(colors);
-        PieData pd = new PieData(descriptions, ds);
-        chart.setData(pd);
-        chart.setDescription("");
-        chart.invalidate();
+            for (int i = 0; i < 4; i++) {
+                int votes = poll.getOptionCount(i);
+                if (votes != 0) {
+                    entries.add(new Entry((float) votes, i));
+                    descriptions.add(poll.getOption(i));
+                }
+            }
+            Log.e("tag",e.toString());
+            chart = pChart;
+            bChart.setVisibility(View.INVISIBLE);
+            pChart.setVisibility(View.VISIBLE);
+            chart.setNoDataText("");
+            PieDataSet ds = new PieDataSet(entries, "");
+            int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
+                    Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
+            ds.setColors(colors);
+            PieData pd = new PieData(descriptions, ds);
+            chart.setData(pd);
+            chart.setDescription("");
+            chart.invalidate();
+        }
 
         mCharts.add(position, chart);
 
@@ -528,6 +597,12 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     }
 
     private void updateData() {
+        currentUser = ParseUser.getCurrentUser();
+        try{
+            currentUser.fetchIfNeeded();
+        }catch(Exception e){
+
+        }
         notifyDataSetChanged();
     }
 }
