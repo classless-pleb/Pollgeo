@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
 
 
     <TextView
@@ -20,8 +22,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/votes1"
-        android:layout_toLeftOf="@+id/votes1"/>
+        android:layout_toLeftOf="@+id/pollDelete"
+        android:layout_toStartOf="@+id/pollDelete"/>
 
 
 
@@ -223,15 +225,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chart"
-        android:layout_below="@+id/option4"
         android:minHeight="250dp"
         android:minWidth="250dp"
         android:longClickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/fb_share_button"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -242,5 +241,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/poll_title_box"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:id="@+id/fb_share_button"
+        android:background ="@color/com_facebook_blue"
+        android:textColor = "@color/com_parse_ui_parse_login_text_hint"
+        android:layout_below="@+id/option4button"
+        android:layout_alignLeft="@+id/option4button"
+        android:layout_alignStart="@+id/option4button"/>
 
 </RelativeLayout>

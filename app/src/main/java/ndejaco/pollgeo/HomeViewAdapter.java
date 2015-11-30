@@ -1,8 +1,10 @@
 package ndejaco.pollgeo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -15,17 +17,20 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
-import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -55,6 +60,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private Poll votedPoll;
     private int votedOption;
     private int optionCount;
+    private Button shareButton;
+    private ArrayList<PieChart> mCharts;
 
     private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
@@ -64,6 +71,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         super(context, R.layout.home_list_item, objects);
         this.mContext = context;
         this.mPolls = objects;
+        this.mCharts = new ArrayList<PieChart>();
     }
 
 
@@ -98,6 +106,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         chart.setData(pd);
         chart.setDescription("");
         chart.invalidate();
+
+        mCharts.add(position, chart);
 
         optionCount = poll.getOptions();
         Log.d(TAG, "option count: " + optionCount);
@@ -188,32 +198,12 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         // make some elements invisible depending on the option count
         if (optionCount == 3){
             //set all elements corresponding to option 4 invisible/gone
-            votes1.setVisibility(View.VISIBLE);
-            option1.setVisibility(View.VISIBLE);
-            option1button.setVisibility(View.VISIBLE);
-
-            votes2.setVisibility(View.VISIBLE);
-            option2.setVisibility(View.VISIBLE);
-            option2button.setVisibility(View.VISIBLE);
-
-            votes3.setVisibility(View.VISIBLE);
-            option3.setVisibility(View.VISIBLE);
-            option3button.setVisibility(View.VISIBLE);
-
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
         }
-        else if (optionCount == 2){
+        if (optionCount == 2){
             //set all elements corresponding to option 3 and 4 invisible/gone
-            votes1.setVisibility(View.VISIBLE);
-            option1.setVisibility(View.VISIBLE);
-            option1button.setVisibility(View.VISIBLE);
-
-            votes2.setVisibility(View.VISIBLE);
-            option2.setVisibility(View.VISIBLE);
-            option2button.setVisibility(View.VISIBLE);
-
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
@@ -221,23 +211,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             votes3.setVisibility(View.GONE);
             option3.setVisibility(View.GONE);
             option3button.setVisibility(View.GONE);
-        }
-        else {
-            votes1.setVisibility(View.VISIBLE);
-            option1.setVisibility(View.VISIBLE);
-            option1button.setVisibility(View.VISIBLE);
-
-            votes2.setVisibility(View.VISIBLE);
-            option2.setVisibility(View.VISIBLE);
-            option2button.setVisibility(View.VISIBLE);
-
-            votes3.setVisibility(View.VISIBLE);
-            option3.setVisibility(View.VISIBLE);
-            option3button.setVisibility(View.VISIBLE);
-
-            votes4.setVisibility(View.VISIBLE);
-            option4.setVisibility(View.VISIBLE);
-            option4button.setVisibility(View.VISIBLE);
         }
 
         boolean buttonSet = false;
@@ -395,6 +368,24 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
+        shareButton = (Button) v.findViewById(R.id.fb_share_button);
+        shareButton.setTag(position);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap chartImage = mCharts.get((Integer) v.getTag()).getChartBitmap();
+
+                if (chartImage != null) {
+                    ShareDialog shareDialog = new ShareDialog((Activity) mContext);
+                    SharePhoto photo = new SharePhoto.Builder().setBitmap(chartImage).build();
+                    SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+                    shareDialog.show(content);
+                }
+            }
+        });
+
+
+
 
 
         //returns view
@@ -449,18 +440,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 ;
             }
         });
-
-        Log.e("Got here","pls work");
-
-        try{
-            votedPoll.fetchIfNeeded();
-            ParsePush push = new ParsePush();
-            push.setChannel(votedPoll.getObjectId());
-            push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
-            push.sendInBackground();
-        }catch(Exception e2){
-            Log.e("Here","--> error happened during push");
-        }
 
         votedPoll.saveInBackground(new SaveCallback() {
             @Override
