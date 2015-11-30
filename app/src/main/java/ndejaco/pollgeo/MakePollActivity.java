@@ -6,13 +6,15 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -39,10 +41,13 @@ public class MakePollActivity extends Activity {
     private ParseGeoPoint geoPoint;
     private String type;
     private String objectId;
-    private ImageView optionButton3;
-    private ImageView optionButton4;
     private int optionCount;
 
+    private TextView option1Count;
+    private TextView option2Count;
+    private TextView option3Count;
+    private TextView option4Count;
+    private TextView titleCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +78,20 @@ public class MakePollActivity extends Activity {
         option4 = (EditText) findViewById(R.id.option4);
         submit = (Button) findViewById(R.id.submit);
 
+        // set up option character count listeners
+        option1Count = (TextView) findViewById(R.id.charCount1);
+        option2Count = (TextView) findViewById(R.id.charCount2);
+        option3Count = (TextView) findViewById(R.id.charCount3);
+        option4Count = (TextView) findViewById(R.id.charCount4);
+        titleCount = (TextView) findViewById(R.id.titleCount);
+
+        option1.addTextChangedListener(mTextEditorWatcher1);
+        option2.addTextChangedListener(mTextEditorWatcher2);
+        option3.addTextChangedListener(mTextEditorWatcher3);
+        option4.addTextChangedListener(mTextEditorWatcher4);
+        title.addTextChangedListener(mTextEditorWatcherTitle);
+
+
         photoButton = (Button) findViewById(R.id.photo);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,11 +112,12 @@ public class MakePollActivity extends Activity {
                 String o3 = option3.getText().toString().trim();
                 String o4 = option4.getText().toString().trim();
 
+                // R.string.make_poll_error_msg
 
                 // If either is title, option1, or option2 is empty. Uses alert dialog
                 if (titleString.isEmpty() || o1.isEmpty() || o2.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MakePollActivity.this);
-                    builder.setMessage(R.string.make_poll_error_msg).setTitle(R.string.make_poll_error_title).
+                    builder.setMessage("Poll must at least have a title and the first two options filled out").setTitle(R.string.make_poll_error_title).
                             setPositiveButton(android.R.string.ok, null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
@@ -240,4 +260,58 @@ public class MakePollActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*
+    mTextEditorWatcher# is to keep a character count on the EditText option elements
+     */
+    private final TextWatcher mTextEditorWatcher1 = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            option1Count.setText(String.valueOf(s.length()));
+        }
+        public void afterTextChanged(Editable s) {
+        }
+    };
+    private final TextWatcher mTextEditorWatcher2 = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            option2Count.setText(String.valueOf(s.length()));
+        }
+        public void afterTextChanged(Editable s) {
+        }
+    };
+    private final TextWatcher mTextEditorWatcher3 = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            option3Count.setText(String.valueOf(s.length()));
+        }
+        public void afterTextChanged(Editable s) {
+        }
+    };
+    private final TextWatcher mTextEditorWatcher4 = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            option4Count.setText(String.valueOf(s.length()));
+        }
+        public void afterTextChanged(Editable s) {
+        }
+    };
+    private final TextWatcher mTextEditorWatcherTitle = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            titleCount.setText(String.valueOf(s.length()));
+        }
+        public void afterTextChanged(Editable s) {
+        }
+    };
 }
