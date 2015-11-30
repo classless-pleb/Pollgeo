@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -198,12 +199,32 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         // make some elements invisible depending on the option count
         if (optionCount == 3){
             //set all elements corresponding to option 4 invisible/gone
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
+            votes3.setVisibility(View.VISIBLE);
+            option3.setVisibility(View.VISIBLE);
+            option3button.setVisibility(View.VISIBLE);
+
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
         }
-        if (optionCount == 2){
+        else if (optionCount == 2){
             //set all elements corresponding to option 3 and 4 invisible/gone
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
             votes4.setVisibility(View.GONE);
             option4.setVisibility(View.GONE);
             option4button.setVisibility(View.GONE);
@@ -212,15 +233,32 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             option3.setVisibility(View.GONE);
             option3button.setVisibility(View.GONE);
         }
+        else {
+            votes1.setVisibility(View.VISIBLE);
+            option1.setVisibility(View.VISIBLE);
+            option1button.setVisibility(View.VISIBLE);
+
+            votes2.setVisibility(View.VISIBLE);
+            option2.setVisibility(View.VISIBLE);
+            option2button.setVisibility(View.VISIBLE);
+
+            votes3.setVisibility(View.VISIBLE);
+            option3.setVisibility(View.VISIBLE);
+            option3button.setVisibility(View.VISIBLE);
+
+            votes4.setVisibility(View.VISIBLE);
+            option4.setVisibility(View.VISIBLE);
+            option4button.setVisibility(View.VISIBLE);
+        }
 
         boolean buttonSet = false;
         if (!buttonSet && poll.getList("option" + 0 + "count") != null) {
             for (int j = 0; j < poll.getList("option" + 0 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 0 + "count").get(j)) {
-                    option1button.setBackgroundResource(R.drawable.voted);
-                    option2button.setBackgroundResource(R.drawable.circle_plain);
-                    option3button.setBackgroundResource(R.drawable.circle_plain);
-                    option4button.setBackgroundResource(R.drawable.circle_plain);
+                    option1button.setBackgroundResource(R.drawable.voted_star);
+                    option2button.setBackgroundResource(R.drawable.circle_blank);
+                    option3button.setBackgroundResource(R.drawable.circle_blank);
+                    option4button.setBackgroundResource(R.drawable.circle_blank);
                     buttonSet = true;
                 }
             }
@@ -229,10 +267,10 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         if(!buttonSet && poll.getList("option" + 1 + "count")!= null) {
             for (int j = 0; j < poll.getList("option" + 1 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 1 + "count").get(j)) {
-                    option2button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.circle_plain);
-                    option3button.setBackgroundResource(R.drawable.circle_plain);
-                    option4button.setBackgroundResource(R.drawable.circle_plain);
+                    option2button.setBackgroundResource(R.drawable.voted_star);
+                    option1button.setBackgroundResource(R.drawable.circle_blank);
+                    option3button.setBackgroundResource(R.drawable.circle_blank);
+                    option4button.setBackgroundResource(R.drawable.circle_blank);
                     buttonSet = true;
                 }
             }
@@ -241,10 +279,10 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         if(!buttonSet && poll.getList("option" + 2 + "count")!= null) {
             for (int j = 0; j < poll.getList("option" + 2 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 2 + "count").get(j)) {
-                    option3button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.circle_plain);
-                    option2button.setBackgroundResource(R.drawable.circle_plain);
-                    option4button.setBackgroundResource(R.drawable.circle_plain);
+                    option3button.setBackgroundResource(R.drawable.voted_star);
+                    option1button.setBackgroundResource(R.drawable.circle_blank);
+                    option2button.setBackgroundResource(R.drawable.circle_blank);
+                    option4button.setBackgroundResource(R.drawable.circle_blank);
                     buttonSet = true;
                 }
             }
@@ -253,20 +291,20 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         if(!buttonSet && poll.getList("option" + 3 + "count")!= null) {
             for (int j = 0; j < poll.getList("option" + 3 + "count").size(); j++) {
                 if (ParseUser.getCurrentUser() == (ParseUser) poll.getList("option" + 3 + "count").get(j)) {
-                    option4button.setBackgroundResource(R.drawable.voted);
-                    option1button.setBackgroundResource(R.drawable.circle_plain);
-                    option2button.setBackgroundResource(R.drawable.circle_plain);
-                    option3button.setBackgroundResource(R.drawable.circle_plain);
+                    option4button.setBackgroundResource(R.drawable.voted_star);
+                    option1button.setBackgroundResource(R.drawable.circle_blank);
+                    option2button.setBackgroundResource(R.drawable.circle_blank);
+                    option3button.setBackgroundResource(R.drawable.circle_blank);
                     buttonSet = true;
                 }
             }
         }
         
         if (!buttonSet) {
-            option4button.setBackgroundResource(R.drawable.circle_plain);
-            option1button.setBackgroundResource(R.drawable.circle_plain);
-            option2button.setBackgroundResource(R.drawable.circle_plain);
-            option3button.setBackgroundResource(R.drawable.circle_plain);
+            option4button.setBackgroundResource(R.drawable.circle_blank);
+            option1button.setBackgroundResource(R.drawable.circle_blank);
+            option2button.setBackgroundResource(R.drawable.circle_blank);
+            option3button.setBackgroundResource(R.drawable.circle_blank);
         }
 
         // Sets option1 button tag to store its position in mPolls.
@@ -384,10 +422,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
-
-
-
-
         //returns view
         return v;
 
@@ -440,6 +474,18 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 ;
             }
         });
+
+        Log.e("Got here", "pls work");
+
+        try{
+            votedPoll.fetchIfNeeded();
+            ParsePush push = new ParsePush();
+            push.setChannel(votedPoll.getObjectId());
+            push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
+            push.sendInBackground();
+        }catch(Exception e2){
+            Log.e("Here","--> error happened during push");
+        }
 
         votedPoll.saveInBackground(new SaveCallback() {
             @Override
