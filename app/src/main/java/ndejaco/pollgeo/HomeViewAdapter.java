@@ -189,6 +189,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         }
 
         else {
+            deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setTag(position);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
