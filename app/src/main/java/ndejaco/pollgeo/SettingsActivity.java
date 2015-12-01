@@ -37,6 +37,7 @@ public class SettingsActivity extends Activity {
     protected String currName;
     protected int currRadius;
     protected Context mContext;
+    protected CheckBox radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class SettingsActivity extends Activity {
             public void onClick(View v) {
                 barCheck.setChecked(false);
                 pieCheck.setChecked(true);
-                currentUser.put("chartPref","pie");
+                currentUser.put("chartPref", "pie");
             }
         });
 
@@ -122,7 +123,7 @@ public class SettingsActivity extends Activity {
             public void onClick(View v) {
                 barCheck.setChecked(true);
                 pieCheck.setChecked(false);
-                currentUser.put("chartPref","bar");
+                currentUser.put("chartPref", "bar");
             }
         });
 
@@ -137,7 +138,7 @@ public class SettingsActivity extends Activity {
         }
 
 
-        final CheckBox radioButton = (CheckBox)findViewById(R.id.userNameRadio);
+        radioButton = (CheckBox)findViewById(R.id.userNameRadio);
         radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +153,7 @@ public class SettingsActivity extends Activity {
         });
 
         uName.setVisibility(View.INVISIBLE);
+        uName.setText(currName);
         submitButton = (Button)findViewById(R.id.submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +161,7 @@ public class SettingsActivity extends Activity {
              submitButton.setOnClickListener(null);
              Log.i("TAG","IN SUBMIT");
              boolean changed = false;
-             if(!uName.getText().equals("") && !uName.getText().equals(currentUser.get("name"))) {
+             if(!uName.getText().equals("") && radioButton.isChecked()) {
                  currentUser.put("name", uName.getText().toString());
                  changed = true;
              }

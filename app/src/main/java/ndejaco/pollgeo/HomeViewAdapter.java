@@ -110,7 +110,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 for (int i = 0; i < 4; i++) {
                     int votes = poll.getOptionCount(i);
                     if (votes != 0) {
-                        entries.add(new Entry((float) votes, i));
+                        entries.add(new Entry(votes, i));
                         descriptions.add(poll.getOption(i));
                     }
                 }
@@ -133,10 +133,11 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
 
                 for (int i = 0; i < 4; i++) {
                     int votes = poll.getOptionCount(i);
-                    if (votes != 0) {
-                        entries.add(new BarEntry((float) votes, i));
-                        descriptions.add(poll.getOption(i));
+                    if(poll.getOption(i).equals("")){
+                        continue;
                     }
+                    entries.add(new BarEntry(votes, i));
+                    descriptions.add(poll.getOption(i));
                 }
                 chart = bChart;
                 bChart.setVisibility(View.VISIBLE);
@@ -146,8 +147,8 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 int colors[] = {Color.parseColor("#6699FF"), Color.parseColor("#FF3838"),
                         Color.parseColor("#FFE354"), Color.parseColor("#33CC33")};
                 ds.setColors(colors);
-                BarData pd = new BarData(descriptions, ds);
-                chart.setData(pd);
+                BarData bd = new BarData(descriptions,ds);
+                chart.setData(bd);
                 chart.setDescription("");
                 chart.invalidate();
             }
@@ -158,7 +159,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             for (int i = 0; i < 4; i++) {
                 int votes = poll.getOptionCount(i);
                 if (votes != 0) {
-                    entries.add(new Entry((float) votes, i));
+                    entries.add(new Entry(votes, i));
                     descriptions.add(poll.getOption(i));
                 }
             }
@@ -193,6 +194,15 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 @Override
                 public void onClick(View v) {
                     int pos = (Integer) v.getTag();
+                    String pollID = null;
+                    try{
+                        mPolls.get(pos).fetchIfNeeded();
+                        pollID = (String)mPolls.get(pos).get("objectId");
+                        ParsePush.unsubscribeInBackground(pollID);
+                    }
+                    catch(Exception e){
+
+                    }
                     mPolls.get(pos).deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -201,7 +211,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                                     setPositiveButton(android.R.string.ok, null);
                             AlertDialog dialog = builder.create();
                             dialog.show();
-
                             notifyDataSetChanged();
                         }
                     });
@@ -544,18 +553,6 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
-        Log.e("Got here", "pls work");
-
-        try{
-            votedPoll.fetchIfNeeded();
-            ParsePush push = new ParsePush();
-            push.setChannel(votedPoll.getObjectId());
-            push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
-            push.sendInBackground();
-        }catch(Exception e2){
-            Log.e("Here","--> error happened during push");
-        }
-
         votedPoll.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -590,6 +587,16 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 pu.saveEventually();
             }catch(Exception e){
                 return true;
+            }
+
+            try{
+                votedPoll.fetchIfNeeded();
+                ParsePush push = new ParsePush();
+                push.setChannel(votedPoll.getObjectId());
+                push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
+                push.sendInBackground();
+            }catch(Exception e2){
+                Log.e("Here","--> error happened during push");
             }
         }
 

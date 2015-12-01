@@ -218,7 +218,7 @@
         android:layout_alignEnd="@+id/votes3"
         android:layout_toEndOf="@+id/option3"
         android:layout_toRightOf="@+id/option3"
-        android:layout_above="@+id/chart" />
+        android:layout_above="@+id/pieChart" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
@@ -257,7 +257,7 @@
         android:paddingRight="1dp"
         android:paddingTop="10dp"
         android:background="@drawable/delete_icon_box"
-        android:layout_above="@+id/chart"
+        android:layout_above="@+id/pieChart"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
