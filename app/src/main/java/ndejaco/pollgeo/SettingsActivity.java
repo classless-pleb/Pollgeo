@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
@@ -129,7 +130,6 @@ public class SettingsActivity extends Activity {
 
         if(currentUser.get("chartPref") == null){
             currentUser.put("chartPref","pie");
-            currentUser.saveEventually();
             pieCheck.setChecked(true);
         }else if(currentUser.get("chartPref").equals("pie")){
             pieCheck.setChecked(true);
@@ -158,8 +158,6 @@ public class SettingsActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             submitButton.setOnClickListener(null);
-             Log.i("TAG","IN SUBMIT");
              boolean changed = false;
              if(!uName.getText().equals("") && radioButton.isChecked()) {
                  currentUser.put("name", uName.getText().toString());
@@ -176,11 +174,15 @@ public class SettingsActivity extends Activity {
              }catch(Exception e) {
 
              }
-                currentUser.saveEventually();
-                Intent intent0 = new Intent(mContext, LocalHomeListActivity.class);
-                intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent0);
+                ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Intent intent0 = new Intent(mContext, LocalHomeListActivity.class);
+                        intent0.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent0.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent0);
+                    }
+                });
             }
         });
 

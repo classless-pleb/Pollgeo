@@ -594,7 +594,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
                 votedPoll.fetchIfNeeded();
                 ParsePush push = new ParsePush();
                 push.setChannel(votedPoll.getObjectId());
-                push.setMessage("A user just voted on your poll: " + votedPoll.getTitle() + "!");
+                push.setMessage("Users have voted on your poll: " + votedPoll.getTitle() + "!");
                 push.sendInBackground();
             }catch(Exception e2){
                 Log.e("Here","--> error happened during push");

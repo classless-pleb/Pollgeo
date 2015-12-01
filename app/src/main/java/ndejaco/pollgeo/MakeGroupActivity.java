@@ -35,6 +35,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -256,6 +257,19 @@ public class MakeGroupActivity extends Activity {
     navigateToGroupActivity exits the make group activity and its view and moves the user back to the main group view, GroupActivity
      */
     public void navigateToGroupActivity() {
+
+        List<ParseUser> u = currentGroup.getMembers();
+        for(ParseUser pu : u){
+            try{
+                pu.fetchIfNeeded();
+                ParsePush push = new ParsePush();
+                push.setChannel(pu.getObjectId());
+                push.setMessage("You have been added to a group: " + currentGroup.getName() + "!");
+                push.sendInBackground();
+            }catch(Exception e){
+
+            }
+        }
 
         currentGroup.saveInBackground(new SaveCallback() {
             @Override
