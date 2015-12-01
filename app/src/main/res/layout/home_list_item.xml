@@ -261,16 +261,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share"
         android:id="@+id/fb_share_button"
-        android:background ="@color/com_facebook_blue"
-        android:textColor = "@color/com_parse_ui_parse_login_text_hint"
         android:layout_below="@+id/option4button"
         android:layout_alignLeft="@+id/option4button"
-        android:layout_alignStart="@+id/option4button"/>
-        android:layout_below="@+id/option4" />
+        android:layout_alignStart="@+id/option4button"
+        android:src="@drawable/fb_icon"
+        android:background="#80FFFFFF"/>
+
 
 </RelativeLayout>

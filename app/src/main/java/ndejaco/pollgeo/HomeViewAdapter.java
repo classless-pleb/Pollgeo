@@ -66,7 +66,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private Poll votedPoll;
     private int votedOption;
     private int optionCount;
-    private Button shareButton;
+    private ImageButton shareButton;
     private ParseUser currentUser;
     private ArrayList<Chart> mCharts;
 
@@ -485,7 +485,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             }
         });
 
-        shareButton = (Button) v.findViewById(R.id.fb_share_button);
+        shareButton = (ImageButton) v.findViewById(R.id.fb_share_button);
         shareButton.setTag(position);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
