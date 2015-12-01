@@ -41,6 +41,7 @@ import com.parse.SaveCallback;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ndejaco.pollgeo.Model.GroupPoll;
@@ -68,7 +69,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
     private int optionCount;
     private ImageButton shareButton;
     private ParseUser currentUser;
-    private ArrayList<Chart> mCharts;
+    private HashMap<Integer, Chart> mCharts;
 
     private static final String TAG = HomeViewAdapter.class.getSimpleName();
 
@@ -78,7 +79,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
         super(context, R.layout.home_list_item, objects);
         this.mContext = context;
         this.mPolls = objects;
-        this.mCharts = new ArrayList<Chart>();
+        this.mCharts = new HashMap<Integer, Chart>();
         currentUser = ParseUser.getCurrentUser();
         try{
             currentUser.fetchIfNeeded();
@@ -178,7 +179,7 @@ public class HomeViewAdapter extends ArrayAdapter<Poll> {
             chart.invalidate();
         }
 
-        mCharts.add(position, chart);
+        mCharts.put(position, chart);
 
         optionCount = poll.getOptions();
         Log.d(TAG, "option count: " + optionCount);
