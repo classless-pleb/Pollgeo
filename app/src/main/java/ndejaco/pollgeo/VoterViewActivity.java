@@ -80,9 +80,9 @@ public class VoterViewActivity extends ListActivity {
                             ActionBar actionBar = getActionBar();
                             actionBar.setDisplayShowTitleEnabled(true);
                             actionBar.setTitle("Voters for " + object.getOption(voteOption));
-                            actionBar.setHomeButtonEnabled(true);
                             actionBar.setDisplayHomeAsUpEnabled(true);
-                            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+                            actionBar.setHomeButtonEnabled(true);
+
                         }catch(NoSuchMethodError w){
 
                         }
@@ -105,9 +105,9 @@ public class VoterViewActivity extends ListActivity {
                             ActionBar actionBar = getActionBar();
                             actionBar.setDisplayShowTitleEnabled(true);
                             actionBar.setTitle("Voters for " + object.getOption(voteOption));
-                            actionBar.setHomeButtonEnabled(true);
                             actionBar.setDisplayHomeAsUpEnabled(true);
-                            actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+                            actionBar.setHomeButtonEnabled(true);
+
                         }catch(NoSuchMethodError w){
 
                         }
@@ -130,6 +130,10 @@ public class VoterViewActivity extends ListActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == android.R.id.home) {
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);

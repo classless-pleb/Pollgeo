@@ -36,7 +36,6 @@ public class MakePollActivity extends Activity {
     private EditText option3;
     private EditText option4;
     private Button submit;
-    private Button photoButton;
     private Poll currentPoll;
     private ParseGeoPoint geoPoint;
     private String type;
@@ -90,16 +89,6 @@ public class MakePollActivity extends Activity {
         option3.addTextChangedListener(mTextEditorWatcher3);
         option4.addTextChangedListener(mTextEditorWatcher4);
         title.addTextChangedListener(mTextEditorWatcherTitle);
-
-
-        photoButton = (Button) findViewById(R.id.photo);
-        photoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MakePollActivity.this, PhotoUpload.class);
-                startActivity(intent);
-            }
-        });
 
 
         // On click of submit gets title and option strings.
@@ -197,7 +186,7 @@ public class MakePollActivity extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Pollgeo");
+        actionBar.setTitle("Create Your Poll");
 
     }
 
